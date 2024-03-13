@@ -1,11 +1,10 @@
-/* Reset de estilos */
+
 body, h1, h2, h3, h4, h5, h6, p, ul, li, button, input, form, label {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
-/* Estilos generales */
 body {
     font-family: 'Poppins', sans-serif;
     color: #31241E;
@@ -17,8 +16,7 @@ h1, h2, h3, h4, h5, h6 {
     font-weight: bold;
 }
 
-/* Estilos específicos para cada página */
-/* Estilos para la página de index.php */
+
 header {
     background-color: #F6F4F3;
     padding: 20px;
@@ -51,7 +49,6 @@ nav ul li a {
     color: #31241E;
 }
 
-/* Estilos para los formularios */
 form {
     margin-top: 20px;
 }
@@ -92,22 +89,18 @@ button {
     color: #31241E;
 }
 
-/* Estilos específicos para cada página */
-/* Estilos para la página de agregar_cliente.php */
 h1 {
     text-align: center;
     margin-top: 20px;
     margin-bottom: 20px;
 }
 
-/* Estilos para la página de agregar_producto.php */
 h2 {
     text-align: center;
     margin-top: 20px;
     margin-bottom: 20px;
 }
 
-/* Estilos para la página de clientes.php */
 ul {
     margin-top: 20px;
     padding-left: 20px;
@@ -117,28 +110,24 @@ ul li {
     margin-bottom: 20px;
 }
 
-/* Estilos para la página de editar_cliente.php */
 h1 {
     text-align: center;
     margin-top: 20px;
     margin-bottom: 20px;
 }
 
-/* Estilos para la página de editar_producto.php */
 h1 {
     text-align: center;
     margin-top: 20px;
     margin-bottom: 20px;
 }
 
-/* Estilos para la página de eliminar_cliente.php */
 h1 {
     text-align: center;
     margin-top: 20px;
     margin-bottom: 20px;
 }
 
-/* Estilos para la página de index.php */
 ul {
     margin-top: 20px;
     padding-left: 20px;
@@ -148,5 +137,4 @@ ul li {
     margin-bottom: 20px;
 }
 
-/* Estilos para la página de productos.php */
-/* (aún está vacía) */
+

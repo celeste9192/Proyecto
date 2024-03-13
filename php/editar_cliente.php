@@ -16,7 +16,6 @@
     if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['cliente_id'])) {
         $cliente_id = $_POST['cliente_id'];
 
-        // Obtener los detalles del cliente seleccionado
         $conexion = Conecta();
         $sql = "SELECT * FROM Clientes WHERE cliente_id = $cliente_id";
         $resultado = mysqli_query($conexion, $sql);
@@ -25,10 +24,9 @@
             $cliente = mysqli_fetch_assoc($resultado);
         } else {
             echo "No se encontró ningún cliente con el ID proporcionado.";
-            exit; // Salir del script si no se encuentra el cliente
+            exit; 
         }
 
-        // Procesar el formulario de actualización
         if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['actualizar'])) {
             $nombre = $_POST['nombre'];
             $apellido = $_POST['apellido'];
