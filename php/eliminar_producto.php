@@ -2,35 +2,32 @@
 <?php
 include 'conexion.php';
 
-// Verificamos si se ha enviado un producto_id por POST
-if(isset($_POST['producto_id'])) {
+if (isset($_POST['producto_id'])) {
     $producto_id = $_POST['producto_id'];
 
-    // Función para obtener la información del producto seleccionado
-    function obtenerProducto($conexion, $producto_id) {
+    function obtenerProducto($conexion, $producto_id)
+    {
         $consulta = "SELECT * FROM productos WHERE product_id = $producto_id";
         $resultado = mysqli_query($conexion, $consulta);
         return mysqli_fetch_assoc($resultado);
     }
 
-    // Función para eliminar el producto
-    function eliminarProducto($conexion, $producto_id) {
+    function eliminarProducto($conexion, $producto_id)
+    {
         $consulta = "DELETE FROM productos WHERE product_id = $producto_id";
         $resultado = mysqli_query($conexion, $consulta);
         return $resultado;
     }
 
-    // Si se confirma la eliminación, procedemos a eliminar el producto
-    if(isset($_POST['confirmar_eliminar'])) {
+    if (isset($_POST['confirmar_eliminar'])) {
         $conexion = Conecta();
-        if(eliminarProducto($conexion, $producto_id)) {
+        if (eliminarProducto($conexion, $producto_id)) {
             echo "<script>alert('El producto ha sido eliminado correctamente');</script>";
         } else {
             echo "<script>alert('Error al eliminar el producto');</script>";
         }
         Desconectar($conexion);
     } else {
-        // Si no se ha confirmado la eliminación, mostramos un mensaje de confirmación y la información del producto
         $conexion = Conecta();
         $producto = obtenerProducto($conexion, $producto_id);
         Desconectar($conexion);
@@ -51,6 +48,5 @@ if(isset($_POST['producto_id'])) {
     }
 }
 
-// Botón para regresar al index
 echo "<a href='index.php'><button>Volver menu principal</button></a>";
 ?>

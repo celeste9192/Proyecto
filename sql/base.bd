@@ -6,3 +6,9 @@ INSERT INTO productos (nombre, descripcion, precio, cantidad_stock, imagen) VALU
 INSERT INTO productos (nombre, descripcion, precio, cantidad_stock, imagen) VALUES ('Cocina', 'Nuestra cocina modelo ABC combina estilo y funcionalidad para satisfacer tus necesidades culinarias. Con un diseño moderno y características innovadoras, esta cocina hace que cocinar sea una experiencia fácil y placentera.',899.99, 6, 'https://th.bing.com/th/id/R.4ccab9a0b0044d0ceb39824831fc2570?rik=fCwoxPTLreJRDw&pid=ImgRaw&r=0');
 INSERT INTO productos (nombre, descripcion, precio, cantidad_stock, imagen) VALUES ('Freidora de aire', 'Nuestra freidora de aire modelo XYZ te permite disfrutar de comidas crujientes con menos grasa. Con un diseño compacto y fácil de usar, esta freidora es perfecta para cualquier cocina. Disfruta de tus alimentos favoritos de una manera más saludable.', 99.99, 11, 'https://images-na.ssl-images-amazon.com/images/I/61vSwzkZuXL._AC_SL1500_.jpg');
 INSERT INTO productos (nombre, descripcion, precio, cantidad_stock, imagen) VALUES ('Microondas', 'Nuestro microondas modelo LMN ofrece potencia y versatilidad en un diseño elegante y compacto. Con funciones preprogramadas y controles intuitivos, es perfecto para cualquier cocina moderna.', 129.99, 5, 'https://www.lestendances.fr/Images/produits/samsung-micro-ondes-combine-28l-plateau-tournant-de-31-8-cm-fonction-arret-du-plateau-tournant-fonction-yaourt-et-levage-de-pate-f-561431.jpg');
+
+
+INSERT INTO Clientes (nombre, apellido, direccion, ciudad, pais, correo_electronico, telefono) 
+VALUES 
+('Juan', 'Pérez', 'Calle 123', 'Ciudad de México', 'México', 'juan@example.com', '123456789'),
+('María', 'Gómez', 'Avenida 456', 'Buenos Aires', 'Argentina', 'maria@example.com', '987654321');
