@@ -1,26 +1,42 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Agregar Producto</title>
-</head>
-<body>
-    <h2>Agregar Producto</h2>
-    <form action="agregar_producto.php" method="post">
-        <label for="nombre">Nombre:</label>
-        <input type="text" id="nombre" name="nombre" required><br><br>
-        
-        <label for="descripcion">Descripción:</label>
-        <input type="text" id="descripcion" name="descripcion"><br><br>
-        
-        <label for="precio">Precio:</label>
-        <input type="number" id="precio" name="precio" min="0" step="0.01" required><br><br>
-        
-        <label for="cantidad_stock">Cantidad en stock:</label>
-        <input type="number" id="cantidad_stock" name="cantidad_stock" min="0" required><br><br>
-        
-        <input type="submit" value="Agregar Producto">
-    </form>
-</body>
-</html>
+<?php
+include 'conexion.php';
+
+function obtenerProductos() {
+    $conexion = Conecta();
+    $consulta = "SELECT * FROM productos";
+    $resultado = mysqli_query($conexion, $consulta);
+    if ($resultado && mysqli_num_rows($resultado) > 0) {
+        echo "<ul>";
+        while ($fila = mysqli_fetch_assoc($resultado)) {
+            echo "<li>";
+            echo "<strong>ID:</strong> " . $fila['product_id'] . "<br>";
+            echo "<strong>Nombre:</strong> " . $fila['nombre'] . "<br>";
+            echo "<strong>Descripción:</strong> " . $fila['descripcion'] . "<br>";
+            echo "<strong>Precio:</strong> $" . $fila['precio'] . "<br>";
+            echo "<strong>Cantidad en Stock:</strong> " . $fila['cantidad_stock'] . "<br>";
+            echo "<strong>Imagen:</strong> <img src='" . $fila['imagen'] . "' width='100' height='100'><br>";
+
+            // Formulario para eliminar el producto
+            echo "<form action='eliminar_producto.php' method='post'>";
+            echo "<input type='hidden' name='producto_id' value='" . $fila['product_id'] . "'>";
+            echo "<input type='submit' value='Eliminar'>";
+            echo "</form>";
+
+            // Formulario para editar el producto
+            echo "<form action='editar_producto.php' method='get'>";
+            echo "<input type='hidden' name='producto_id' value='" . $fila['product_id'] . "'>";
+            echo "<input type='submit' value='Editar'>";
+            echo "</form>";
+            
+            echo "</li>";
+        }
+        echo "</ul>";
+        echo "<a href='agregar_producto.php'><button>Agregar Producto</button></a>";
+    } else {
+        echo "No se encontraron productos.";
+    }
+    Desconectar($conexion);
+}
+
+obtenerProductos();
+?>
