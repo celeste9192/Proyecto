@@ -7,7 +7,20 @@
     <link rel="stylesheet" href="css/style.css">
     <title>Clientes</title>
     <style>
-        body,h1,h2,h3,h4,h5,h6,p,ul,li,button,input,form,label {
+        body,
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6,
+        p,
+        ul,
+        li,
+        button,
+        input,
+        form,
+        label {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
@@ -19,7 +32,12 @@
             background-color: #F6F4F3;
         }
 
-        h1,h2,h3,h4,h5,h6 {
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6 {
             font-family: 'Montserrat', sans-serif;
             font-weight: bold;
         }
@@ -155,7 +173,10 @@
     }
 
     leerClientes();
+    
     ?>
+    <a href="index.php"><button>Menu Principal</button></a>
+
 </body>
 
 </html>
