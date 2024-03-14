@@ -25,57 +25,43 @@ $productos = obtenerProductos();
 
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lista de Productos</title>
+    <link rel="stylesheet" href="css/style.css">
     <style>
-        ul {
-            list-style-type: none;
-            padding: 0;
-        }
-
-        li {
-            margin-bottom: 20px;
-        }
-
-        form {
-            display: inline;
-        }
-        body,h1,h2,h3,h4,h5,h6,p,ul,li,button,input,form,label {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
         body {
             font-family: 'Poppins', sans-serif;
             color: #31241E;
             background-color: #F6F4F3;
+            margin: 0;
+            padding: 0;
         }
-        h1,h2,h3,h4,h5,h6 {
-            font-family: 'Montserrat', sans-serif;
-            font-weight: bold;
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
         }
 
         header {
             background-color: #F6F4F3;
             padding: 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
             border-bottom: 1px solid #31241E;
+            text-align: center;
         }
 
         h1 {
             font-size: 36px;
+            margin-bottom: 20px;
             text-transform: uppercase;
         }
 
         nav ul {
             list-style-type: none;
             padding: 0;
+            text-align: center;
         }
 
         nav ul li {
@@ -85,65 +71,75 @@ $productos = obtenerProductos();
 
         nav ul li a {
             text-decoration: none;
-            font-family: 'Montserrat', sans-serif;
             font-weight: bold;
             font-size: 16px;
             color: #31241E;
         }
 
-        form {
+        .product-list {
+            list-style-type: none;
+            padding: 0;
             margin-top: 20px;
         }
 
-        label {
-            display: block;
-            font-weight: bold;
-            margin-bottom: 5px;
-        }
-
-        input[type="text"],
-        input[type="number"],
-        input[type="email"],
-        input[type="url"],
-        textarea {
-            width: 100%;
-            padding: 10px;
-            margin-bottom: 10px;
-            border-radius: 5px;
+        .product-item {
+            background-color: #FFF;
             border: 1px solid #D1C8C1;
+            border-radius: 5px;
+            padding: 20px;
+            margin-bottom: 20px;
         }
 
-        input[type="submit"],
-        button {
+        .product-item img {
+            width: 100px;
+            height: 100px;
+            margin-bottom: 10px;
+        }
+
+        .product-item form {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .product-item form button {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 5px;
+            background-color: #D1C8C1;
+            color: #FFF;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .product-item form button:hover {
+            background-color: #31241E;
+        }
+
+        .no-products {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .add-product-btn {
+            display: block;
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .add-product-btn button {
             padding: 10px 20px;
             border: none;
             border-radius: 5px;
             background-color: #D1C8C1;
             color: #FFF;
-            font-family: 'Montserrat', sans-serif;
             font-weight: bold;
-            font-size: 18px;
             cursor: pointer;
+            transition: background-color 0.3s ease;
         }
 
-        button {
-            background-color: transparent;
-            color: #31241E;
-        }
-
-        h1 {
-            text-align: center;
-            margin-top: 20px;
-            margin-bottom: 20px;
-        }
-
-        ul {
-            margin-top: 20px;
-            padding-left: 20px;
-        }
-
-        ul li {
-            margin-bottom: 20px;
+        .add-product-btn button:hover {
+            background-color: #31241E;
         }
     </style>
 </head>
@@ -158,33 +154,35 @@ $productos = obtenerProductos();
             </ul>
         </nav>
     </header>
+    <div class="container">
+        <?php if (!empty($productos)) : ?>
+            <ul class="product-list">
+                <?php foreach ($productos as $producto) : ?>
+                    <li class="product-item">
+                        <img src="<?php echo $producto['imagen']; ?>" alt="<?php echo $producto['nombre']; ?>">
+                        <p><strong>ID:</strong> <?php echo $producto['product_id']; ?></p>
+                        <p><strong>Nombre:</strong> <?php echo $producto['nombre']; ?></p>
+                        <p><strong>Descripción:</strong> <?php echo $producto['descripcion']; ?></p>
+                        <p><strong>Precio:</strong> $<?php echo $producto['precio']; ?></p>
+                        <p><strong>Cantidad en Stock:</strong> <?php echo $producto['cantidad_stock']; ?></p>
+                        <form action="eliminar_producto.php" method="post">
+                            <input type="hidden" name="producto_id" value="<?php echo $producto['product_id']; ?>">
+                            <button type="submit">Eliminar</button>
+                        </form>
+                        <form action="editar_producto.php" method="get">
+                            <input type="hidden" name="producto_id" value="<?php echo $producto['product_id']; ?>">
+                            <button type="submit">Editar</button>
+                        </form>
+                    </li>
+                <?php endforeach; ?>
+            </ul>
+        <?php else : ?>
+            <p class="no-products">No se encontraron productos.</p>
+        <?php endif; ?>
 
-    <?php if (!empty($productos)) : ?>
-        <ul>
-            <?php foreach ($productos as $producto) : ?>
-                <li>
-                    <strong>ID:</strong> <?php echo $producto['product_id']; ?><br>
-                    <strong>Nombre:</strong> <?php echo $producto['nombre']; ?><br>
-                    <strong>Descripción:</strong> <?php echo $producto['descripcion']; ?><br>
-                    <strong>Precio:</strong> $<?php echo $producto['precio']; ?><br>
-                    <strong>Cantidad en Stock:</strong> <?php echo $producto['cantidad_stock']; ?><br>
-                    <strong>Imagen:</strong> <img src="<?php echo $producto['imagen']; ?>" width="100" height="100"><br>
-                    <form action="eliminar_producto.php" method="post">
-                        <input type="hidden" name="producto_id" value="<?php echo $producto['product_id']; ?>">
-                        <input type="submit" value="Eliminar">
-                    </form>
-                    <form action="editar_producto.php" method="get">
-                        <input type="hidden" name="producto_id" value="<?php echo $producto['product_id']; ?>">
-                        <input type="submit" value="Editar">
-                    </form>
-                </li>
-            <?php endforeach; ?>
-        </ul>
-    <?php else : ?>
-        <p>No se encontraron productos.</p>
-    <?php endif; ?>
-
-    <a href="agregar_producto.php"><button>Agregar Producto</button></a>
+        <div class="add-product-btn">
+            <a href="agregar_producto.php"><button>Agregar Producto</button></a>
+        </div>
+    </div>
 </body>
-
 </html>
