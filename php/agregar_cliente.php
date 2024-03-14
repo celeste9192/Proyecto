@@ -18,6 +18,7 @@
             color: #31241E;
             background-color: #F6F4F3;
         }
+
         h1,h2,h3,h4,h5,h6 {
             font-family: 'Montserrat', sans-serif;
             font-weight: bold;
@@ -109,7 +110,7 @@
         ul li {
             margin-bottom: 20px;
         }
-    </style>
+</style>
 </head>
 
 <body>
