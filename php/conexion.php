@@ -6,7 +6,7 @@ function Conecta()
     $server = "localhost";
     $user = "root";
     $password = "";
-    $database = "tienda";
+    $database = "electric";
 
 
     $conexion = mysqli_connect($server, $user, $password, $database);

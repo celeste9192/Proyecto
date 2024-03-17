@@ -151,6 +151,7 @@ $productos = obtenerProductos();
             <ul>
                 <li><a href="productos.php">Catálogo</a></li>
                 <li><a href="clientes.php">Clientes</a></li>
+                <li><a href="categorias.php">Categorías</a></li>
             </ul>
         </nav>
     </header>
