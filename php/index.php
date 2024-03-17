@@ -164,8 +164,7 @@ $productos = obtenerProductos();
                 <?php foreach ($productos as $producto) : ?>
                     <li class="product-item">
                         <img src="<?php echo $producto['imagen']; ?>" alt="<?php echo $producto['nombre_producto']; ?>">
-                        <p><strong>ID:</strong> <?php echo $producto['id_producto']; ?></p>
-                        <p><strong>Categoría:</strong> <?php echo $producto['nombre_categoria']; ?></p>
+                        <p><strong><?php echo $producto['nombre_categoria']; ?></strong> </p>
                         <p><strong>Nombre:</strong> <?php echo $producto['nombre_producto']; ?></p>
                         <p><strong>Descripción:</strong> <?php echo $producto['descripcion_producto']; ?></p>
                         <p><strong>Precio:</strong> $<?php echo $producto['precio']; ?></p>
