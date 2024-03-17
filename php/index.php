@@ -4,7 +4,10 @@ include 'conexion.php';
 function obtenerProductos()
 {
     $conexion = Conecta();
-    $consulta = "SELECT * FROM productos";
+    $consulta = "SELECT Productos.*, Categorias.nombre_categoria 
+                 FROM Productos 
+                 INNER JOIN Categorias 
+                 ON Productos.id_categoria = Categorias.id_categoria";
     $resultado = mysqli_query($conexion, $consulta);
 
     $productos = array();
@@ -141,7 +144,7 @@ $productos = obtenerProductos();
         .add-product-btn button:hover {
             background-color: #31241E;
         }
-    </style>
+        </style>
 </head>
 
 <body>
@@ -160,18 +163,18 @@ $productos = obtenerProductos();
             <ul class="product-list">
                 <?php foreach ($productos as $producto) : ?>
                     <li class="product-item">
-                        <img src="<?php echo $producto['imagen']; ?>" alt="<?php echo $producto['nombre']; ?>">
-                        <p><strong>ID:</strong> <?php echo $producto['product_id']; ?></p>
-                        <p><strong>Nombre:</strong> <?php echo $producto['nombre']; ?></p>
-                        <p><strong>Descripción:</strong> <?php echo $producto['descripcion']; ?></p>
+                        <img src="<?php echo $producto['imagen']; ?>" alt="<?php echo $producto['nombre_producto']; ?>">
+                        <p><strong>ID:</strong> <?php echo $producto['id_producto']; ?></p>
+                        <p><strong>Categoría:</strong> <?php echo $producto['nombre_categoria']; ?></p>
+                        <p><strong>Nombre:</strong> <?php echo $producto['nombre_producto']; ?></p>
+                        <p><strong>Descripción:</strong> <?php echo $producto['descripcion_producto']; ?></p>
                         <p><strong>Precio:</strong> $<?php echo $producto['precio']; ?></p>
-                        <p><strong>Cantidad en Stock:</strong> <?php echo $producto['cantidad_stock']; ?></p>
                         <form action="eliminar_producto.php" method="post">
-                            <input type="hidden" name="producto_id" value="<?php echo $producto['product_id']; ?>">
+                            <input type="hidden" name="producto_id" value="<?php echo $producto['id_producto']; ?>">
                             <button type="submit">Eliminar</button>
                         </form>
                         <form action="editar_producto.php" method="get">
-                            <input type="hidden" name="producto_id" value="<?php echo $producto['product_id']; ?>">
+                            <input type="hidden" name="producto_id" value="<?php echo $producto['id_producto']; ?>">
                             <button type="submit">Editar</button>
                         </form>
                     </li>
