@@ -1,3 +1,40 @@
+<?php
+include 'conexion.php';
+
+$conexion = Conecta();
+
+$query_categorias = "SELECT * FROM Categorias";
+$resultado_categorias = mysqli_query($conexion, $query_categorias);
+
+$categorias = array();
+
+while ($fila_categoria = mysqli_fetch_assoc($resultado_categorias)) {
+    $categorias[] = $fila_categoria;
+}
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $nombre = $_POST["nombre"];
+    $descripcion = $_POST["descripcion"];
+    $precio = $_POST["precio"];
+    $id_categoria = $_POST["id_categoria"]; 
+    $imagen = $_POST["imagen"]; 
+
+    $sql = "INSERT INTO Productos (nombre_producto, descripcion_producto, precio, id_categoria, imagen) VALUES (?, ?, ?, ?, ?)";
+    $stmt = $conexion->prepare($sql);
+    $stmt->bind_param("sdssi", $nombre, $descripcion, $precio, $id_categoria, $imagen);
+
+    if ($stmt->execute()) {
+        echo "Producto agregado correctamente.";
+    } else {
+        echo "Error al agregar el producto: " . $conexion->error;
+    }
+
+    $stmt->close();
+}
+
+Desconectar($conexion);
+?>
+
 <!DOCTYPE html>
 <html lang="es">
 
@@ -7,7 +44,20 @@
     <link rel="stylesheet" href="css/style.css">
     <title>Agregar Producto</title>
     <style>
-        body,h1,h2,h3,h4,h5,h6,p,ul,li,button,input,form,label {
+        body,
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6,
+        p,
+        ul,
+        li,
+        button,
+        input,
+        form,
+        label {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
@@ -18,7 +68,13 @@
             color: #31241E;
             background-color: #F6F4F3;
         }
-        h1,h2,h3,h4,h5,h6 {
+
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6 {
             font-family: 'Montserrat', sans-serif;
             font-weight: bold;
         }
@@ -109,7 +165,7 @@
         ul li {
             margin-bottom: 20px;
         }
-    </style>
+        </style>
 </head>
 
 <body>
@@ -124,11 +180,17 @@
         <label for="precio">Precio:</label>
         <input type="number" id="precio" name="precio" min="0" step="0.01" required><br><br>
 
-        <label for="cantidad_stock">Cantidad en stock:</label>
-        <input type="number" id="cantidad_stock" name="cantidad_stock" min="0" required><br><br>
+        <label for="id_categoria">Categoría:</label> 
+        <select id="id_categoria" name="id_categoria">
+            <?php
+            foreach ($categorias as $categoria) {
+                echo "<option value='" . $categoria['id_categoria'] . "'>" . $categoria['nombre_categoria'] . "</option>";
+            }
+            ?>
+        </select><br><br>
 
         <label for="imagen">URL de la Imagen:</label>
-        <input type="url" id="imagen" name="imagen"><br><br>
+        <input type="url" id="imagen" name="imagen"><br><br> 
 
         <input type="submit" value="Agregar Producto">
     </form>
@@ -137,29 +199,3 @@
 </body>
 
 </html>
-
-<?php
-include 'conexion.php';
-
-$conexion = Conecta();
-
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $nombre = $_POST["nombre"];
-    $descripcion = $_POST["descripcion"];
-    $precio = $_POST["precio"];
-    $cantidad_stock = $_POST["cantidad_stock"];
-
-    $sql = "INSERT INTO Productos (nombre, descripcion, precio, cantidad_stock) VALUES (?, ?, ?, ?)";
-    $stmt = $conexion->prepare($sql);
-    $stmt->bind_param("ssdi", $nombre, $descripcion, $precio, $cantidad_stock);
-
-    if ($stmt->execute()) {
-        echo "Producto agregado correctamente.";
-    } else {
-        echo "Error al agregar el producto: " . $conexion->error;
-    }
-
-    $stmt->close();
-}
-
-Desconectar($conexion);

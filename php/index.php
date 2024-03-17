@@ -49,22 +49,22 @@ $productos = obtenerProductos();
         }
 
         header {
-            background-color: #F6F4F3;
+            background-color: #31241E;
+            color: #FFF;
             padding: 20px;
-            border-bottom: 1px solid #31241E;
             text-align: center;
+            border-bottom: 2px solid #FFF;
         }
 
         h1 {
             font-size: 36px;
-            margin-bottom: 20px;
+            margin-bottom: 10px;
             text-transform: uppercase;
         }
 
         nav ul {
             list-style-type: none;
             padding: 0;
-            text-align: center;
         }
 
         nav ul li {
@@ -76,13 +76,21 @@ $productos = obtenerProductos();
             text-decoration: none;
             font-weight: bold;
             font-size: 16px;
-            color: #31241E;
+            color: #FFF;
+            transition: color 0.3s ease;
+        }
+
+        nav ul li a:hover {
+            color: #D1C8C1;
         }
 
         .product-list {
             list-style-type: none;
             padding: 0;
             margin-top: 20px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
         }
 
         .product-item {
@@ -90,16 +98,24 @@ $productos = obtenerProductos();
             border: 1px solid #D1C8C1;
             border-radius: 5px;
             padding: 20px;
-            margin-bottom: 20px;
+            display: flex;
+            flex-direction: column;
         }
 
         .product-item img {
-            width: 100px;
-            height: 100px;
+            width: 100%;
+            max-height: 200px;
+            object-fit: cover;
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
+
+        .product-item p {
             margin-bottom: 10px;
         }
 
         .product-item form {
+            margin-top: auto;
             display: flex;
             justify-content: space-between;
         }
@@ -125,7 +141,6 @@ $productos = obtenerProductos();
         }
 
         .add-product-btn {
-            display: block;
             text-align: center;
             margin-top: 20px;
         }
@@ -144,7 +159,7 @@ $productos = obtenerProductos();
         .add-product-btn button:hover {
             background-color: #31241E;
         }
-        </style>
+    </style>
 </head>
 
 <body>
@@ -152,7 +167,7 @@ $productos = obtenerProductos();
         <h1>Lista de Productos</h1>
         <nav>
             <ul>
-                <li><a href="productos.php">Catálogo</a></li>
+                <li><a href="index.php">Catálogo</a></li>
                 <li><a href="clientes.php">Clientes</a></li>
                 <li><a href="categorias.php">Categorías</a></li>
             </ul>

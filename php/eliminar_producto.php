@@ -1,3 +1,47 @@
+<?php
+include 'conexion.php';
+
+$mensaje = "";
+
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['eliminar_producto'])) {
+    $producto_id = $_POST['producto_id'];
+
+    function obtenerProducto($conexion, $producto_id)
+    {
+        $consulta = "SELECT * FROM Productos WHERE id_producto = $producto_id";
+        $resultado = mysqli_query($conexion, $consulta);
+        return mysqli_fetch_assoc($resultado);
+    }
+
+    function eliminarProducto($conexion, $producto_id)
+    {
+        $consulta = "DELETE FROM Productos WHERE id_producto = $producto_id";
+        $resultado = mysqli_query($conexion, $consulta);
+        return $resultado;
+    }
+
+    $conexion = Conecta();
+    $producto = obtenerProducto($conexion, $producto_id);
+    Desconectar($conexion);
+
+    if (!$producto) {
+        $mensaje = "Producto no encontrado.";
+    } else {
+        if (isset($_POST['confirmar_eliminar'])) {
+            $conexion = Conecta();
+            if (eliminarProducto($conexion, $producto_id)) {
+                $mensaje = "El producto ha sido eliminado correctamente.";
+            } else {
+                $mensaje = "Error al eliminar el producto.";
+            }
+            Desconectar($conexion);
+        } else {
+            $mensaje = "¿Estás seguro de que quieres eliminar este producto?";
+        }
+    }
+}
+?>
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -107,59 +151,33 @@
         ul li {
             margin-bottom: 20px;
         }
-    </style>
+        </style>
+    <script>
+        function confirmarEliminar() {
+            return confirm("¿Estás seguro de que quieres eliminar este producto?");
+        }
+    </script>
 </head>
 <body>
-    <?php
-    include 'conexion.php';
-
-    if (isset($_POST['producto_id'])) {
-        $producto_id = $_POST['producto_id'];
-
-        function obtenerProducto($conexion, $producto_id)
-        {
-            $consulta = "SELECT * FROM productos WHERE product_id = $producto_id";
-            $resultado = mysqli_query($conexion, $consulta);
-            return mysqli_fetch_assoc($resultado);
-        }
-
-        function eliminarProducto($conexion, $producto_id)
-        {
-            $consulta = "DELETE FROM productos WHERE product_id = $producto_id";
-            $resultado = mysqli_query($conexion, $consulta);
-            return $resultado;
-        }
-
-        if (isset($_POST['confirmar_eliminar'])) {
-            $conexion = Conecta();
-            if (eliminarProducto($conexion, $producto_id)) {
-                echo "<script>alert('El producto ha sido eliminado correctamente');</script>";
-            } else {
-                echo "<script>alert('Error al eliminar el producto');</script>";
-            }
-            Desconectar($conexion);
-        } else {
-            $conexion = Conecta();
-            $producto = obtenerProducto($conexion, $producto_id);
-            Desconectar($conexion);
-
-            echo "<h2>Eliminar Producto</h2>";
-            echo "<strong>ID:</strong> " . $producto['product_id'] . "<br>";
-            echo "<strong>Nombre:</strong> " . $producto['nombre'] . "<br>";
-            echo "<strong>Descripción:</strong> " . $producto['descripcion'] . "<br>";
-            echo "<strong>Precio:</strong> $" . $producto['precio'] . "<br>";
-            echo "<strong>Cantidad en Stock:</strong> " . $producto['cantidad_stock'] . "<br>";
-            echo "<strong>Imagen:</strong> <img src='" . $producto['imagen'] . "' width='100' height='100'><br>";
-
-            echo "<form action='eliminar_producto.php' method='post'>";
-            echo "<input type='hidden' name='producto_id' value='" . $producto['product_id'] . "'>";
-            echo "<input type='hidden' name='confirmar_eliminar' value='true'>";
-            echo "<input type='submit' value='Eliminar'>";
-            echo "</form>";
-        }
-    }
-
-    echo "<a href='index.php'><button>Volver al menú principal</button></a>";
-    ?>
+       <?php if (!empty($mensaje)) { ?>
+        <h2><?php echo $mensaje; ?></h2>
+    <?php } ?>
+    <?php if (!empty($producto)) { ?>
+        <h2>Información del Producto</h2>
+        <p><strong>ID:</strong> <?php echo $producto['id_producto']; ?></p>
+        <p><strong>Nombre:</strong> <?php echo $producto['nombre_producto']; ?></p>
+        <p><strong>Descripción:</strong> <?php echo $producto['descripcion_producto']; ?></p>
+        <p><strong>Precio:</strong> <?php echo $producto['precio']; ?></p>
+        <p><strong>Categoría:</strong> <?php echo $producto['id_categoria']; ?></p>
+        <p><strong>Imagen:</strong> <?php echo $producto['imagen']; ?></p>
+    <?php } ?>
+    <form action="" method="post">
+        <input type="hidden" name="producto_id" value="<?php echo isset($_POST['producto_id']) ? $_POST['producto_id'] : ''; ?>">
+        <input type="submit" name="eliminar_producto" value="Eliminar Producto" onclick="return confirmarEliminar();">
+        <?php if (isset($_POST['eliminar_producto']) && isset($_POST['producto_id'])) { ?>
+            <input type="hidden" name="confirmar_eliminar" value="true">
+        <?php } ?>
+    </form>
+    <a href="index.php">Volver al menú principal</a>
 </body>
 </html>
