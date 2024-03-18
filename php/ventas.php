@@ -4,7 +4,7 @@ include 'conexion.php';
 function obtenerVentas()
 {
     $conexion = Conecta();
-    $consulta = "SELECT * FROM Ventas";
+    $consulta = "SELECT * FROM Venta";
     $resultado = mysqli_query($conexion, $consulta);
 
     $ventas = array();
