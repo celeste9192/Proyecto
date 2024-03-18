@@ -132,7 +132,7 @@
 </head>
 
 <body>
-    <h1>Editar Categoría</h1>
+    <h1>Editar Venta</h1>
 
     <?php
     include 'conexion.php';
@@ -171,7 +171,7 @@
     ?>
 
     <form method="post">
-        <label for="id_venta">ID del Cliente a Editar:</label>
+        <label for="id_venta">Numero de Venta a Editar:</label>
         <input type="number" id="id_venta" name="id_venta" required><br><br>
         <input type="submit" value="Buscar">
     </form>
@@ -180,14 +180,14 @@
         <form method="post">
             <input type="hidden" name="id_venta" value="<?php echo $venta['id_venta']; ?>">
 
-            <label for="id_venta">ID Venta:</label>
+            <label for="id_venta">Numero de Venta:</label>
             <input type="number" id="id_venta" name="id_venta" value="<?php echo $venta['id_venta']; ?>" required><br><br>
 
             <label for="id_cliente">ID Cliente:</label>
             <input type="number" id="id_cliente" name="id_cliente" value="<?php echo $venta['id_cliente']; ?>"
                 required><br><br>
 
-            <label for="id_empleado">Dirección:</label>
+            <label for="id_empleado">ID Empleado:</label>
             <input type="number" id="id_empleado" name="id_empleado" value="<?php echo $venta['id_empleado']; ?>"
                 required><br><br>
 
@@ -197,7 +197,7 @@
             <label for="total">Total:</label>
             <input type="number" id="total" name="total" value="<?php echo $venta['total']; ?>" required><br><br>
 
-            <input type="submit" name="actualizar" value="Actualizar">
+            <input type="submit" name="editar" value="Editar">
         </form>
     <?php endif; ?>
 

@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="css/style.css">
-    <title>Agregar Venta</title>
+    <title>Agregar Compra</title>
     <style>
         body,
         h1,
@@ -132,25 +132,25 @@
 </head>
 
 <body>
-    <h1>Agregar Venta</h1>
+    <h1>Agregar Compra</h1>
 
     <?php
     include 'conexion.php';
 
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
-        $id_venta = $_POST['id_venta'];
-        $id_cliente = $_POST['id_cliente'];
-        $id_empleado = $_POST['id_empleado'];
+        $id_compra = $_POST['id_compra'];
+        $id_proveedor = $_POST['id_proveedor'];
+        $detalles = $_POST['detalles'];
         $fecha = $_POST['fecha'];
         $total = $_POST['total'];
 
         $conexion = Conecta();
-        $consulta = "INSERT INTO Ventas (id_venta, id_cliente, id_empleado, fecha, total) VALUES ('$id_venta, $id_cliente, $id_empleado, $fecha, $total')";
+        $consulta = "INSERT INTO Compras (id_compra, id_proveedor, detalles, fecha, total) VALUES ('$id_compras, $id_proveedor, $detalles, $fecha, $total')";
 
         if ($resultado) {
-            $mensaje = "La venta se agregó correctamente.";
+            $mensaje = "La compra se agregó correctamente.";
         } else {
-            $error = "Error al agregar la venta: " . mysqli_error($conexion);
+            $error = "Error al agregar la compra: " . mysqli_error($conexion);
         }
 
         Desconectar($conexion);
@@ -159,14 +159,14 @@
 
     <form method="post">
 
-        <label for="id_venta">Numero de Venta:</label><br>
-        <input type="number" id="id_venta" name="id_venga"><br><br>
+        <label for="id_compra">Numero de Compra:</label><br>
+        <input type="number" id="id_compra" name="id_compra"><br><br>
 
-        <label for="id_cliente">ID Cliente:</label>
-        <input type="number" id="id_cliente" name="id_cliente" required><br><br>
+        <label for="id_proveedor">ID Proveedor:</label>
+        <input type="number" id="id_proveedor" name="id_proveedor" required><br><br>
 
-        <label for="id_empleado">ID Empleado:</label>
-        <input type="number" id="id_empleado" name="id_empleado"><br><br>
+        <label for="detalles">Detalles:</label>
+        <input type="text" id="detalles" name="detalles"><br><br>
 
         <label for="fecha">Fecha:</label>
         <input type="date" id="fecha" name="fecha"><br><br>
@@ -174,10 +174,10 @@
         <label for="total">Total:</label>
         <input type="number" id="total" name="total"><br><br>
 
-        <input type="submit" value="Agregar Venta">
+        <input type="submit" value="Agregar Compra">
     </form>
 
-    <a href="ventas.php"><button>Volver a Ventas</button></a>
+    <a href="compras.php"><button>Volver a Compras</button></a>
 
 </body>
 

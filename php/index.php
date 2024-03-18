@@ -170,6 +170,8 @@ $productos = obtenerProductos();
                 <li><a href="index.php">Catálogo</a></li>
                 <li><a href="clientes.php">Clientes</a></li>
                 <li><a href="categorias.php">Categorías</a></li>
+                <li><a href="compras.php">Compras</a></li>
+                <li><a href="ventas.php">Ventas</a></li>
             </ul>
         </nav>
     </header>

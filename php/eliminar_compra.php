@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="css/style.css">
-    <title>Agregar Venta</title>
+    <title>Eliminar Compra</title>
     <style>
         body,
         h1,
@@ -129,56 +129,48 @@
             margin-bottom: 20px;
         }
     </style>
+    <script>
+        function confirmarEliminar() {
+            return confirm("¿Está seguro de que desea eliminar la compra?");
+        }
+    </script>
 </head>
 
 <body>
-    <h1>Agregar Venta</h1>
+    <h1>Eliminar Compra</h1>
 
     <?php
     include 'conexion.php';
 
-    if ($_SERVER["REQUEST_METHOD"] == "POST") {
-        $id_venta = $_POST['id_venta'];
-        $id_cliente = $_POST['id_cliente'];
-        $id_empleado = $_POST['id_empleado'];
-        $fecha = $_POST['fecha'];
-        $total = $_POST['total'];
+    if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['id_compra'])) {
+        $id_compra = $_POST['id_compra'];
 
-        $conexion = Conecta();
-        $consulta = "INSERT INTO Ventas (id_venta, id_cliente, id_empleado, fecha, total) VALUES ('$id_venta, $id_cliente, $id_empleado, $fecha, $total')";
+        if ($id_compra < 0) {
+            echo "Error: El numero es negativo.";
+        } 
+        else {
+            $conexion = Conecta();
+            $sql = "DELETE FROM Compras WHERE id_compra = $id_compra";
 
-        if ($resultado) {
-            $mensaje = "La venta se agregó correctamente.";
-        } else {
-            $error = "Error al agregar la venta: " . mysqli_error($conexion);
+            if (mysqli_query($conexion, $sql)) {
+                echo "Compra eliminada.";
+            } else {
+                echo "Error al eliminar: " . mysqli_error($conexion);
+            }
+
+            Desconectar($conexion);
         }
-
-        Desconectar($conexion);
     }
     ?>
 
-    <form method="post">
+    <form method="post" onsubmit="return confirmarEliminar();">
+        <label for="id_compra">Numero de Compra:</label>
+        <input type="number" id="id_compra" name="id_compra" required><br><br>
 
-        <label for="id_venta">Numero de Venta:</label><br>
-        <input type="number" id="id_venta" name="id_venga"><br><br>
-
-        <label for="id_cliente">ID Cliente:</label>
-        <input type="number" id="id_cliente" name="id_cliente" required><br><br>
-
-        <label for="id_empleado">ID Empleado:</label>
-        <input type="number" id="id_empleado" name="id_empleado"><br><br>
-
-        <label for="fecha">Fecha:</label>
-        <input type="date" id="fecha" name="fecha"><br><br>
-
-        <label for="total">Total:</label>
-        <input type="number" id="total" name="total"><br><br>
-
-        <input type="submit" value="Agregar Venta">
+        <input type="submit" value="Eliminar">
     </form>
 
-    <a href="ventas.php"><button>Volver a Ventas</button></a>
-
+    <a href="compras.php"><button>Volver a Compras</button></a>
 </body>
 
 </html>

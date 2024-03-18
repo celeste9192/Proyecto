@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="css/style.css">
-    <title>Agregar Venta</title>
+    <title>Editar Compra</title>
     <style>
         body,
         h1,
@@ -132,25 +132,38 @@
 </head>
 
 <body>
-    <h1>Agregar Venta</h1>
+    <h1>Editar Compra</h1>
 
     <?php
     include 'conexion.php';
 
-    if ($_SERVER["REQUEST_METHOD"] == "POST") {
-        $id_venta = $_POST['id_venta'];
-        $id_cliente = $_POST['id_cliente'];
-        $id_empleado = $_POST['id_empleado'];
-        $fecha = $_POST['fecha'];
-        $total = $_POST['total'];
+    if ($_SERVER["REQUEST_METHOD"] == "POST" && isset ($_POST['id_compra'])) {
+        $id_compra = $_POST['id_compra'];
 
         $conexion = Conecta();
-        $consulta = "INSERT INTO Ventas (id_venta, id_cliente, id_empleado, fecha, total) VALUES ('$id_venta, $id_cliente, $id_empleado, $fecha, $total')";
+        $sql = "SELECT * FROM Ventas WHERE id_compra = $id_compra";
+        $resultado = mysqli_query($conexion, $sql);
 
-        if ($resultado) {
-            $mensaje = "La venta se agregó correctamente.";
+        if ($resultado && mysqli_num_rows($resultado) > 0) {
+            $cliente = mysqli_fetch_assoc($resultado);
         } else {
-            $error = "Error al agregar la venta: " . mysqli_error($conexion);
+            echo "No se encontró la compra.";
+            exit;
+        }
+
+        if ($_SERVER["REQUEST_METHOD"] == "POST" && isset ($_POST['editar'])) {
+            $id_compra = $_POST['id_compra'];
+            $id_proveedor = $_POST['id_proveedor'];
+            $detalles = $_POST['detalles'];
+            $fecha = $_POST['fecha'];
+            $total = $_POST['total'];
+
+            $sql = "INSERT INTO Compras VALUES ($id_compra, $id_proveedor, $detalles, $fecha, $total)";
+            if (mysqli_query($conexion, $sql)) {
+                echo "Compra editada correctamente.";
+            } else {
+                echo "Error al editar compra: " . mysqli_error($conexion);
+            }
         }
 
         Desconectar($conexion);
@@ -158,27 +171,37 @@
     ?>
 
     <form method="post">
-
-        <label for="id_venta">Numero de Venta:</label><br>
-        <input type="number" id="id_venta" name="id_venga"><br><br>
-
-        <label for="id_cliente">ID Cliente:</label>
-        <input type="number" id="id_cliente" name="id_cliente" required><br><br>
-
-        <label for="id_empleado">ID Empleado:</label>
-        <input type="number" id="id_empleado" name="id_empleado"><br><br>
-
-        <label for="fecha">Fecha:</label>
-        <input type="date" id="fecha" name="fecha"><br><br>
-
-        <label for="total">Total:</label>
-        <input type="number" id="total" name="total"><br><br>
-
-        <input type="submit" value="Agregar Venta">
+        <label for="id_compra">Numero de Compra a Editar:</label>
+        <input type="number" id="id_compra" name="id_compra" required><br><br>
+        <input type="submit" value="Buscar">
     </form>
 
-    <a href="ventas.php"><button>Volver a Ventas</button></a>
+    <?php if (isset ($venta)): ?>
+        <form method="post">
+            <input type="hidden" name="id_compra" value="<?php echo $compra['id_compra']; ?>">
 
+            <label for="id_compra">Numero de Compra:</label><br>
+            <input type="number" id="id_compra" name="id_compra" value="<?php echo $compra['id_compra']; ?>"
+                required><br><br>
+
+            <label for="id_proveedor">ID Proveedor:</label>
+            <input type="number" id="id_proveedor" name="id_proveedor" value="<?php echo $compra['id_proveedor']; ?>"
+                required><br><br>
+
+            <label for="detalles">Detalles:</label>
+            <input type="text" id="detalles" name="detalles" value="<?php echo $compra['detalles']; ?>" required><br><br>
+
+            <label for="fecha">Fecha:</label>
+            <input type="date" id="fecha" name="fecha" value="<?php echo $compra['fecha']; ?>" required><br><br>
+
+            <label for="total">Total:</label>
+            <input type="number" id="total" name="total" value="<?php echo $compra['total']; ?>" required><br><br>
+
+            <input type="submit" name="editar" value="Editar">
+        </form>
+    <?php endif; ?>
+
+    <a href="ventas.php"><button>Volver a Ventas</button></a>
 </body>
 
 </html>
