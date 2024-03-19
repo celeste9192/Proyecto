@@ -132,53 +132,68 @@
 </head>
 
 <body>
-    <h1>Agregar Venta</h1>
 
-    <?php
-    include 'conexion.php';
+<?php
+include 'conexion.php';
 
-    if ($_SERVER["REQUEST_METHOD"] == "POST") {
-        $id_venta = $_POST['id_venta'];
-        $id_cliente = $_POST['id_cliente'];
-        $id_empleado = $_POST['id_empleado'];
-        $fecha = $_POST['fecha'];
-        $total = $_POST['total'];
+$conexion = Conecta();
 
-        $conexion = Conecta();
-        $consulta = "INSERT INTO Ventas (id_venta, id_cliente, id_empleado, fecha, total) VALUES ('$id_venta, $id_cliente, $id_empleado, $fecha, $total')";
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $id_cliente = $_POST['id_cliente'];
+    $id_empleado = $_POST['id_empleado'];
+    $fecha = $_POST['fecha'];
+    $total = $_POST['total'];
 
-        if ($resultado) {
+    $resultado = mysqli_query($conexion, "SHOW TABLES LIKE 'Venta'");
+    if ($resultado && mysqli_num_rows($resultado) > 0) {
+        
+        $consulta = "INSERT INTO Venta (id_cliente, id_empleado, fecha, total) VALUES (?, ?, ?, ?)";
+        $statement = mysqli_prepare($conexion, $consulta);
+        mysqli_stmt_bind_param($statement, "iisd", $id_cliente, $id_empleado, $fecha, $total);
+        if (mysqli_stmt_execute($statement)) {
             $mensaje = "La venta se agregó correctamente.";
         } else {
             $error = "Error al agregar la venta: " . mysqli_error($conexion);
         }
-
-        Desconectar($conexion);
+        mysqli_stmt_close($statement);
+    } else {
+        $error = "La tabla 'Venta' no existe en la base de datos.";
     }
-    ?>
+}
+?>
 
-    <form method="post">
+<h1>Agregar Venta</h1>
 
-        <label for="id_venta">Numero de Venta:</label><br>
-        <input type="number" id="id_venta" name="id_venga"><br><br>
+<?php if (isset($mensaje)) : ?>
+    <p><?php echo $mensaje; ?></p>
+<?php endif; ?>
 
-        <label for="id_cliente">ID Cliente:</label>
-        <input type="number" id="id_cliente" name="id_cliente" required><br><br>
+<?php if (isset($error)) : ?>
+    <p><?php echo $error; ?></p>
+<?php endif; ?>
 
-        <label for="id_empleado">ID Empleado:</label>
-        <input type="number" id="id_empleado" name="id_empleado"><br><br>
+<form method="post">
+    <label for="id_cliente">ID Cliente:</label>
+    <input type="number" id="id_cliente" name="id_cliente" required><br><br>
 
-        <label for="fecha">Fecha:</label>
-        <input type="date" id="fecha" name="fecha"><br><br>
+    <label for="id_empleado">ID Empleado:</label>
+    <input type="number" id="id_empleado" name="id_empleado"><br><br>
 
-        <label for="total">Total:</label>
-        <input type="number" id="total" name="total"><br><br>
+    <label for="fecha">Fecha:</label>
+    <input type="date" id="fecha" name="fecha"><br><br>
 
-        <input type="submit" value="Agregar Venta">
-    </form>
+    <label for="total">Total:</label>
+    <input type="number" id="total" name="total"><br><br>
 
-    <a href="ventas.php"><button>Volver a Ventas</button></a>
+    <input type="submit" value="Agregar Venta">
+</form>
 
+<?php
+
+Desconectar($conexion);
+?>
+
+<a href="ventas.php"><button>Volver a Ventas</button></a>
 </body>
 
 </html>

@@ -87,20 +87,19 @@ $ventas = obtenerVentas();
             background-color: #31241E;
         }
 
-        ul {
-            list-style-type: none;
-            padding: 0;
-        }
-
-        li {
-            margin-bottom: 10px;
+        .venta {
             background-color: #FFF;
             border: 1px solid #D1C8C1;
             border-radius: 5px;
             padding: 10px;
+            margin-bottom: 20px;
         }
 
-        .no-categories {
+        .venta li {
+            margin-bottom: 10px;
+        }
+
+        .no-ventas {
             text-align: center;
             margin-top: 20px;
         }
@@ -109,7 +108,6 @@ $ventas = obtenerVentas();
 <body>
     <header>
         <h1>Ventas</h1>
-        
     </header>
     <div class="container">
         <div class="btn-container">
@@ -119,13 +117,19 @@ $ventas = obtenerVentas();
         </div>
 
         <?php if (!empty($ventas)) : ?>
-            <ul>
-                <?php foreach ($ventas as $ventas) : ?>
-                    <li><?php echo $venta['id_venta']; ?></li>
-                <?php endforeach; ?>
-            </ul>
+            <?php foreach ($ventas as $venta) : ?>
+                <div class="venta">
+                    <ul>
+                        <li>ID Venta: <?php echo $venta['id_venta']; ?></li>
+                        <li>ID Cliente: <?php echo $venta['id_cliente']; ?></li>
+                        <li>ID Empleado: <?php echo $venta['id_empleado']; ?></li>
+                        <li>Fecha: <?php echo $venta['fecha']; ?></li>
+                        <li>Total: <?php echo $venta['total']; ?></li>
+                    </ul>
+                </div>
+            <?php endforeach; ?>
         <?php else : ?>
-            <p class="no-sales">No se encontraron ventas.</p>
+            <p class="no-ventas">No se encontraron ventas.</p>
         <?php endif; ?>
     </div>
     

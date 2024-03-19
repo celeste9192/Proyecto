@@ -119,39 +119,34 @@
 </head>
 
 <body>
+
     <h1>Eliminar Cliente</h1>
 
     <?php
     include 'conexion.php';
 
-    if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['cliente_id'])) {
-        $cliente_id = $_POST['cliente_id'];
+    if ($_SERVER["REQUEST_METHOD"] == "POST") {
+        $id_cliente = $_POST['id_cliente'];
 
-        if ($cliente_id < 0) {
-            echo "Error: El ID del cliente no puede ser negativo.";
+        $conexion = Conecta();
+        $sql = "DELETE FROM Clientes WHERE id_cliente = $id_cliente";
+
+        if (mysqli_query($conexion, $sql)) {
+            echo "Cliente eliminado correctamente.";
         } else {
-            $conexion = Conecta();
-            $sql = "DELETE FROM Clientes WHERE cliente_id = $cliente_id";
-
-            if (mysqli_query($conexion, $sql)) {
-                echo "Cliente eliminado correctamente.";
-            } else {
-                echo "Error al eliminar el cliente: " . mysqli_error($conexion);
-            }
-
-            Desconectar($conexion);
+            echo "Error al eliminar el cliente: " . mysqli_error($conexion);
         }
+
+        Desconectar($conexion);
     }
     ?>
 
-    <form method="post" onsubmit="return confirmarEliminar();">
-        <label for="cliente_id">ID del Cliente a Eliminar:</label>
-        <input type="number" id="cliente_id" name="cliente_id" required><br><br>
-
-        <input type="submit" value="Eliminar">
-    </form>
+<form method="post" onsubmit="return confirmarEliminar()">
+    <label for="id_cliente">ID del Cliente a Eliminar:</label>
+    <input type="text" id="id_cliente" name="id_cliente" required><br><br>
+    <input type="submit" value="Eliminar">
+</form>
 
     <a href="clientes.php"><button>Volver a Clientes</button></a>
 </body>
-
 </html>

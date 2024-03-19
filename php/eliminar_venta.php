@@ -150,7 +150,7 @@
         } 
         else {
             $conexion = Conecta();
-            $sql = "DELETE FROM Ventas WHERE id_venta = $id_venta";
+            $sql = "DELETE FROM Venta WHERE id_venta = $id_venta";
 
             if (mysqli_query($conexion, $sql)) {
                 echo "Venta eliminada.";

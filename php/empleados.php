@@ -3,10 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="css/style.css">
-    <title>Clientes</title>
+    <title>Lista de Empleados</title>
     <style>
-        body {
+         body {
             font-family: 'Poppins', sans-serif;
             color: #31241E;
             background-color: #F6F4F3;
@@ -91,8 +90,8 @@
     </style>
 </head>
 <body>
-<header>
-<h1>Empleados</h1>
+    <header>
+        <h1>Empleados</h1>
     </header>
     <div class="container">
         <div class="btn-container">

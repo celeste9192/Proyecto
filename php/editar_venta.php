@@ -132,76 +132,71 @@
 </head>
 
 <body>
-    <h1>Editar Venta</h1>
+<h1>Editar Venta</h1>
 
-    <?php
-    include 'conexion.php';
+<?php
+include 'conexion.php';
 
-    if ($_SERVER["REQUEST_METHOD"] == "POST" && isset ($_POST['id_venta'])) {
-        $id_venta = $_POST['id_venta'];
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['id_venta'])) {
+    $id_venta = $_POST['id_venta'];
 
-        $conexion = Conecta();
-        $sql = "SELECT * FROM Ventas WHERE id_venta = $id_venta";
-        $resultado = mysqli_query($conexion, $sql);
+    $conexion = Conecta();
+    $sql = "SELECT * FROM Venta WHERE id_venta = $id_venta";
+    $resultado = mysqli_query($conexion, $sql);
 
-        if ($resultado && mysqli_num_rows($resultado) > 0) {
-            $cliente = mysqli_fetch_assoc($resultado);
-        } else {
-            echo "No se encontró la venta.";
-            exit;
-        }
-
-        if ($_SERVER["REQUEST_METHOD"] == "POST" && isset ($_POST['editar'])) {
-            $id_venta = $_POST['id_venta'];
-            $id_cliente = $_POST['id_cliente'];
-            $id_empleado = $_POST['id_empleado'];
-            $fecha = $_POST['fecha'];
-            $total = $_POST['total'];
-
-            $sql = "INSERT INTO Ventas VALUES ($id_venta, $id_cliente, $id_empleado, $fecha, $total)";
-            if (mysqli_query($conexion, $sql)) {
-                echo "Venta editada correctamente.";
-            } else {
-                echo "Error al editar venta: " . mysqli_error($conexion);
-            }
-        }
-
-        Desconectar($conexion);
+    if ($resultado && mysqli_num_rows($resultado) > 0) {
+        $venta = mysqli_fetch_assoc($resultado);
+    } else {
+        echo "No se encontró la venta.";
+        exit;
     }
-    ?>
 
+    if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['editar'])) {
+        $id_venta = $_POST['id_venta'];
+        $id_cliente = $_POST['id_cliente'];
+        $id_empleado = $_POST['id_empleado'];
+        $fecha = $_POST['fecha'];
+        $total = $_POST['total'];
+
+        $sql = "UPDATE Venta SET id_cliente = $id_cliente, id_empleado = $id_empleado, fecha = '$fecha', total = $total WHERE id_venta = $id_venta";
+        if (mysqli_query($conexion, $sql)) {
+            echo "Venta editada correctamente.";
+        } else {
+            echo "Error al editar venta: " . mysqli_error($conexion);
+        }
+    }
+
+    Desconectar($conexion);
+}
+?>
+
+<form method="post">
+    <label for="id_venta">Numero de Venta a Editar:</label>
+    <input type="number" id="id_venta" name="id_venta" required><br><br>
+    <input type="submit" value="Buscar">
+</form>
+
+<?php if (isset($venta)): ?>
     <form method="post">
-        <label for="id_venta">Numero de Venta a Editar:</label>
-        <input type="number" id="id_venta" name="id_venta" required><br><br>
-        <input type="submit" value="Buscar">
+        <input type="hidden" name="id_venta" value="<?php echo $venta['id_venta']; ?>">
+
+        <label for="id_cliente">ID Cliente:</label>
+        <input type="number" id="id_cliente" name="id_cliente" value="<?php echo $venta['id_cliente']; ?>" required><br><br>
+
+        <label for="id_empleado">ID Empleado:</label>
+        <input type="number" id="id_empleado" name="id_empleado" value="<?php echo $venta['id_empleado']; ?>" required><br><br>
+
+        <label for="fecha">Fecha:</label>
+        <input type="date" id="fecha" name="fecha" value="<?php echo $venta['fecha']; ?>" required><br><br>
+
+        <label for="total">Total:</label>
+        <input type="number" id="total" name="total" value="<?php echo $venta['total']; ?>" required><br><br>
+
+        <input type="submit" name="editar" value="Editar">
     </form>
+<?php endif; ?>
 
-    <?php if (isset ($venta)): ?>
-        <form method="post">
-            <input type="hidden" name="id_venta" value="<?php echo $venta['id_venta']; ?>">
-
-            <label for="id_venta">Numero de Venta:</label>
-            <input type="number" id="id_venta" name="id_venta" value="<?php echo $venta['id_venta']; ?>" required><br><br>
-
-            <label for="id_cliente">ID Cliente:</label>
-            <input type="number" id="id_cliente" name="id_cliente" value="<?php echo $venta['id_cliente']; ?>"
-                required><br><br>
-
-            <label for="id_empleado">ID Empleado:</label>
-            <input type="number" id="id_empleado" name="id_empleado" value="<?php echo $venta['id_empleado']; ?>"
-                required><br><br>
-
-            <label for="fecha">Fecha:</label>
-            <input type="date" id="fecha" name="fecha" value="<?php echo $venta['fecha']; ?>" required><br><br>
-
-            <label for="total">Total:</label>
-            <input type="number" id="total" name="total" value="<?php echo $venta['total']; ?>" required><br><br>
-
-            <input type="submit" name="editar" value="Editar">
-        </form>
-    <?php endif; ?>
-
-    <a href="ventas.php"><button>Volver a Ventas</button></a>
+<a href="ventas.php"><button>Volver a Ventas</button></a>
 </body>
 
 </html>

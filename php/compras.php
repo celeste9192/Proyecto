@@ -11,7 +11,8 @@ function obtenerCompras()
 
     if ($resultado && mysqli_num_rows($resultado) > 0) {
         while ($fila = mysqli_fetch_assoc($resultado)) {
-            $ventas[] = $fila;
+           
+            $compras[] = $fila;
         }
     }
 
@@ -120,8 +121,14 @@ $compras = obtenerCompras();
 
         <?php if (!empty($compras)) : ?>
             <ul>
-                <?php foreach ($compras as $compras) : ?>
-                    <li><?php echo $compra['id_compra']; ?></li>
+                <?php foreach ($compras as $compra) : ?>
+            <li>
+                        <strong>ID de Compra:</strong> <?php echo $compra['id_compra']; ?><br>
+                        <strong>ID de Proveedor:</strong> <?php echo $compra['id_proveedor']; ?><br>
+                        <strong>Detalles:</strong> <?php echo $compra['detalles']; ?><br>
+                        <strong>Fecha:</strong> <?php echo $compra['fecha']; ?><br>
+                        <strong>Total:</strong> <?php echo $compra['total']; ?><br>
+                    </li>
                 <?php endforeach; ?>
             </ul>
         <?php else : ?>

@@ -1,12 +1,13 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="css/style.css">
-    <title>Clientes</title>
+    <title>Proveedores</title>
     <style>
-        body {
+           body {
             font-family: 'Poppins', sans-serif;
             color: #31241E;
             background-color: #F6F4F3;
@@ -90,54 +91,55 @@
         }
     </style>
 </head>
+
 <body>
-<header>
-<h1>Empleados</h1>
+    <header>
+        <h1>Proveedores</h1>
     </header>
     <div class="container">
         <div class="btn-container">
-            <a href="agregar_empleado.php" class="btn">Agregar Empleado</a>
-            <a href="eliminar_empleado.php" class="btn">Eliminar Empleado</a>
-            <a href="editar_empleado.php" class="btn">Editar Empleado</a>
+            <a href="agregar_proveedor.php" class="btn">Agregar Proveedor</a>
+            <a href="eliminar_proveedor.php" class="btn">Eliminar Proveedor</a>
+            <a href="editar_proveedor.php" class="btn">Editar Proveedor</a>
         </div>
 
         <?php
-            include 'conexion.php';
+        include 'conexion.php';
 
-            function leerEmpleados()
-            {
-                $conexion = Conecta();
-                $sql = "SELECT * FROM Empleados";
-                $resultado = mysqli_query($conexion, $sql);
+        function mostrarProveedores()
+        {
+            $conexion = Conecta();
+            $sql = "SELECT * FROM Proveedores";
+            $resultado = mysqli_query($conexion, $sql);
 
-                if ($resultado && mysqli_num_rows($resultado) > 0) {
-                    echo "<h2>Listado de Empleados</h2>";
-                    echo "<table>";
-                    echo "<tr><th>ID</th><th>Nombre</th><th>Apellido</th><th>Email</th><th>Teléfono</th><th>Dirección</th><th>Imagen</th></tr>";
+            if ($resultado && mysqli_num_rows($resultado) > 0) {
+                echo "<h2>Listado de Proveedores</h2>";
+                echo "<table>";
+                echo "<tr><th>ID</th><th>Nombre</th><th>Contacto</th><th>Email</th><th>Teléfono</th><th>Dirección</th></tr>";
 
-                    while ($fila = mysqli_fetch_assoc($resultado)) {
-                        echo "<tr>";
-                        echo "<td>" . $fila['id_empleado'] . "</td>";
-                        echo "<td>" . $fila['nombre_empleado'] . "</td>";
-                        echo "<td>" . $fila['apellido_empleado'] . "</td>";
-                        echo "<td>" . $fila['email'] . "</td>";
-                        echo "<td>" . $fila['telefono'] . "</td>";
-                        echo "<td>" . $fila['direccion'] . "</td>";
-                        echo "<td><img src='" . $fila['imagen'] . "' alt='Imagen de empleado' style='max-width: 100px;'></td>";
-                        echo "</tr>";
-                    }
-                    echo "</table>";
-                } else {
-                    echo "No se encontraron empleados.";
+                while ($fila = mysqli_fetch_assoc($resultado)) {
+                    echo "<tr>";
+                    echo "<td>" . $fila['id_proveedor'] . "</td>";
+                    echo "<td>" . $fila['nombre_proveedor'] . "</td>";
+                    echo "<td>" . $fila['contacto_proveedor'] . "</td>";
+                    echo "<td>" . $fila['email_proveedor'] . "</td>";
+                    echo "<td>" . $fila['telefono_proveedor'] . "</td>";
+                    echo "<td>" . $fila['direccion_proveedor'] . "</td>";
+                    echo "</tr>";
                 }
-
-                Desconectar($conexion);
+                echo "</table>";
+            } else {
+                echo "No se encontraron proveedores.";
             }
 
-            leerEmpleados();
+            Desconectar($conexion);
+        }
+
+        mostrarProveedores();
         ?>
 
         <a href="index.php" class="btn">Menu Principal</a>
     </div>
 </body>
+
 </html>

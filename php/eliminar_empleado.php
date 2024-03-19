@@ -1,11 +1,10 @@
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="css/style.css">
-    <title>Agregar Cliente</title>
+    <title>Eliminar Empleado</title>
     <style>
         body,h1,h2,h3,h4,h5,h6,p,ul,li,button,input,form,label {
             margin: 0;
@@ -110,57 +109,42 @@
         ul li {
             margin-bottom: 20px;
         }
-</style>
+    </style>
+    </style>
+    <script>
+        function confirmarEliminar() {
+            return confirm("¿Está seguro de que desea eliminar este empleado?");
+        }
+    </script>
 </head>
 <body>
-<h1>Agregar Cliente</h1>
+    <h1>Eliminar Empleado</h1>
 
     <?php
     include 'conexion.php';
 
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
-        $nombre = $_POST['nombre'];
-        $apellido = $_POST['apellido'];
-        $email = $_POST['email'];
-        $telefono = $_POST['telefono'];
-        $direccion = $_POST['direccion'];
-        $imagen = $_POST['imagen'];
+        $id_empleado = $_POST['id_empleado'];
 
         $conexion = Conecta();
-        $sql = "INSERT INTO Clientes (nombre_cliente, apellido_cliente, email, telefono, direccion, imagen) VALUES ('$nombre', '$apellido', '$email', '$telefono', '$direccion', '$imagen')";
+        $sql = "DELETE FROM Empleados WHERE id_empleado = $id_empleado";
 
         if (mysqli_query($conexion, $sql)) {
-            echo "Cliente agregado correctamente.";
+            echo "Empleado eliminado correctamente.";
         } else {
-            echo "Error al agregar el cliente: " . mysqli_error($conexion);
+            echo "Error al eliminar el empleado: " . mysqli_error($conexion);
         }
 
         Desconectar($conexion);
     }
     ?>
 
-    <form method="post">
-        <label for="nombre">Nombre:</label>
-        <input type="text" id="nombre" name="nombre" required><br><br>
-
-        <label for="apellido">Apellido:</label>
-        <input type="text" id="apellido" name="apellido" required><br><br>
-
-        <label for="email">Correo Electrónico:</label>
-        <input type="email" id="email" name="email"><br><br>
-
-        <label for="telefono">Teléfono:</label>
-        <input type="text" id="telefono" name="telefono"><br><br>
-
-        <label for="direccion">Dirección:</label>
-        <textarea id="direccion" name="direccion"></textarea><br><br>
-
-        <label for="imagen">URL de la Imagen:</label>
-        <input type="text" id="imagen" name="imagen"><br><br>
-
-        <input type="submit" value="Guardar">
+    <form method="post" onsubmit="return confirmarEliminar()">
+        <label for="id_empleado">ID del Empleado a Eliminar:</label>
+        <input type="text" id="id_empleado" name="id_empleado" required><br><br>
+        <input type="submit" value="Eliminar">
     </form>
 
-    <a href="clientes.php"><button>Volver a Clientes</button></a>
+    <a href="empleados.php"><button>Volver a Empleados</button></a>
 </body>
 </html>

@@ -5,9 +5,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="css/style.css">
-    <title>Agregar Cliente</title>
+    <title>Agregar Proveedor</title>
     <style>
-        body,h1,h2,h3,h4,h5,h6,p,ul,li,button,input,form,label {
+       body,h1,h2,h3,h4,h5,h6,p,ul,li,button,input,form,label {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
@@ -110,29 +110,29 @@
         ul li {
             margin-bottom: 20px;
         }
-</style>
+    </style>
 </head>
+
 <body>
-<h1>Agregar Cliente</h1>
+    <h1>Agregar Proveedor</h1>
 
     <?php
     include 'conexion.php';
 
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
-        $nombre = $_POST['nombre'];
-        $apellido = $_POST['apellido'];
-        $email = $_POST['email'];
-        $telefono = $_POST['telefono'];
-        $direccion = $_POST['direccion'];
-        $imagen = $_POST['imagen'];
+        $nombre_proveedor = $_POST['nombre_proveedor'];
+        $contacto_proveedor = $_POST['contacto_proveedor'];
+        $email_proveedor = $_POST['email_proveedor'];
+        $telefono_proveedor = $_POST['telefono_proveedor'];
+        $direccion_proveedor = $_POST['direccion_proveedor'];
 
         $conexion = Conecta();
-        $sql = "INSERT INTO Clientes (nombre_cliente, apellido_cliente, email, telefono, direccion, imagen) VALUES ('$nombre', '$apellido', '$email', '$telefono', '$direccion', '$imagen')";
+        $sql = "INSERT INTO Proveedores (nombre_proveedor, contacto_proveedor, email_proveedor, telefono_proveedor, direccion_proveedor) VALUES ('$nombre_proveedor', '$contacto_proveedor', '$email_proveedor', '$telefono_proveedor', '$direccion_proveedor')";
 
         if (mysqli_query($conexion, $sql)) {
-            echo "Cliente agregado correctamente.";
+            echo "Proveedor agregado correctamente.";
         } else {
-            echo "Error al agregar el cliente: " . mysqli_error($conexion);
+            echo "Error al agregar el proveedor: " . mysqli_error($conexion);
         }
 
         Desconectar($conexion);
@@ -140,27 +140,25 @@
     ?>
 
     <form method="post">
-        <label for="nombre">Nombre:</label>
-        <input type="text" id="nombre" name="nombre" required><br><br>
+        <label for="nombre_proveedor">Nombre del Proveedor:</label>
+        <input type="text" id="nombre_proveedor" name="nombre_proveedor" required><br><br>
 
-        <label for="apellido">Apellido:</label>
-        <input type="text" id="apellido" name="apellido" required><br><br>
+        <label for="contacto_proveedor">Contacto del Proveedor:</label>
+        <input type="text" id="contacto_proveedor" name="contacto_proveedor" required><br><br>
 
-        <label for="email">Correo Electrónico:</label>
-        <input type="email" id="email" name="email"><br><br>
+        <label for="email_proveedor">Correo Electrónico del Proveedor:</label>
+        <input type="email" id="email_proveedor" name="email_proveedor" required><br><br>
 
-        <label for="telefono">Teléfono:</label>
-        <input type="text" id="telefono" name="telefono"><br><br>
+        <label for="telefono_proveedor">Teléfono del Proveedor:</label>
+        <input type="text" id="telefono_proveedor" name="telefono_proveedor" required><br><br>
 
-        <label for="direccion">Dirección:</label>
-        <textarea id="direccion" name="direccion"></textarea><br><br>
+        <label for="direccion_proveedor">Dirección del Proveedor:</label>
+        <textarea id="direccion_proveedor" name="direccion_proveedor" required></textarea><br><br>
 
-        <label for="imagen">URL de la Imagen:</label>
-        <input type="text" id="imagen" name="imagen"><br><br>
-
-        <input type="submit" value="Guardar">
+        <input type="submit" value="Agregar">
     </form>
 
-    <a href="clientes.php"><button>Volver a Clientes</button></a>
+    <a href="proveedores.php"><button>Volver a proveedores</button></a>
 </body>
+
 </html>
