@@ -92,52 +92,56 @@
 </head>
 <body>
 <header>
-<h1>Empleados</h1>
-    </header>
-    <div class="container">
-        <div class="btn-container">
-            <a href="agregar_empleado.php" class="btn">Agregar Empleado</a>
-            <a href="eliminar_empleado.php" class="btn">Eliminar Empleado</a>
-            <a href="editar_empleado.php" class="btn">Editar Empleado</a>
-        </div>
+<h1>Clientes</h1>
+    
+
 
         <?php
-            include 'conexion.php';
+include 'conexion.php';
 
-            function leerEmpleados()
-            {
-                $conexion = Conecta();
-                $sql = "SELECT * FROM Empleados";
-                $resultado = mysqli_query($conexion, $sql);
+function leerClientes()
+{
+    $conexion = Conecta();
+    $sql = "SELECT * FROM Clientes";
+    $resultado = mysqli_query($conexion, $sql);
 
-                if ($resultado && mysqli_num_rows($resultado) > 0) {
-                    echo "<h2>Listado de Empleados</h2>";
-                    echo "<table>";
-                    echo "<tr><th>ID</th><th>Nombre</th><th>Apellido</th><th>Email</th><th>Teléfono</th><th>Dirección</th><th>Imagen</th></tr>";
+    if ($resultado && mysqli_num_rows($resultado) > 0) {
+        echo "<h2>Listado de Clientes</h2>";
+        echo "<table>";
+        echo "<tr><th>ID</th><th>Nombre</th><th>Apellido</th><th>Email</th><th>Teléfono</th><th>Dirección</th><th>Imagen</th></tr>";
 
-                    while ($fila = mysqli_fetch_assoc($resultado)) {
-                        echo "<tr>";
-                        echo "<td>" . $fila['id_empleado'] . "</td>";
-                        echo "<td>" . $fila['nombre_empleado'] . "</td>";
-                        echo "<td>" . $fila['apellido_empleado'] . "</td>";
-                        echo "<td>" . $fila['email'] . "</td>";
-                        echo "<td>" . $fila['telefono'] . "</td>";
-                        echo "<td>" . $fila['direccion'] . "</td>";
-                        echo "<td><img src='" . $fila['imagen'] . "' alt='Imagen de empleado' style='max-width: 100px;'></td>";
-                        echo "</tr>";
-                    }
-                    echo "</table>";
-                } else {
-                    echo "No se encontraron empleados.";
-                }
+        while ($fila = mysqli_fetch_assoc($resultado)) {
+            echo "<tr>";
+            echo "<td>" . $fila['id_cliente'] . "</td>";
+            echo "<td>" . $fila['nombre_cliente'] . "</td>";
+            echo "<td>" . $fila['apellido_cliente'] . "</td>";
+            echo "<td>" . $fila['email'] . "</td>";
+            echo "<td>" . $fila['telefono'] . "</td>";
+            echo "<td>" . $fila['direccion'] . "</td>";
+            echo "<td><img src='" . $fila['imagen'] . "' alt='Imagen de cliente' style='max-width: 100px;'></td>";
+            echo "</tr>";
+        }
+        echo "</table>";
+    } else {
+        echo "No se encontraron clientes.";
+    }
 
-                Desconectar($conexion);
-            }
+    Desconectar($conexion);
+}
 
-            leerEmpleados();
-        ?>
+?>
+</header>
+    <div class="container">
+        <div class="btn-container">
+            <a href="agregar_clientes.php" class="btn">Agregar Clientes</a>
+            <a href="eliminar_clientes.php" class="btn">Eliminar Clientes</a>
+            <a href="editar_clientes.php" class="btn">Editar Clientes</a>
+        </div>
 
-        <a href="index.php" class="btn">Menu Principal</a>
+        <?php leerClientes(); ?>
+
+        <a href="index.php" class="btn">Menú Principal</a>
     </div>
 </body>
+
 </html>

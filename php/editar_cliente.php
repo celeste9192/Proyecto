@@ -117,23 +117,9 @@
 <h1>Editar Cliente</h1>
 
 <?php
-include 'conexion.php';
+    include 'conexion.php';
 
-if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['cliente_id'])) {
-    $cliente_id = $_POST['cliente_id'];
-
-    $conexion = Conecta();
-    $sql = "SELECT * FROM Clientes WHERE id_cliente = $cliente_id";
-    $resultado = mysqli_query($conexion, $sql);
-
-    if ($resultado && mysqli_num_rows($resultado) > 0) {
-        $cliente = mysqli_fetch_assoc($resultado);
-    } else {
-        echo "No se encontró ningún cliente con el ID proporcionado.";
-        exit; 
-    }
-
-    if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['actualizar'])) {
+    if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $nombre = $_POST['nombre'];
         $apellido = $_POST['apellido'];
         $email = $_POST['email'];
@@ -141,52 +127,42 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['cliente_id'])) {
         $direccion = $_POST['direccion'];
         $imagen = $_POST['imagen'];
 
-        $sql = "UPDATE Clientes SET nombre_cliente='$nombre', apellido_cliente='$apellido', email='$email', telefono='$telefono', direccion='$direccion', imagen='$imagen' WHERE id_cliente = $cliente_id";
+        $conexion = Conecta();
+        $sql = "INSERT INTO clientes (nombre_cliente, apellido_cliente, email, telefono, direccion, imagen) VALUES ('$nombre', '$apellido', '$email', '$telefono', '$direccion', '$imagen')";
 
         if (mysqli_query($conexion, $sql)) {
-            echo "Cliente actualizado correctamente.";
+            echo "Cliente agregado correctamente.";
         } else {
-            echo "Error al actualizar el cliente: " . mysqli_error($conexion);
+            echo "Error al agregar el cliente: " . mysqli_error($conexion);
         }
+
+        Desconectar($conexion);
     }
+    ?>
 
-    Desconectar($conexion);
-}
-?>
-
-<form method="post">
-    <label for="cliente_id">ID del Cliente a Editar:</label>
-    <input type="number" id="cliente_id" name="cliente_id" required><br><br>
-
-    <input type="submit" value="Buscar">
-</form>
-
-<?php if (isset($cliente)) : ?>
     <form method="post">
-        <input type="hidden" name="cliente_id" value="<?php echo $cliente['id_cliente']; ?>">
-
         <label for="nombre">Nombre:</label>
-        <input type="text" id="nombre" name="nombre" value="<?php echo $cliente['nombre_cliente']; ?>" required><br><br>
+        <input type="text" id="nombre" name="nombre" required><br><br>
 
         <label for="apellido">Apellido:</label>
-        <input type="text" id="apellido" name="apellido" value="<?php echo $cliente['apellido_cliente']; ?>" required><br><br>
+        <input type="text" id="apellido" name="apellido" required><br><br>
 
         <label for="email">Correo Electrónico:</label>
-        <input type="email" id="email" name="email" value="<?php echo $cliente['email']; ?>"><br><br>
+        <input type="email" id="email" name="email"><br><br>
 
         <label for="telefono">Teléfono:</label>
-        <input type="text" id="telefono" name="telefono" value="<?php echo $cliente['telefono']; ?>"><br><br>
+        <input type="text" id="telefono" name="telefono"><br><br>
 
         <label for="direccion">Dirección:</label>
-        <textarea id="direccion" name="direccion"><?php echo $cliente['direccion']; ?></textarea><br><br>
+        <textarea id="direccion" name="direccion"></textarea><br><br>
 
         <label for="imagen">URL de la Imagen:</label>
-        <input type="text" id="imagen" name="imagen" value="<?php echo $cliente['imagen']; ?>"><br><br>
+        <input type="text" id="imagen" name="imagen"><br><br>
 
-        <input type="submit" name="actualizar" value="Actualizar">
+        <input type="submit" value="Guardar">
     </form>
-<?php endif; ?>
 
-<a href="clientes.php"><button>Volver a Clientes</button></a>
+    <a href="clientes.php"><button>Volver a Clientes</button></a>
 </body>
+
 </html>

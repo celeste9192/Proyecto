@@ -5,7 +5,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET['id'])) {
     $id_resena_producto = $_GET['id'];
 
     $conexion = Conecta();
-    $consulta = "DELETE FROM ResenasProducto WHERE id_resena_producto='$id_resena_producto'";
+    $consulta = "DELETE FROM ReseñasProducto WHERE id_resena_producto='$id_resena_producto'";
 
     if (mysqli_query($conexion, $consulta)) {
         header("Location: resenas_productos.php");

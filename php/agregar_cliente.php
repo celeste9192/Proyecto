@@ -114,30 +114,29 @@
 </head>
 <body>
 <h1>Agregar Cliente</h1>
+<?php
+include 'conexion.php';
 
-    <?php
-    include 'conexion.php';
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $nombre = $_POST['nombre'];
+    $apellido = $_POST['apellido'];
+    $email = $_POST['email'];
+    $telefono = $_POST['telefono'];
+    $direccion = $_POST['direccion'];
+    $imagen = $_POST['imagen'];
 
-    if ($_SERVER["REQUEST_METHOD"] == "POST") {
-        $nombre = $_POST['nombre'];
-        $apellido = $_POST['apellido'];
-        $email = $_POST['email'];
-        $telefono = $_POST['telefono'];
-        $direccion = $_POST['direccion'];
-        $imagen = $_POST['imagen'];
+    $conexion = Conecta();
+    $sql = "INSERT INTO clientes (nombre_cliente, apellido_cliente, email, telefono, direccion, imagen) VALUES ('$nombre', '$apellido', '$email', '$telefono', '$direccion', '$imagen')";
 
-        $conexion = Conecta();
-        $sql = "INSERT INTO Clientes (nombre_cliente, apellido_cliente, email, telefono, direccion, imagen) VALUES ('$nombre', '$apellido', '$email', '$telefono', '$direccion', '$imagen')";
-
-        if (mysqli_query($conexion, $sql)) {
-            echo "Cliente agregado correctamente.";
-        } else {
-            echo "Error al agregar el cliente: " . mysqli_error($conexion);
-        }
-
-        Desconectar($conexion);
+    if (mysqli_query($conexion, $sql)) {
+        echo "Cliente agregado correctamente.";
+    } else {
+        echo "Error al agregar el cliente: " . mysqli_error($conexion);
     }
-    ?>
+
+    Desconectar($conexion);
+}
+?>
 
     <form method="post">
         <label for="nombre">Nombre:</label>

@@ -6,15 +6,24 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $id_cliente = $_POST['id_cliente'];
     $calificacion = $_POST['calificacion'];
     $comentario = $_POST['comentario'];
+    $fecha = date('Y-m-d'); 
 
     $conexion = Conecta();
-    $consulta = "INSERT INTO ResenasProducto (id_producto, id_cliente, calificacion, comentario) VALUES ('$id_producto', '$id_cliente', '$calificacion', '$comentario')";
+    $consulta_cliente = "SELECT * FROM Clientes WHERE id_cliente = '$id_cliente'";
+    $resultado_cliente = mysqli_query($conexion, $consulta_cliente);
+
+    if (mysqli_num_rows($resultado_cliente) == 0) {
+        echo "Error: El cliente con ID $id_cliente no existe.";
+        exit();
+    }
+
+    $consulta = "INSERT INTO ReseñasProducto (id_producto, id_cliente, calificacion, comentario, fecha) VALUES ('$id_producto', '$id_cliente', '$calificacion', '$comentario', '$fecha')";
 
     if (mysqli_query($conexion, $consulta)) {
         header("Location: resenas_productos.php");
         exit();
     } else {
-        echo "Error: " . $consulta . "<br>" . mysqli_error($conexion);
+        echo "Error al agregar la reseña: " . mysqli_error($conexion);
     }
 
     Desconectar($conexion);
@@ -135,7 +144,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     </style>
 </head>
 <body>
-    <h1>Agregar Reseña de Producto</h1>
+<h1>Agregar Reseña de Producto</h1>
     <form method="post">
         <label for="id_producto">ID Producto:</label>
         <input type="number" id="id_producto" name="id_producto" required><br><br>
@@ -149,6 +158,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <label for="comentario">Comentario:</label>
         <textarea id="comentario" name="comentario" required></textarea><br><br>
 
+        <input type="hidden" name="fecha" value="<?php echo date('Y-m-d'); ?>">
+        
         <input type="submit" value="Agregar Reseña">
     </form>
     <a href="resenas_productos.php">Volver a la lista de reseñas</a>

@@ -7,9 +7,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $id_cliente = $_POST['id_cliente'];
     $calificacion = $_POST['calificacion'];
     $comentario = $_POST['comentario'];
+    $fecha = $_POST['fecha'];
 
     $conexion = Conecta();
-    $consulta = "UPDATE ResenasProducto SET id_producto='$id_producto', id_cliente='$id_cliente', calificacion='$calificacion', comentario='$comentario' WHERE id_resena_producto='$id_resena_producto'";
+    $consulta = "INSERT INTO ReseñasProducto (id_producto, id_cliente, calificacion, comentario, fecha) VALUES ('$id_producto', '$id_cliente', '$calificacion', '$comentario', '$fecha')";
 
     if (mysqli_query($conexion, $consulta)) {
         header("Location: resenas_productos.php");
@@ -166,6 +167,9 @@ if (isset($_GET['id'])) {
 
         <label for="comentario">Comentario:</label>
         <textarea id="comentario" name="comentario" required><?php echo $resena['comentario']; ?></textarea><br><br>
+
+        <label for="fecha">Fecha:</label>
+        <input type="date" id="fecha" name="fecha" required><br><br>
 
         <input type="submit" value="Guardar Cambios">
     </form>

@@ -4,7 +4,7 @@ include 'conexion.php';
 function obtenerResenasProductos()
 {
     $conexion = Conecta();
-    $consulta = "SELECT * FROM ResenasProducto";
+    $consulta = "SELECT * FROM ReseñasProducto";
     $resultado = mysqli_query($conexion, $consulta);
 
     $resenas = array();
