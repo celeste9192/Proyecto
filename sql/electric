@@ -134,13 +134,3 @@ CREATE TABLE ReabastecimientoStock (
     FOREIGN KEY (id_producto) REFERENCES Productos(id_producto)
 );
 
-CREATE TABLE ResenasProducto (
-    id_resena_producto INT AUTO_INCREMENT PRIMARY KEY,
-    id_producto INT,
-    id_cliente INT,
-    calificacion INT,
-    comentario TEXT,
-    fecha TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (id_producto) REFERENCES Productos(id_producto),
-    FOREIGN KEY (id_cliente) REFERENCES Clientes(id_cliente)
-);
