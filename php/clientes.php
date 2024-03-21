@@ -133,9 +133,9 @@ function leerClientes()
 </header>
     <div class="container">
         <div class="btn-container">
-            <a href="agregar_clientes.php" class="btn">Agregar Clientes</a>
-            <a href="eliminar_clientes.php" class="btn">Eliminar Clientes</a>
-            <a href="editar_clientes.php" class="btn">Editar Clientes</a>
+            <a href="agregar_cliente.php" class="btn">Agregar Clientes</a>
+            <a href="eliminar_cliente.php" class="btn">Eliminar Clientes</a>
+            <a href="editar_cliente.php" class="btn">Editar Clientes</a>
         </div>
 
         <?php leerClientes(); ?>
