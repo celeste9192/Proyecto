@@ -1,38 +1,13 @@
-<?php
-include 'conexion.php';
-
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    if (isset($_POST['nombre_categoria']) && !empty($_POST['nombre_categoria'])) {
-        $nombre_categoria = $_POST['nombre_categoria'];
-
-        $conexion = Conecta();
-        $consulta = "INSERT INTO Categorias (nombre_categoria) VALUES ('$nombre_categoria')";
-        $resultado = mysqli_query($conexion, $consulta);
-
-        if ($resultado) {
-            $mensaje = "La categoría se agregó correctamente.";
-        } else {
-            $error = "Error al agregar la categoría: " . mysqli_error($conexion);
-        }
-
-        Desconectar($conexion);
-    } else {
-        $error = "Por favor, ingrese el nombre de la categoría.";
-    }
-}
-?>
-
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="css/style.css">
-    <title>Agregar Categoría</title>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <title>Agregar Reabastecimiento</title>
     <style>
-        
-        body,h1,h2,h3,h4,h5,h6,p,ul,li,button,input,form,label {
+           body,h1,h2,h3,h4,h5,h6,p,ul,li,button,input,form,label {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
@@ -134,48 +109,66 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         ul li {
             margin-bottom: 20px;
-        }
+        } 
     </style>
 </head>
+
 <body>
-    <header>
-    <h1>Agregar Categoría</h1>
-    </header>
-    <div class="container">
-        <form id="agregarCategoriaForm" method="post">
-            <label for="nombre_categoria">Nombre de la Categoría:</label><br>
-            <input type="text" id="nombre_categoria" name="nombre_categoria"><br><br>
-            <input type="submit" value="Agregar Categoría">
-        </form>
+<h1>Agregar Reabastecimiento</h1>
 
-        <div id="mensaje">
-            <?php if (isset($mensaje)) : ?>
-                <p><?php echo $mensaje; ?></p>
-            <?php endif; ?>
+<?php
+include 'conexion.php';
 
-            <?php if (isset($error)) : ?>
-                <p><?php echo $error; ?></p>
-            <?php endif; ?>
-        </div>
-    </div>
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $id_producto = $_POST['id_producto'];
+    $cantidad = $_POST['cantidad'];
     
-    <a href="categorias.php"><button>Volver a Categorias</button></a>
+    $estado = isset($_POST['estado']) ? $_POST['estado'] : 'Pendiente';
 
-    <script>
-        $(document).ready(function() {
-            $('#agregarCategoriaForm').submit(function(e) {
-                e.preventDefault(); 
+    $conexion = Conecta();
+    $sql = "INSERT INTO ReabastecimientoStock (id_producto, cantidad, estado) VALUES ('$id_producto', '$cantidad', '$estado')";
 
-                var formData = $(this).serialize(); 
-                $.ajax({
-                    type: 'POST',
-                    url: 'agregar_categoria.php',
-                    data: formData,
-                    success: function(response) {
-                        $('#mensaje').html(response);
-                });
-            });
-        });
-    </script>
+    if (mysqli_query($conexion, $sql)) {
+        echo "Reabastecimiento agregado correctamente.";
+    } else {
+        echo "Error al agregar el reabastecimiento: " . mysqli_error($conexion);
+    }
+
+    Desconectar($conexion);
+}
+?>
+
+<form method="post">
+    <label for="producto">Producto:</label>
+    <select id="producto" name="id_producto" required>
+        <option value="">Seleccionar producto</option>
+        <?php
+        
+        $conexion = Conecta();
+        $sql = "SELECT id_producto, nombre_producto FROM Productos";
+        $resultado = mysqli_query($conexion, $sql);
+
+        if ($resultado && mysqli_num_rows($resultado) > 0) {
+            while ($fila = mysqli_fetch_assoc($resultado)) {
+                echo "<option value='" . $fila['id_producto'] . "'>" . $fila['nombre_producto'] . "</option>";
+            }
+        } else {
+            echo "<option value=''>No hay productos disponibles</option>";
+        }
+
+        Desconectar($conexion);
+        ?>
+    </select><br><br>
+
+    <label for="cantidad">Cantidad a Reabastecer:</label>
+    <input type="number" id="cantidad" name="cantidad" required><br><br>
+
+    <input type="hidden" name="estado" value="Pendiente">
+
+    <input type="submit" value="Agregar">
+</form>
+
+<a href="reabastecimiento.php"><button>Volver a Reabastecimiento</button></a>
 </body>
+
 </html>

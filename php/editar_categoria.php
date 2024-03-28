@@ -1,3 +1,43 @@
+<?php
+include 'conexion.php';
+
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['categoria_id'])) {
+    $categoria_id = $_POST['categoria_id'];
+
+    $conexion = Conecta();
+    $consulta = "SELECT * FROM Categorias WHERE id_categoria = $categoria_id";
+    $resultado = mysqli_query($conexion, $consulta);
+
+    if ($resultado && mysqli_num_rows($resultado) > 0) {
+        $categoria = mysqli_fetch_assoc($resultado);
+
+        if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['actualizar'])) {
+            $nombre_categoria = $_POST['nombre_categoria'];
+
+            $consulta_actualizar = "UPDATE Categorias SET nombre_categoria='$nombre_categoria' WHERE id_categoria = $categoria_id";
+
+            if (mysqli_query($conexion, $consulta_actualizar)) {
+                echo "Categoría actualizada correctamente.";
+            } else {
+                echo "Error al actualizar la categoría: " . mysqli_error($conexion);
+            }
+        } else {
+            echo '<form id="actualizarCategoriaForm">
+                    <label for="nombre_categoria">Nombre de la Categoría:</label><br>
+                    <input type="text" id="nombre_categoria" name="nombre_categoria" value="' . $categoria['nombre_categoria'] . '" required><br><br>
+                    <input type="hidden" name="categoria_id" value="' . $categoria_id . '">
+                    <input type="hidden" name="actualizar" value="true">
+                    <input type="submit" value="Actualizar Categoría">
+                </form>';
+        }
+    } else {
+        echo "No se encontró ninguna categoría con el ID proporcionado.";
+    }
+
+    Desconectar($conexion);
+}
+?>
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -112,60 +152,52 @@
     </style>
 </head>
 <body>
-    <header>
-        <h1>Editar Categoría</h1>
-        
-    </header>
+<h1>Editar Categoría</h1>
     <div class="container">
-        <form method="post">
+        <form id="buscarCategoriaForm">
             <label for="categoria_id">ID de la Categoría a Editar:</label><br>
             <input type="number" id="categoria_id" name="categoria_id" required><br><br>
             <input type="submit" value="Buscar">
         </form>
 
-        <?php
-        include 'conexion.php';
-
-        if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['categoria_id'])) {
-            $categoria_id = $_POST['categoria_id'];
-
-            $conexion = Conecta();
-            $consulta = "SELECT * FROM Categorias WHERE id_categoria = $categoria_id";
-            $resultado = mysqli_query($conexion, $consulta);
-
-            if ($resultado && mysqli_num_rows($resultado) > 0) {
-                $categoria = mysqli_fetch_assoc($resultado);
-            } else {
-                echo "No se encontró ninguna categoría con el ID proporcionado.";
-                exit;
-            }
-
-            if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['actualizar'])) {
-                $nombre_categoria = $_POST['nombre_categoria'];
-
-                $consulta = "UPDATE Categorias SET nombre_categoria='$nombre_categoria' WHERE id_categoria = $categoria_id";
-
-                if (mysqli_query($conexion, $consulta)) {
-                    echo "Categoría actualizada correctamente.";
-                } else {
-                    echo "Error al actualizar la categoría: " . mysqli_error($conexion);
-                }
-            }
-
-            Desconectar($conexion);
-        }
-        ?>
-
-        <?php if (isset($categoria)) : ?>
-            <form method="post">
-                <label for="nombre_categoria">Nombre de la Categoría:</label><br>
-                <input type="text" id="nombre_categoria" name="nombre_categoria" value="<?php echo $categoria['nombre_categoria']; ?>" required><br><br>
-                <input type="hidden" name="categoria_id" value="<?php echo $categoria_id; ?>">
-                <input type="submit" name="actualizar" value="Actualizar Categoría">
-            </form>
-        <?php endif; ?>
+        <div id="resultadoCategoria"></div>
     </div>
     
     <a href="categorias.php"><button>Volver a Categorias</button></a>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#buscarCategoriaForm').submit(function(event) {
+                event.preventDefault();
+
+                var categoria_id = $('#categoria_id').val();
+
+                $.ajax({
+                    type: 'POST',
+                    url: 'editar_categoria.php',
+                    data: { categoria_id: categoria_id },
+                    success: function(data) {
+                        $('#resultadoCategoria').html(data);
+                    }
+                });
+            });
+
+            $(document).on("submit", "#actualizarCategoriaForm", function(event) {
+                event.preventDefault();
+
+                var formData = $(this).serialize();
+
+                $.ajax({
+                    type: 'POST',
+                    url: 'editar_categoria.php',
+                    data: formData,
+                    success: function(data) {
+                        $('#resultadoCategoria').html(data);
+                    }
+                });
+            });
+        });
+    </script>
 </body>
 </html>
