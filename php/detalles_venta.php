@@ -1,37 +1,10 @@
-<?php
-include 'conexion.php';
-
-function obtenerCategorias()
-{
-    $conexion = Conecta();
-    $consulta = "SELECT * FROM Categorias";
-    $resultado = mysqli_query($conexion, $consulta);
-
-    $categorias = array();
-
-    if ($resultado && mysqli_num_rows($resultado) > 0) {
-        while ($fila = mysqli_fetch_assoc($resultado)) {
-            $categorias[] = $fila;
-        }
-    }
-
-    Desconectar($conexion);
-
-    return $categorias;
-}
-
-$categorias = obtenerCategorias();
-?>
-
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Categorías</title>
+    <title>Detalles de Venta</title>
     <link rel="stylesheet" href="css/style.css">
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <style>
         body {
             font-family: 'Poppins', sans-serif;
@@ -106,32 +79,55 @@ $categorias = obtenerCategorias();
             margin-top: 20px;
         }
     </style>
-    <script>
-        $(document).ready(function() {
-            $.ajax({
-                url: "obtener_categorias.php",
-                method: "GET",
-                success: function(data) {
-                    $("#categorias-container").html(data);
-                }
-            });
-        });
-    </script>
 </head>
-
 <body>
-    <header>
-        <h1>Categorías</h1>
-    </header>
-    <div class="container">
-        <div class="btn-container">
-            <a href="agregar_categoria.php" class="btn">Agregar Categoría</a>
-            <a href="eliminar_categoria.php" class="btn">Eliminar Categoría</a>
-            <a href="editar_categoria.php" class="btn">Editar Categoría</a>
-        </div>
-        <div id="categorias-container"></div>
+<header>
+    <h1>Detalles de Venta</h1>
+</header>
+<div class="container">
+    <div class="btn-container">
+        <a href="agregar_detalle_venta.php" class="btn">Agregar Detalle de Venta</a>
+        <a href="eliminar_detalle_venta.php" class="btn">Eliminar Detalle de Venta</a>
+        <a href="editar_detalle_venta.php" class="btn">Editar Detalle de Venta</a>
     </div>
-    <a href="index.php" class="btn">Menu Principal</a>
-</body>
+    
+    <?php
+    include 'conexion.php';
 
+    function leerDetallesVenta()
+    {
+        $conexion = Conecta();
+        $sql = "SELECT * FROM DetalleVenta";
+        $resultado = mysqli_query($conexion, $sql);
+
+        if ($resultado && mysqli_num_rows($resultado) > 0) {
+            echo "<h2>Listado de Detalles de Venta</h2>";
+            echo "<table>";
+            echo "<tr><th>ID Detalle Venta</th><th>ID Venta</th><th>ID Producto</th><th>Cantidad</th><th>Precio Unitario</th><th>Subtotal</th></tr>";
+
+            while ($fila = mysqli_fetch_assoc($resultado)) {
+                echo "<tr>";
+                echo "<td>" . $fila['id_detalle_venta'] . "</td>";
+                echo "<td>" . $fila['id_venta'] . "</td>";
+                echo "<td>" . $fila['id_producto'] . "</td>";
+                echo "<td>" . $fila['cantidad'] . "</td>";
+                echo "<td>" . $fila['precio_unitario'] . "</td>";
+                echo "<td>" . $fila['subtotal'] . "</td>";
+                echo "</tr>";
+            }
+            echo "</table>";
+        } else {
+            echo "No se encontraron detalles de venta.";
+        }
+
+        Desconectar($conexion);
+    }
+
+    leerDetallesVenta();
+    ?>
+    
+    <a href="index.php" class="btn">Menú Principal</a>
+</div>
+</body>
 </html>
+|
