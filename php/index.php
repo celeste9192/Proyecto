@@ -175,6 +175,7 @@ $productos = obtenerProductos();
                 <li><a href="ventas.php">Ventas</a></li>
                 <li><a href="empleados.php">Empleados</a></li>
                 <li><a href="proveedores.php">Proveedores</a></li>
+                <li><a href="reabastecimiento.php">Reabastecimiento</a></li>
                 <li><a href="resenas_productos.php">Reseñas de Productos</a></li>
                 <li><a href="reclamaciones.php">Reclamaciones</a></li>
             </ul>

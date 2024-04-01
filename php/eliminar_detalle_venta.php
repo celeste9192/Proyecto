@@ -1,38 +1,24 @@
-<?php
-include 'conexion.php';
-
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    if (isset($_POST['nombre_categoria']) && !empty($_POST['nombre_categoria'])) {
-        $nombre_categoria = $_POST['nombre_categoria'];
-
-        $conexion = Conecta();
-        $consulta = "INSERT INTO Categorias (nombre_categoria) VALUES ('$nombre_categoria')";
-        $resultado = mysqli_query($conexion, $consulta);
-
-        if ($resultado) {
-            $mensaje = "La categoría se agregó correctamente.";
-        } else {
-            $error = "Error al agregar la categoría: " . mysqli_error($conexion);
-        }
-
-        Desconectar($conexion);
-    } else {
-        $error = "Por favor, ingrese el nombre de la categoría.";
-    }
-}
-?>
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="css/style.css">
-    <title>Agregar Categoría</title>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <title>Eliminar Detalle de Venta</title>
     <style>
-        
-        body,h1,h2,h3,h4,h5,h6,p,ul,li,button,input,form,label {
+        body,
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6,
+        p,
+        ul,
+        li,
+        button,
+        input,
+        form,
+        label {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
@@ -44,7 +30,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             background-color: #F6F4F3;
         }
 
-        h1,h2,h3,h4,h5,h6 {
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6 {
             font-family: 'Montserrat', sans-serif;
             font-weight: bold;
         }
@@ -138,44 +129,41 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     </style>
 </head>
 <body>
-    <header>
-    <h1>Agregar Categoría</h1>
-    </header>
-    <div class="container">
-        <form id="agregarCategoriaForm" method="post">
-            <label for="nombre_categoria">Nombre de la Categoría:</label><br>
-            <input type="text" id="nombre_categoria" name="nombre_categoria"><br><br>
-            <input type="submit" value="Agregar Categoría">
-        </form>
+<header>
+    <h1>Eliminar Detalle de Venta</h1>
+</header>
+<div class="container">
+    <?php
+    // Verificar si se recibieron datos del formulario
+    if ($_SERVER["REQUEST_METHOD"] == "POST") {
+        include 'conexion.php';
+        
+        // Recibir ID del detalle de venta a eliminar
+        $id_detalle_venta = $_POST['id_detalle_venta'];
 
-        <div id="mensaje">
-            <?php if (isset($mensaje)) : ?>
-                <p><?php echo $mensaje; ?></p>
-            <?php endif; ?>
+        // Eliminar el detalle de venta de la base de datos
+        $conexion = Conecta();
+        $sql = "DELETE FROM DetalleVenta WHERE id_detalle_venta='$id_detalle_venta'";
+        
+        if (mysqli_query($conexion, $sql)) {
+            echo "<p>Detalle de venta eliminado correctamente.</p>";
+        } else {
+            echo "Error al eliminar detalle de venta: " . mysqli_error($conexion);
+        }
 
-            <?php if (isset($error)) : ?>
-                <p><?php echo $error; ?></p>
-            <?php endif; ?>
-        </div>
-    </div>
+        Desconectar($conexion);
+    }
+    ?>
     
-    <a href="categorias.php"><button>Volver a Categorias</button></a>
+    <!-- Formulario para eliminar detalle de venta -->
+    <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
+        <label for="id_detalle_venta">ID Detalle Venta:</label>
+        <input type="text" id="id_detalle_venta" name="id_detalle_venta"><br>
 
-    <script>
-        $(document).ready(function() {
-            $('#agregarCategoriaForm').submit(function(e) {
-                e.preventDefault(); 
+        <input type="submit" value="Eliminar Detalle de Venta">
+    </form>
 
-                var formData = $(this).serialize(); 
-                $.ajax({
-                    type: 'POST',
-                    url: 'agregar_categoria.php',
-                    data: formData,
-                    success: function(response) {
-                        $('#mensaje').html(response);
-                });
-            });
-        });
-    </script>
+    <a href="index.php" class="btn">Menú Principal</a>
+</div>
 </body>
 </html>

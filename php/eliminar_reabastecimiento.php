@@ -1,38 +1,13 @@
-<?php
-include 'conexion.php';
-
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    if (isset($_POST['nombre_categoria']) && !empty($_POST['nombre_categoria'])) {
-        $nombre_categoria = $_POST['nombre_categoria'];
-
-        $conexion = Conecta();
-        $consulta = "INSERT INTO Categorias (nombre_categoria) VALUES ('$nombre_categoria')";
-        $resultado = mysqli_query($conexion, $consulta);
-
-        if ($resultado) {
-            $mensaje = "La categoría se agregó correctamente.";
-        } else {
-            $error = "Error al agregar la categoría: " . mysqli_error($conexion);
-        }
-
-        Desconectar($conexion);
-    } else {
-        $error = "Por favor, ingrese el nombre de la categoría.";
-    }
-}
-?>
-
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="css/style.css">
-    <title>Agregar Categoría</title>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <title>Eliminar Reabastecimiento</title>
     <style>
-        
-        body,h1,h2,h3,h4,h5,h6,p,ul,li,button,input,form,label {
+        body,h1,h2,h3,h4,h5,h6,p,ul,li,button,input,form,label,select {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
@@ -95,7 +70,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         input[type="number"],
         input[type="email"],
         input[type="url"],
-        textarea {
+        textarea,
+        select {
             width: 100%;
             padding: 10px;
             margin-bottom: 10px;
@@ -134,48 +110,45 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         ul li {
             margin-bottom: 20px;
-        }
+        } 
     </style>
-</head>
-<body>
-    <header>
-    <h1>Agregar Categoría</h1>
-    </header>
-    <div class="container">
-        <form id="agregarCategoriaForm" method="post">
-            <label for="nombre_categoria">Nombre de la Categoría:</label><br>
-            <input type="text" id="nombre_categoria" name="nombre_categoria"><br><br>
-            <input type="submit" value="Agregar Categoría">
-        </form>
-
-        <div id="mensaje">
-            <?php if (isset($mensaje)) : ?>
-                <p><?php echo $mensaje; ?></p>
-            <?php endif; ?>
-
-            <?php if (isset($error)) : ?>
-                <p><?php echo $error; ?></p>
-            <?php endif; ?>
-        </div>
-    </div>
-    
-    <a href="categorias.php"><button>Volver a Categorias</button></a>
-
     <script>
-        $(document).ready(function() {
-            $('#agregarCategoriaForm').submit(function(e) {
-                e.preventDefault(); 
-
-                var formData = $(this).serialize(); 
-                $.ajax({
-                    type: 'POST',
-                    url: 'agregar_categoria.php',
-                    data: formData,
-                    success: function(response) {
-                        $('#mensaje').html(response);
-                });
-            });
-        });
+        function confirmarEliminar() {
+            return confirm("¿Está seguro de que desea eliminar este reabastecimiento?");
+        }
     </script>
+</head>
+
+<body>
+
+    <h1>Eliminar Reabastecimiento</h1>
+
+    <?php
+    include 'conexion.php';
+
+    if ($_SERVER["REQUEST_METHOD"] == "POST") {
+        $id_reabastecimiento = $_POST['id_reabastecimiento'];
+
+        $conexion = Conecta();
+        $sql = "DELETE FROM Reabastecimientostock WHERE id_reabastecimiento = $id_reabastecimiento";
+
+        if (mysqli_query($conexion, $sql)) {
+            echo "Reabastecimiento eliminado correctamente.";
+        } else {
+            echo "Error al eliminar el reabastecimiento: " . mysqli_error($conexion);
+        }
+
+        Desconectar($conexion);
+    }
+    ?>
+
+    <form method="post" onsubmit="return confirmarEliminar()">
+        <label for="id_reabastecimiento">ID del Reabastecimiento a Eliminar:</label>
+        <input type="text" id="id_reabastecimiento" name="id_reabastecimiento" required><br><br>
+        <input type="submit" value="Eliminar">
+    </form>
+
+    <a href="reabastecimiento.php"><button>Volver a Reabastecimiento</button></a>
 </body>
+
 </html>

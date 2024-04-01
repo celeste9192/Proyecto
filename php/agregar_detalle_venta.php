@@ -1,37 +1,11 @@
-<?php
-include 'conexion.php';
-
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    if (isset($_POST['nombre_categoria']) && !empty($_POST['nombre_categoria'])) {
-        $nombre_categoria = $_POST['nombre_categoria'];
-
-        $conexion = Conecta();
-        $consulta = "INSERT INTO Categorias (nombre_categoria) VALUES ('$nombre_categoria')";
-        $resultado = mysqli_query($conexion, $consulta);
-
-        if ($resultado) {
-            $mensaje = "La categoría se agregó correctamente.";
-        } else {
-            $error = "Error al agregar la categoría: " . mysqli_error($conexion);
-        }
-
-        Desconectar($conexion);
-    } else {
-        $error = "Por favor, ingrese el nombre de la categoría.";
-    }
-}
-?>
-
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="css/style.css">
-    <title>Agregar Categoría</title>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <title>Agregar Detalle de Venta</title>
     <style>
-        
         body,h1,h2,h3,h4,h5,h6,p,ul,li,button,input,form,label {
             margin: 0;
             padding: 0;
@@ -137,45 +111,57 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
     </style>
 </head>
+
 <body>
     <header>
-    <h1>Agregar Categoría</h1>
+        <h1>Agregar Detalle de Venta</h1>
     </header>
     <div class="container">
-        <form id="agregarCategoriaForm" method="post">
-            <label for="nombre_categoria">Nombre de la Categoría:</label><br>
-            <input type="text" id="nombre_categoria" name="nombre_categoria"><br><br>
-            <input type="submit" value="Agregar Categoría">
+        <?php
+        // Verificar si se recibieron datos del formulario
+        if ($_SERVER["REQUEST_METHOD"] == "POST") {
+            include 'conexion.php';
+
+            // Recibir datos del formulario
+            $id_venta = $_POST['id_venta'];
+            $id_producto = $_POST['id_producto'];
+            $cantidad = $_POST['cantidad'];
+            $precio_unitario = $_POST['precio_unitario'];
+            $subtotal = $cantidad * $precio_unitario;
+
+            // Insertar el detalle de venta en la base de datos
+            $conexion = Conecta();
+            $sql = "INSERT INTO DetalleVenta (id_venta, id_producto, cantidad, precio_unitario, subtotal) VALUES ('$id_venta', '$id_producto', '$cantidad', '$precio_unitario', '$subtotal')";
+
+            if (mysqli_query($conexion, $sql)) {
+                echo "<p>Detalle de venta agregado correctamente.</p>";
+            } else {
+                echo "Error al agregar detalle de venta: " . mysqli_error($conexion);
+            }
+
+            Desconectar($conexion);
+        }
+        ?>
+
+        <!-- Formulario para agregar detalle de venta -->
+        <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
+            <label for="id_venta">ID Venta:</label>
+            <input type="text" id="id_venta" name="id_venta"><br>
+
+            <label for="id_producto">ID Producto:</label>
+            <input type="text" id="id_producto" name="id_producto"><br>
+
+            <label for="cantidad">Cantidad:</label>
+            <input type="text" id="cantidad" name="cantidad"><br>
+
+            <label for="precio_unitario">Precio Unitario:</label>
+            <input type="text" id="precio_unitario" name="precio_unitario"><br>
+
+            <input type="submit" value="Agregar Detalle de Venta">
         </form>
 
-        <div id="mensaje">
-            <?php if (isset($mensaje)) : ?>
-                <p><?php echo $mensaje; ?></p>
-            <?php endif; ?>
-
-            <?php if (isset($error)) : ?>
-                <p><?php echo $error; ?></p>
-            <?php endif; ?>
-        </div>
+        <a href="index.php" class="btn">Menú Principal</a>
     </div>
-    
-    <a href="categorias.php"><button>Volver a Categorias</button></a>
-
-    <script>
-        $(document).ready(function() {
-            $('#agregarCategoriaForm').submit(function(e) {
-                e.preventDefault(); 
-
-                var formData = $(this).serialize(); 
-                $.ajax({
-                    type: 'POST',
-                    url: 'agregar_categoria.php',
-                    data: formData,
-                    success: function(response) {
-                        $('#mensaje').html(response);
-                });
-            });
-        });
-    </script>
 </body>
+
 </html>
