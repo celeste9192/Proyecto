@@ -144,7 +144,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $total = $_POST['total'];
 
     $conexion = Conecta();
-    $consulta = "INSERT INTO Compras (id_proveedor, detalles, fecha, total) VALUES ('$id_proveedor', '$detalles', '$fecha', '$total')";
+    $consulta = "INSERT INTO Compras (id_proveedor, detalles, fecha_compra, total_compra) VALUES ('$id_proveedor', '$detalles', '$fecha', '$total')";
 
     if (mysqli_query($conexion, $consulta)) {
         $mensaje = "La compra se agregó correctamente.";

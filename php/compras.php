@@ -126,8 +126,8 @@ $compras = obtenerCompras();
                         <strong>ID de Compra:</strong> <?php echo $compra['id_compra']; ?><br>
                         <strong>ID de Proveedor:</strong> <?php echo $compra['id_proveedor']; ?><br>
                         <strong>Detalles:</strong> <?php echo $compra['detalles']; ?><br>
-                        <strong>Fecha:</strong> <?php echo $compra['fecha']; ?><br>
-                        <strong>Total:</strong> <?php echo $compra['total']; ?><br>
+                        <strong>Fecha:</strong> <?php echo $compra['fecha_compra']; ?><br>
+                        <strong>Total:</strong> <?php echo $compra['total_compra']; ?><br>
                     </li>
                 <?php endforeach; ?>
             </ul>
