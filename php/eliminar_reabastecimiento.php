@@ -124,7 +124,7 @@
     <h1>Eliminar Reabastecimiento</h1>
 
     <?php
-    include 'conexion.php';
+    include '../DAL/conexion.php';
 
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $id_reabastecimiento = $_POST['id_reabastecimiento'];

@@ -101,7 +101,7 @@
         </div>
 
         <?php
-            include 'conexion.php';
+            include '../DAL/conexion.php';
 
             function leerEmpleados()
             {

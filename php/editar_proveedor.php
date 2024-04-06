@@ -116,7 +116,7 @@
     <h1>Editar Proveedor</h1>
 
     <?php
-    include 'conexion.php';
+    include '../DAL/conexion.php';
 
     if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['proveedor_id'])) {
         $proveedor_id = $_POST['proveedor_id'];

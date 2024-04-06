@@ -117,7 +117,7 @@
 <h1>Editar Cliente</h1>
 
 <?php
-    include 'conexion.php';
+    include '../DAL/conexion.php';
 
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $nombre = $_POST['nombre'];

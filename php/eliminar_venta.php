@@ -140,7 +140,7 @@
     <h1>Eliminar Venta</h1>
 
     <?php
-    include 'conexion.php';
+    include '../DAL/conexion.php';
 
     if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['id_venta'])) {
         $id_venta = $_POST['id_venta'];

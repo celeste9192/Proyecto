@@ -140,7 +140,7 @@
     <h1>Eliminar Orden</h1>
 
     <?php
-    include 'conexion.php';
+    include '../DAL/conexion.php';
 
     if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['id_evento'])) {
         $id_evento = $_POST['id_evento'];

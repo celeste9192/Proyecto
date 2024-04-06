@@ -117,7 +117,7 @@
     <h1>Editar Empleado</h1>
 
     <?php
-    include 'conexion.php';
+   include '../DAL/conexion.php';
 
     if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['empleado_id'])) {
         $empleado_id = $_POST['empleado_id'];

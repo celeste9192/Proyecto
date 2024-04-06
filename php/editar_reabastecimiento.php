@@ -130,7 +130,7 @@
     </form>
 
     <?php
-    include 'conexion.php';
+    include '../DAL/conexion.php';
 
     if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET['id_reabastecimiento'])) {
         $id_reabastecimiento = $_GET['id_reabastecimiento'];

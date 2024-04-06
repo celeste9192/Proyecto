@@ -134,7 +134,7 @@
 <body>
 
 <?php
-include 'conexion.php';
+include '../DAL/conexion.php';
 
 $conexion = Conecta();
 

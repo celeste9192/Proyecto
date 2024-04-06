@@ -1,5 +1,5 @@
 <?php
-include 'conexion.php';
+include '../DAL/conexion.php';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $id_resena_producto = $_POST['id_resena_producto'];

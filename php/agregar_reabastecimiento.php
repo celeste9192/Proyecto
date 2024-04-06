@@ -117,7 +117,7 @@
 <h1>Agregar Reabastecimiento</h1>
 
 <?php
-include 'conexion.php';
+include '../DAL/conexion.php';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $id_producto = $_POST['id_producto'];

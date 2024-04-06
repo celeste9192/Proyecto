@@ -138,7 +138,7 @@
         <?php
         // Verificar si se recibieron datos del formulario
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
-            include 'conexion.php';
+            include '../DAL/conexion.php';
 
             // Recibir datos del formulario
             $id_detalle_venta = $_POST['id_detalle_venta'];

@@ -135,7 +135,7 @@
 <h1>Editar Carrito</h1>
 
 <?php
-include 'conexion.php';
+include '../DAL/conexion.php';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['id_carrito'])) {
     $id_carrito = $_POST['id_carrito'];

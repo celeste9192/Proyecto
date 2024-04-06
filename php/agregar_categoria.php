@@ -1,5 +1,5 @@
 <?php
-include 'conexion.php';
+include '../DAL/conexion.php';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (isset($_POST['nombre_categoria']) && !empty($_POST['nombre_categoria'])) {

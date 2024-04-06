@@ -123,7 +123,7 @@
     <h1>Eliminar Proveedor</h1>
 
     <?php
-    include 'conexion.php';
+    include '../DAL/conexion.php';
 
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $id_proveedor = $_POST['id_proveedor'];

@@ -136,7 +136,7 @@
     <?php
     // Verificar si se recibieron datos del formulario
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
-        include 'conexion.php';
+        include '../DAL/conexion.php';
         
         // Recibir ID del detalle de venta a eliminar
         $id_detalle_venta = $_POST['id_detalle_venta'];

@@ -115,7 +115,7 @@
     <h1>Agregar Reclamación</h1>
 
     <?php
-    include 'conexion.php';
+    include '../DAL/conexion.php';
 
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $id_cliente = $_POST['id_cliente'];

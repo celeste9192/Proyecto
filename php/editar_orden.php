@@ -135,7 +135,7 @@
 <h1>Editar Orden</h1>
 
 <?php
-include 'conexion.php';
+include '../DAL/conexion.php';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['id_evento'])) {
     $id_venta = $_POST['id_evento'];
