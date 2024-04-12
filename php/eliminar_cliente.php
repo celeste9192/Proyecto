@@ -1,151 +1,89 @@
+<?php
+include '../DAL/conexion.php';
+
+if(isset($_POST['id_cliente']) && !isset($_POST['confirmar_eliminar'])) {
+    $id_cliente = $_POST['id_cliente'];
+
+    $conexion = Conecta();
+    $sql = "SELECT * FROM Clientes WHERE id_cliente = '$id_cliente'";
+    $resultado = mysqli_query($conexion, $sql);
+
+    if(mysqli_num_rows($resultado) > 0) {
+        $cliente = mysqli_fetch_assoc($resultado);
+?>
+
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="css/style.css">
     <title>Eliminar Cliente</title>
-    <style>
-        body,h1,h2,h3,h4,h5,h6,p,ul,li,button,input,form,label {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Poppins', sans-serif;
-            color: #31241E;
-            background-color: #F6F4F3;
-        }
-
-        h1,h2,h3,h4,h5,h6 {
-            font-family: 'Montserrat', sans-serif;
-            font-weight: bold;
-        }
-
-        header {
-            background-color: #F6F4F3;
-            padding: 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-bottom: 1px solid #31241E;
-        }
-
-        h1 {
-            font-size: 36px;
-            text-transform: uppercase;
-        }
-
-        nav ul {
-            list-style-type: none;
-            padding: 0;
-        }
-
-        nav ul li {
-            display: inline-block;
-            margin-right: 20px;
-        }
-
-        nav ul li a {
-            text-decoration: none;
-            font-family: 'Montserrat', sans-serif;
-            font-weight: bold;
-            font-size: 16px;
-            color: #31241E;
-        }
-
-        form {
-            margin-top: 20px;
-        }
-
-        label {
-            display: block;
-            font-weight: bold;
-            margin-bottom: 5px;
-        }
-
-        input[type="text"],
-        input[type="number"],
-        input[type="email"],
-        input[type="url"],
-        textarea {
-            width: 100%;
-            padding: 10px;
-            margin-bottom: 10px;
-            border-radius: 5px;
-            border: 1px solid #D1C8C1;
-        }
-
-        input[type="submit"],
-        button {
-            padding: 10px 20px;
-            border: none;
-            border-radius: 5px;
-            background-color: #D1C8C1;
-            color: #FFF;
-            font-family: 'Montserrat', sans-serif;
-            font-weight: bold;
-            font-size: 18px;
-            cursor: pointer;
-        }
-
-        button {
-            background-color: transparent;
-            color: #31241E;
-        }
-
-        h1 {
-            text-align: center;
-            margin-top: 20px;
-            margin-bottom: 20px;
-        }
-
-        ul {
-            margin-top: 20px;
-            padding-left: 20px;
-        }
-
-        ul li {
-            margin-bottom: 20px;
-        }
-    </style>
-    <script>
-        function confirmarEliminar() {
-            return confirm("¿Está seguro de que desea eliminar este cliente?");
-        }
-    </script>
+    <link rel="stylesheet" href="../css/styles.css"> 
 </head>
-
 <body>
-
+<div class="container">
     <h1>Eliminar Cliente</h1>
+    <p>Cliente:</p>
+    <p>ID: <?php echo $cliente['id_cliente']; ?></p>
+    <p>Nombre: <?php echo $cliente['nombre_cliente']; ?></p>
+    <p>Apellido: <?php echo $cliente['apellido_cliente']; ?></p>
+    <p>Email: <?php echo $cliente['email']; ?></p>
+    <p>Teléfono: <?php echo $cliente['telefono']; ?></p>
+    <p>Dirección: <?php echo $cliente['direccion']; ?></p>
+    <p><button class="eliminar-cliente" onclick="eliminarCliente(<?php echo $cliente['id_cliente']; ?>);">Eliminar Cliente</button></p>
 
-    <?php
-    include '../DAL/conexion.php';
-    if ($_SERVER["REQUEST_METHOD"] == "POST") {
-        $id_cliente = $_POST['id_cliente'];
+</div>
+<a href="clientes.php"><button>Volver a Clientes</button></a>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="../js/clientes.js"></script>
 
-        $conexion = Conecta();
-        $sql = "DELETE FROM Clientes WHERE id_cliente = $id_cliente";
-
-        if (mysqli_query($conexion, $sql)) {
-            echo "Cliente eliminado correctamente.";
-        } else {
-            echo "Error al eliminar el cliente: " . mysqli_error($conexion);
-        }
-
-        Desconectar($conexion);
-    }
-    ?>
-
-<form method="post" onsubmit="return confirmarEliminar()">
-    <label for="id_cliente">ID del Cliente a Eliminar:</label>
-    <input type="text" id="id_cliente" name="id_cliente" required><br><br>
-    <input type="submit" value="Eliminar">
-</form>
-
-    <a href="clientes.php"><button>Volver a Clientes</button></a>
 </body>
 </html>
+
+<?php
+    } else {
+        echo json_encode(array("success" => false, "message" => "Cliente no encontrado."));
+    }
+
+    Desconectar($conexion);
+} elseif(isset($_POST['confirmar_eliminar'])) {
+    $id_cliente = $_POST['id_cliente'];
+
+    $conexion = Conecta();
+    $sql = "DELETE FROM Clientes WHERE id_cliente = '$id_cliente'";
+    $resultado = mysqli_query($conexion, $sql);
+
+    if($resultado) {
+        echo json_encode(array("success" => true, "message" => "Cliente eliminado correctamente."));
+    } else {
+        echo json_encode(array("success" => false, "message" => "Error al eliminar cliente."));
+    }
+
+    Desconectar($conexion);
+} else {
+?>
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eliminar Cliente</title>
+    <link rel="stylesheet" href="../css/styles.css"> 
+</head>
+<body>
+<div class="container">
+    <h1>Eliminar Cliente</h1>
+    <form method="post">
+        <label for="id_cliente">Ingrese el ID del cliente:</label>
+        <input type="text" id="id_cliente" name="id_cliente">
+        <input type="submit" value="Buscar">
+    </form>
+</div>
+<a href="clientes.php"><button>Volver a Clientes</button></a>
+</body>
+</html>
+
+<?php
+}
+?>

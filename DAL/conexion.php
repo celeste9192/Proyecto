@@ -1,4 +1,3 @@
-
 <?php
 
 function Conecta()
@@ -8,12 +7,10 @@ function Conecta()
     $password = "";
     $database = "electric";
 
-
     $conexion = mysqli_connect($server, $user, $password, $database);
 
-
     if (!$conexion) {
-        echo "Ocurrio un problema al establecer la conexión " . mysqli_connect_error();
+        echo "Ocurrió un problema al establecer la conexión " . mysqli_connect_error();
     }
     return $conexion;
 }

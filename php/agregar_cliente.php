@@ -1,123 +1,8 @@
-<!DOCTYPE html>
-<html lang="es">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="css/style.css">
-    <title>Agregar Cliente</title>
-    <style>
-        body,h1,h2,h3,h4,h5,h6,p,ul,li,button,input,form,label {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Poppins', sans-serif;
-            color: #31241E;
-            background-color: #F6F4F3;
-        }
-
-        h1,h2,h3,h4,h5,h6 {
-            font-family: 'Montserrat', sans-serif;
-            font-weight: bold;
-        }
-
-        header {
-            background-color: #F6F4F3;
-            padding: 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-bottom: 1px solid #31241E;
-        }
-
-        h1 {
-            font-size: 36px;
-            text-transform: uppercase;
-        }
-
-        nav ul {
-            list-style-type: none;
-            padding: 0;
-        }
-
-        nav ul li {
-            display: inline-block;
-            margin-right: 20px;
-        }
-
-        nav ul li a {
-            text-decoration: none;
-            font-family: 'Montserrat', sans-serif;
-            font-weight: bold;
-            font-size: 16px;
-            color: #31241E;
-        }
-
-        form {
-            margin-top: 20px;
-        }
-
-        label {
-            display: block;
-            font-weight: bold;
-            margin-bottom: 5px;
-        }
-
-        input[type="text"],
-        input[type="number"],
-        input[type="email"],
-        input[type="url"],
-        textarea {
-            width: 100%;
-            padding: 10px;
-            margin-bottom: 10px;
-            border-radius: 5px;
-            border: 1px solid #D1C8C1;
-        }
-
-        input[type="submit"],
-        button {
-            padding: 10px 20px;
-            border: none;
-            border-radius: 5px;
-            background-color: #D1C8C1;
-            color: #FFF;
-            font-family: 'Montserrat', sans-serif;
-            font-weight: bold;
-            font-size: 18px;
-            cursor: pointer;
-        }
-
-        button {
-            background-color: transparent;
-            color: #31241E;
-        }
-
-        h1 {
-            text-align: center;
-            margin-top: 20px;
-            margin-bottom: 20px;
-        }
-
-        ul {
-            margin-top: 20px;
-            padding-left: 20px;
-        }
-
-        ul li {
-            margin-bottom: 20px;
-        }
-</style>
-</head>
-<body>
-<h1>Agregar Cliente</h1>
 <?php
 include '../DAL/conexion.php';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
+   
     $nombre = $_POST['nombre'];
     $apellido = $_POST['apellido'];
     $email = $_POST['email'];
@@ -125,41 +10,63 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $direccion = $_POST['direccion'];
     $imagen = $_POST['imagen'];
 
+ 
     $conexion = Conecta();
-    $sql = "INSERT INTO clientes (nombre_cliente, apellido_cliente, email, telefono, direccion, imagen) VALUES ('$nombre', '$apellido', '$email', '$telefono', '$direccion', '$imagen')";
 
+    
+    $sql = "INSERT INTO Clientes (nombre_cliente, apellido_cliente, email, telefono, direccion, imagen) VALUES ('$nombre', '$apellido', '$email', '$telefono', '$direccion', '$imagen')";
+
+    
     if (mysqli_query($conexion, $sql)) {
+        
         echo "Cliente agregado correctamente.";
     } else {
+        
         echo "Error al agregar el cliente: " . mysqli_error($conexion);
     }
 
+    
     Desconectar($conexion);
 }
 ?>
 
-    <form method="post">
-        <label for="nombre">Nombre:</label>
-        <input type="text" id="nombre" name="nombre" required><br><br>
 
-        <label for="apellido">Apellido:</label>
-        <input type="text" id="apellido" name="apellido" required><br><br>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agregar Cliente</title>
+    <link rel="stylesheet" href="../css/styles.css">
+    
+</head>
+<body>
+<h1>Agregar Cliente</h1>
+<form id="form-agregar-cliente" method="post">
+    <label for="nombre">Nombre:</label>
+    <input type="text" id="nombre" name="nombre" required><br><br>
 
-        <label for="email">Correo Electrónico:</label>
-        <input type="email" id="email" name="email"><br><br>
+    <label for="apellido">Apellido:</label>
+    <input type="text" id="apellido" name="apellido" required><br><br>
 
-        <label for="telefono">Teléfono:</label>
-        <input type="text" id="telefono" name="telefono"><br><br>
+    <label for="email">Correo Electrónico:</label>
+    <input type="email" id="email" name="email"><br><br>
 
-        <label for="direccion">Dirección:</label>
-        <textarea id="direccion" name="direccion"></textarea><br><br>
+    <label for="telefono">Teléfono:</label>
+    <input type="text" id="telefono" name="telefono"><br><br>
 
-        <label for="imagen">URL de la Imagen:</label>
-        <input type="text" id="imagen" name="imagen"><br><br>
+    <label for="direccion">Dirección:</label>
+    <input type="text" id="direccion" name="direccion"><br><br>
 
-        <input type="submit" value="Guardar">
-    </form>
+    <label for="imagen">URL de la Imagen:</label>
+    <input type="text" id="imagen" name="imagen"><br><br>
 
-    <a href="clientes.php"><button>Volver a Clientes</button></a>
+    <input type="submit" value="Guardar">
+</form>
+
+<a href="clientes.php"><button>Volver a Clientes</button></a>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="../js/clientes.js"></script>
 </body>
 </html>
