@@ -1,37 +1,51 @@
 <?php
 include '../DAL/conexion.php';
 
+// Obtener la lista de categorías disponibles
+$conexion = Conecta();
+$consulta_categorias = "SELECT * FROM Categorias";
+$resultado_categorias = mysqli_query($conexion, $consulta_categorias);
+$categorias = [];
+
+if ($resultado_categorias && mysqli_num_rows($resultado_categorias) > 0) {
+    while ($row = mysqli_fetch_assoc($resultado_categorias)) {
+        $categorias[] = $row;
+    }
+}
+
+// Inicializar la variable del mensaje de éxito
+$mensaje_exito = "";
+
+// Manejar la búsqueda y edición de categoría
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['categoria_id'])) {
     $categoria_id = $_POST['categoria_id'];
 
-    $conexion = Conecta();
     $consulta = "SELECT * FROM Categorias WHERE id_categoria = $categoria_id";
     $resultado = mysqli_query($conexion, $consulta);
 
     if ($resultado && mysqli_num_rows($resultado) > 0) {
         $categoria = mysqli_fetch_assoc($resultado);
-
-        if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['actualizar'])) {
-            $nombre_categoria = $_POST['nombre_categoria'];
-
-            $consulta_actualizar = "UPDATE Categorias SET nombre_categoria='$nombre_categoria' WHERE id_categoria = $categoria_id";
-
-            if (mysqli_query($conexion, $consulta_actualizar)) {
-                echo "Categoría actualizada correctamente.";
-            } else {
-                echo "Error al actualizar la categoría: " . mysqli_error($conexion);
-            }
-        } else {
-            echo '<form id="actualizarCategoriaForm">
-                    <label for="nombre_categoria">Nombre de la Categoría:</label><br>
-                    <input type="text" id="nombre_categoria" name="nombre_categoria" value="' . $categoria['nombre_categoria'] . '" required><br><br>
-                    <input type="hidden" name="categoria_id" value="' . $categoria_id . '">
-                    <input type="hidden" name="actualizar" value="true">
-                    <input type="submit" value="Actualizar Categoría">
-                </form>';
-        }
+        $nombre_categoria = $categoria['nombre_categoria'];
     } else {
-        echo "No se encontró ninguna categoría con el ID proporcionado.";
+        $nombre_categoria = "";
+    }
+} else {
+    $nombre_categoria = "";
+}
+
+// Manejar la actualización de categoría
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['actualizar']) && $_POST['actualizar'] == 'Actualizar Categoría') {
+    $categoria_id = $_POST['categoria_id'];
+    $nombre_categoria = $_POST['nombre_categoria'];
+
+    $conexion = Conecta();
+    $consulta_actualizar = "UPDATE Categorias SET nombre_categoria='$nombre_categoria' WHERE id_categoria = $categoria_id";
+
+    if (mysqli_query($conexion, $consulta_actualizar)) {
+        // Establecer el mensaje de éxito
+        $mensaje_exito = "Categoría actualizada correctamente.";
+    } else {
+        echo "Error al actualizar la categoría: " . mysqli_error($conexion);
     }
 
     Desconectar($conexion);
@@ -43,161 +57,39 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['categoria_id'])) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="../css/styles.css">
     <title>Editar Categoría</title>
-    <style>
-         body,h1,h2,h3,h4,h5,h6,p,ul,li,button,input,form,label {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Poppins', sans-serif;
-            color: #31241E;
-            background-color: #F6F4F3;
-        }
-
-        h1,h2,h3,h4,h5,h6 {
-            font-family: 'Montserrat', sans-serif;
-            font-weight: bold;
-        }
-
-        header {
-            background-color: #F6F4F3;
-            padding: 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-bottom: 1px solid #31241E;
-        }
-
-        h1 {
-            font-size: 36px;
-            text-transform: uppercase;
-        }
-
-        nav ul {
-            list-style-type: none;
-            padding: 0;
-        }
-
-        nav ul li {
-            display: inline-block;
-            margin-right: 20px;
-        }
-
-        nav ul li a {
-            text-decoration: none;
-            font-family: 'Montserrat', sans-serif;
-            font-weight: bold;
-            font-size: 16px;
-            color: #31241E;
-        }
-
-        form {
-            margin-top: 20px;
-        }
-
-        label {
-            display: block;
-            font-weight: bold;
-            margin-bottom: 5px;
-        }
-
-        input[type="text"],
-        input[type="number"],
-        input[type="email"],
-        input[type="url"],
-        textarea {
-            width: 100%;
-            padding: 10px;
-            margin-bottom: 10px;
-            border-radius: 5px;
-            border: 1px solid #D1C8C1;
-        }
-
-        input[type="submit"],
-        button {
-            padding: 10px 20px;
-            border: none;
-            border-radius: 5px;
-            background-color: #D1C8C1;
-            color: #FFF;
-            font-family: 'Montserrat', sans-serif;
-            font-weight: bold;
-            font-size: 18px;
-            cursor: pointer;
-        }
-
-        button {
-            background-color: transparent;
-            color: #31241E;
-        }
-
-        h1 {
-            text-align: center;
-            margin-top: 20px;
-            margin-bottom: 20px;
-        }
-
-        ul {
-            margin-top: 20px;
-            padding-left: 20px;
-        }
-
-        ul li {
-            margin-bottom: 20px;
-        }
-    </style>
 </head>
 <body>
-<h1>Editar Categoría</h1>
+    <h1>Editar Categoría</h1>
     <div class="container">
-        <form id="buscarCategoriaForm">
-            <label for="categoria_id">ID de la Categoría a Editar:</label><br>
-            <input type="number" id="categoria_id" name="categoria_id" required><br><br>
+        <form id="buscarCategoriaForm" action="" method="POST">
+            <label for="categoria_id">Seleccione una categoría:</label><br>
+            <select id="categoria_id" name="categoria_id" required>
+                <option value="">Seleccione una categoría</option>
+                <?php foreach ($categorias as $categoria) : ?>
+                    <option value="<?php echo $categoria['id_categoria']; ?>"><?php echo $categoria['nombre_categoria']; ?></option>
+                <?php endforeach; ?>
+            </select><br><br>
             <input type="submit" value="Buscar">
         </form>
 
-        <div id="resultadoCategoria"></div>
+        <div id="resultadoCategoria" style="display: <?php echo $nombre_categoria ? 'block' : 'none'; ?>;">
+           
+            <form id="editarCategoriaForm" action="" method="POST">
+                <label for="nombre_categoria">Nombre de la Categoría:</label><br>
+                <input type="text" id="nombre_categoria" name="nombre_categoria" value="<?php echo $nombre_categoria; ?>" required><br><br>
+                <input type="hidden" name="categoria_id" value="<?php echo $_POST['categoria_id']; ?>">
+                <?php if ($mensaje_exito) : ?>
+                <p><?php echo $mensaje_exito; ?></p>
+            <?php endif; ?>
+                <input type="submit" name="actualizar" value="Actualizar Categoría">
+            </form>
+        </div>
     </div>
-    
-    <a href="categorias.php"><button>Volver a Categorias</button></a>
 
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script>
-        $(document).ready(function() {
-            $('#buscarCategoriaForm').submit(function(event) {
-                event.preventDefault();
-
-                var categoria_id = $('#categoria_id').val();
-
-                $.ajax({
-                    type: 'POST',
-                    url: 'editar_categoria.php',
-                    data: { categoria_id: categoria_id },
-                    success: function(data) {
-                        $('#resultadoCategoria').html(data);
-                    }
-                });
-            });
-
-            $(document).on("submit", "#actualizarCategoriaForm", function(event) {
-                event.preventDefault();
-
-                var formData = $(this).serialize();
-
-                $.ajax({
-                    type: 'POST',
-                    url: 'editar_categoria.php',
-                    data: formData,
-                    success: function(data) {
-                        $('#resultadoCategoria').html(data);
-                    }
-                });
-            });
-        });
-    </script>
+    <a href="categorias.php"><button>Volver a Categorías</button></a>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="../js/categorias.js"></script>
 </body>
 </html>

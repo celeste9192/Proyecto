@@ -20,7 +20,21 @@ function obtenerCategorias()
     return $categorias;
 }
 
-$categorias = obtenerCategorias();
+function mostrarCategorias()
+{
+    $categorias = obtenerCategorias();
+
+    if (!empty($categorias)) {
+        echo "<h2>Listado de Categorías</h2>";
+        echo "<ul>";
+        foreach ($categorias as $categoria) {
+            echo "<li>ID: " . $categoria['id_categoria'] . " - Nombre: " . $categoria['nombre_categoria'] . "</li>";
+        }
+        echo "</ul>";
+    } else {
+        echo "<p class='no-categories'>No se encontraron categorías.</p>";
+    }
+}
 ?>
 
 <!DOCTYPE html>
@@ -32,80 +46,9 @@ $categorias = obtenerCategorias();
     <title>Categorías</title>
     <link rel="stylesheet" href="css/style.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <style>
-        body {
-            font-family: 'Poppins', sans-serif;
-            color: #31241E;
-            background-color: #F6F4F3;
-            margin: 0;
-            padding: 0;
-        }
+    <link rel="stylesheet" href="../css/styles.css">
 
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-
-        header {
-            background-color: #F6F4F3;
-            padding: 20px;
-            border-bottom: 1px solid #31241E;
-            text-align: center;
-        }
-
-        h1 {
-            font-size: 36px;
-            margin-bottom: 20px;
-            text-transform: uppercase;
-        }
-
-        .btn-container {
-            display: flex;
-            justify-content: center;
-            margin-bottom: 20px;
-        }
-
-        .btn-container a {
-            margin: 0 10px;
-            text-decoration: none;
-        }
-
-        .btn {
-            padding: 10px 20px;
-            border: none;
-            border-radius: 5px;
-            background-color: #D1C8C1;
-            color: #FFF;
-            font-family: 'Montserrat', sans-serif;
-            font-weight: bold;
-            font-size: 18px;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-        }
-
-        .btn:hover {
-            background-color: #31241E;
-        }
-
-        ul {
-            list-style-type: none;
-            padding: 0;
-        }
-
-        li {
-            margin-bottom: 10px;
-            background-color: #FFF;
-            border: 1px solid #D1C8C1;
-            border-radius: 5px;
-            padding: 10px;
-        }
-
-        .no-categories {
-            text-align: center;
-            margin-top: 20px;
-        }
-    </style>
+    
     <script>
         $(document).ready(function() {
             $.ajax({
@@ -129,9 +72,11 @@ $categorias = obtenerCategorias();
             <a href="eliminar_categoria.php" class="btn">Eliminar Categoría</a>
             <a href="editar_categoria.php" class="btn">Editar Categoría</a>
         </div>
-        <div id="categorias-container"></div>
+        <div id="categorias-container">
+            <?php mostrarCategorias(); ?>
+        </div>
     </div>
-    <a href="index.php" class="btn">Menu Principal</a>
+    <a href="index.php" class="btn">Menú Principal</a>
 </body>
 
 </html>
