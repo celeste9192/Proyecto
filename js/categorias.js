@@ -1,19 +1,17 @@
 $(document).ready(function() {
     $("#agregarCategoriaForm").submit(function(event) {
-        event.preventDefault(); // Evita que se envíe el formulario de manera tradicional
-
+        event.preventDefault(); 
         $.ajax({
             type: "POST",
             url: "agregar_categoria.php",
-            data: $(this).serialize(), // Serializa los datos del formulario
+            data: $(this).serialize(), 
             success: function(response) {
                 if (response.indexOf('<!DOCTYPE html>') !== -1) {
                     alert("Categoría guardada correctamente.");
                 } else {
                     alert(response);
                 }
-                $("#agregarCategoriaForm")[0].reset(); // Reinicia el formulario después de enviarlo
-                // Recarga la lista de categorías
+                $("#agregarCategoriaForm")[0].reset(); 
                 $("#categorias-container").load(" #categorias-container");
             }
         });
@@ -34,7 +32,6 @@ function eliminarCategoria(id) {
                     } else {
                         alert(response.message);
                     }
-                    // Recarga la lista de categorías
                     $("#categorias-container").load(" #categorias-container");
                 } else {
                     alert("Error al comunicarse con el servidor.");
