@@ -20,6 +20,7 @@ CREATE TABLE Clientes (
     id_cliente INT AUTO_INCREMENT PRIMARY KEY,
     nombre_cliente VARCHAR(255),
     apellido_cliente VARCHAR(255),
+    rol VARCHAR(50),
     email VARCHAR(255),
     telefono VARCHAR(20),
     direccion TEXT,
