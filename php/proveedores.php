@@ -10,7 +10,16 @@
 
 <body>
     <div class="container">
-        <h1>Proveedores</h1>
+    <h1 id="titulo">Proveedores</h1>
+
+    </header>
+    
+    <div id="btn-container">
+        <a href="agregar_proveedor.php" id="btn-agregar">Agregar Proveedor</a>
+        <a href="eliminar_proveedor.php" id="btn-eliminar">Eliminar Proveedor</a>
+        <a href="editar_proveedor.php" id="btn-editar">Editar Proveedor</a>
+        </div>
+
 
         <?php
         include '../DAL/conexion.php';
@@ -23,7 +32,7 @@
 
             if ($resultado && mysqli_num_rows($resultado) > 0) {
                 echo "<h2>Listado de Proveedores</h2>";
-                echo "<table>";
+                echo "<table id='tabla'>";
                 echo "<tr><th>ID</th><th>Nombre</th><th>Contacto</th><th>Email</th><th>Teléfono</th><th>Dirección</th></tr>";
 
                 while ($fila = mysqli_fetch_assoc($resultado)) {
@@ -47,14 +56,11 @@
         mostrarProveedores();
         ?>
 
-        <div class="btn-container">
-            <a href="agregar_proveedor.php" class="btn">Agregar Proveedor</a>
-            <a href="eliminar_proveedor.php" class="btn">Eliminar Proveedor</a>
-            <a href="editar_proveedor.php" class="btn">Editar Proveedor</a>
-        </div>
 
-        <a href="index.php" class="btn">Menu Principal</a>
-    </div>
+
+        
+    
+    <a href="index.php" id="btn-menu-principal" class="btn">Menu Principal</a>
 </body>
 
 </html>

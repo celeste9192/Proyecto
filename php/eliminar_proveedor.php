@@ -12,11 +12,7 @@
 <body>
     <header>
         <h1>Eliminar Proveedor</h1>
-        <nav>
-            <ul>
-                <li><a href="proveedores.php">Volver a Proveedores</a></li>
-            </ul>
-        </nav>
+        
     </header>
 
     <div class="container">
@@ -51,6 +47,7 @@
             return confirm("¿Está seguro de que desea eliminar este proveedor?");
         }
     </script>
+     <a href="proveedores.php"><button>Volver a proveedores</button></a>
 </body>
 
 </html>
