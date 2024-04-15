@@ -1,6 +1,13 @@
 <?php
 include '../DAL/conexion.php';
 
+session_start();
+
+$rol = 'cliente'; 
+
+if (isset($_SESSION['rol'])) {
+    $rol = $_SESSION['rol'];
+}
 
 function obtenerProductos()
 {
@@ -35,23 +42,36 @@ $productos = obtenerProductos();
     <title>Lista de Productos</title>
     <link rel="stylesheet" href="../css/styles.css">
 </head>
-
 <body>
     <header>
         <h1>Lista de Productos</h1>
+        <div class="top-header">
+            <?php if (isset($_SESSION['rol'])) : ?>
+                <a href="cerrar_sesion.php">Cerrar Sesión</a>
+            <?php else : ?>
+                <a href="inicio_sesion.php">Iniciar Sesión</a>
+            <?php endif; ?>
+        </div>
         <nav>
             <ul>
-                <li><a href="index.php">Catálogo</a></li>
-                <li><a href="promociones.php">Promociones</a></li>
-                <li><a href="clientes.php">Clientes</a></li>
-                <li><a href="categorias.php">Categorías</a></li>
-                <li><a href="compras.php">Compras</a></li>
-                <li><a href="ventas.php">Ventas</a></li>
-                <li><a href="empleados.php">Empleados</a></li>
-                <li><a href="proveedores.php">Proveedores</a></li>
-                <li><a href="reabastecimiento.php">Reabastecimiento</a></li>
-                <li><a href="resenas_productos.php">Reseñas de Productos</a></li>
-                <li><a href="reclamaciones.php">Reclamaciones</a></li>
+                <?php if ($rol == 'administrador') : ?>
+                    <li><a href="clientes.php">Clientes</a></li>
+                    <li><a href="categorias.php">Categorías</a></li>
+                    <li><a href="compras.php">Compras</a></li>
+                    <li><a href="ventas.php">Ventas</a></li>
+                    <li><a href="empleados.php">Empleados</a></li>
+                    <li><a href="proveedores.php">Proveedores</a></li>
+                    <li><a href="reabastecimiento.php">Reabastecimiento</a></li>
+                    <li><a href="index.php">Catálogo</a></li>
+                    <li><a href="promociones.php">Promociones</a></li>
+                    <li><a href="resenas_productos.php">Reseñas de Productos</a></li>
+                    <li><a href="reclamaciones.php">Reclamaciones</a></li>         
+                <?php elseif ($rol == 'cliente') : ?>
+                    <li><a href="index.php">Catálogo</a></li>
+                    <li><a href="promociones.php">Promociones</a></li>
+                    <li><a href="resenas_productos.php">Reseñas de Productos</a></li>
+                    <li><a href="reclamaciones.php">Reclamaciones</a></li>
+                <?php endif; ?>
             </ul>
         </nav>
     </header>
@@ -81,7 +101,9 @@ $productos = obtenerProductos();
         <?php endif; ?>
 
         <div class="add-product-btn">
-            <a href="agregar_producto.php"><button>Agregar Producto</button></a>
+            <?php if ($rol == 'administrador') : ?>
+                <a href="agregar_producto.php"><button>Agregar Producto</button></a>
+            <?php endif; ?>
         </div>
     </div>
 </body>

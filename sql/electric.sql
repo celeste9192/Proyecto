@@ -21,6 +21,7 @@ CREATE TABLE Clientes (
     nombre_cliente VARCHAR(255),
     apellido_cliente VARCHAR(255),
     rol VARCHAR(50),
+    pass varchar(50),
     email VARCHAR(255),
     telefono VARCHAR(20),
     direccion TEXT,
