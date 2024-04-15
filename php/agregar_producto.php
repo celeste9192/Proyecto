@@ -1,16 +1,17 @@
 <?php
 include '../DAL/conexion.php';
 
+
 $conexion = Conecta();
-
-$query_categorias = "SELECT * FROM Categorias";
-$resultado_categorias = mysqli_query($conexion, $query_categorias);
-
+$sql_categorias = "SELECT id_categoria, nombre_categoria FROM Categorias";
+$resultado = $conexion->query($sql_categorias);
 $categorias = array();
-
-while ($fila_categoria = mysqli_fetch_assoc($resultado_categorias)) {
-    $categorias[] = $fila_categoria;
+if ($resultado->num_rows > 0) {
+    while ($row = $resultado->fetch_assoc()) {
+        $categorias[] = $row;
+    }
 }
+Desconectar($conexion);
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $nombre = $_POST["nombre"];
@@ -19,29 +20,27 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $id_categoria = $_POST["id_categoria"]; 
     $imagen = $_POST["imagen"]; 
 
+    $conexion = Conecta();
     $sql = "INSERT INTO Productos (nombre_producto, descripcion_producto, precio, id_categoria, imagen) VALUES (?, ?, ?, ?, ?)";
     $stmt = $conexion->prepare($sql);
-    $stmt->bind_param("sdssi", $nombre, $descripcion, $precio, $id_categoria, $imagen);
-
+    $stmt->bind_param("ssdis", $nombre, $descripcion, $precio, $id_categoria, $imagen);
+    
     if ($stmt->execute()) {
-        echo "Producto agregado correctamente.";
+        echo "<script>alert('Producto agregado correctamente.'); window.location.href = 'index.php';</script>";
     } else {
-        echo "Error al agregar el producto: " . $conexion->error;
+        echo "Error al agregar el producto: " . $stmt->error;
     }
 
     $stmt->close();
+    Desconectar($conexion);
 }
-
-Desconectar($conexion);
 ?>
 
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="css/style.css">
     <title>Agregar Producto</title>
     <style>
         body,
@@ -165,9 +164,8 @@ Desconectar($conexion);
         ul li {
             margin-bottom: 20px;
         }
-        </style>
+    </style>
 </head>
-
 <body>
     <h2>Agregar Producto</h2>
     <form action="agregar_producto.php" method="post">
@@ -180,22 +178,18 @@ Desconectar($conexion);
         <label for="precio">Precio:</label>
         <input type="number" id="precio" name="precio" min="0" step="0.01" required><br><br>
 
-        <label for="id_categoria">Categoría:</label> 
+        <label for="id_categoria">Categoría:</label>
         <select id="id_categoria" name="id_categoria">
-            <?php
-            foreach ($categorias as $categoria) {
-                echo "<option value='" . $categoria['id_categoria'] . "'>" . $categoria['nombre_categoria'] . "</option>";
-            }
-            ?>
+            <?php foreach ($categorias as $categoria) : ?>
+                <option value="<?php echo $categoria['id_categoria']; ?>"><?php echo $categoria['nombre_categoria']; ?></option>
+            <?php endforeach; ?>
         </select><br><br>
 
         <label for="imagen">URL de la Imagen:</label>
-        <input type="url" id="imagen" name="imagen"><br><br> 
+        <input type="url" id="imagen" name="imagen"><br><br>
 
         <input type="submit" value="Agregar Producto">
     </form>
     <a href="index.php"><button>Menu principal</button></a>
-
 </body>
-
 </html>
