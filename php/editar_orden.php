@@ -138,33 +138,40 @@
 include '../DAL/conexion.php';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['id_evento'])) {
-    $id_venta = $_POST['id_evento'];
+    $id_evento = $_POST['id_evento'];
 
     $conexion = Conecta();
-    $sql = "SELECT * FROM Orden_del_dia WHERE id_evento = $id_evento";
-    $resultado = mysqli_query($conexion, $sql);
+    $sql = "SELECT * FROM Orden_del_dia WHERE id_evento = ?";
+    $statement = mysqli_prepare($conexion, $sql);
+    mysqli_stmt_bind_param($statement, "i", $id_evento);
+    mysqli_stmt_execute($statement);
+    $resultado = mysqli_stmt_get_result($statement);
 
     if ($resultado && mysqli_num_rows($resultado) > 0) {
-        $venta = mysqli_fetch_assoc($resultado);
+        $orden_del_dia = mysqli_fetch_assoc($resultado);
     } else {
         echo "No se encontró la orden.";
         exit;
     }
 
     if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['editar'])) {
-        $id_evento = $_POST['id_venta'];
+        $id_evento = $_POST['id_evento'];
         $titulo = $_POST['titulo'];
         $descripcion = $_POST['descripcion'];
         $fecha_inicio = $_POST['fecha_inicio'];
         $fecha_fin = $_POST['fecha_fin'];
         $id_empleado = $_POST['id_empleado'];
 
-        $sql = "UPDATE Orden_del_dia SET titulo = $titulo, descripcion = $descripcion, fecha_inicio = $fecha_inicio, fecha_fin = $fecha_fin, id_empleado = $id_empleado WHERE id_evento = $id_evento";
-        if (mysqli_query($conexion, $sql)) {
+        $sql = "UPDATE Orden_del_dia SET titulo = ?, descripcion = ?, fecha_inicio = ?, fecha_fin = ?, id_empleado = ? WHERE id_evento = ?";
+        $statement = mysqli_prepare($conexion, $sql);
+        mysqli_stmt_bind_param($statement, "ssssii", $titulo, $descripcion, $fecha_inicio, $fecha_fin, $id_empleado, $id_evento);
+        
+        if (mysqli_stmt_execute($statement)) {
             echo "Orden editada correctamente.";
         } else {
             echo "Error al editar orden: " . mysqli_error($conexion);
         }
+        mysqli_stmt_close($statement);
     }
 
     Desconectar($conexion);
@@ -194,7 +201,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['id_evento'])) {
         <input type="date" id="fecha_fin" name="fecha_fin" value="<?php echo $orden_del_dia['fecha_fin']; ?>" required><br><br>
 
         <label for="id_empleado">ID Empleado:</label>
-        <input type="number" id="id_empleado" name="id_empleado" value="<?php echo $venta['id_empleado']; ?>" required><br><br>
+        <input type="number" id="id_empleado" name="id_empleado" value="<?php echo $orden_del_dia['id_empleado']; ?>" required><br><br>
 
         <input type="submit" name="editar" value="Editar">
     </form>

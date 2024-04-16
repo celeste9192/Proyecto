@@ -95,6 +95,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['agregar_carrito']) && 
                 <li><a href="proveedores.php">Proveedores</a></li>
                 <li><a href="reabastecimiento.php">Reabastecimiento</a></li>
                 <li><a href="promociones.php">Promociones</a></li>
+                <li><a href="orden_del_dia.php">Orden del Dia</a></li>
                 <li><a href="resenas_productos.php">Reseñas de Productos</a></li>
                 <li><a href="reclamaciones.php">Reclamaciones</a></li> 
                 <li><a href="agregar_producto.php" id="agregar-producto">Agregar Producto</a></li>

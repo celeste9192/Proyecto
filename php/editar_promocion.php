@@ -1,6 +1,8 @@
 <?php
 include '../DAL/conexion.php';
 
+$promociones = obtenerPromociones();
+
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['id_promocion'])) {
     $idPromocion = $_POST['id_promocion'];
     $nombrePromocion = $_POST['nombre_promocion'];
@@ -30,6 +32,25 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['id_promocion'])) {
 } else {
     header("Location: promociones.php");
     exit();
+}
+
+function obtenerPromociones()
+{
+    $conexion = Conecta();
+    $consulta = "SELECT * FROM Promociones";
+    $resultado = mysqli_query($conexion, $consulta);
+
+    $promociones = array();
+
+    if ($resultado && mysqli_num_rows($resultado) > 0) {
+        while ($fila = mysqli_fetch_assoc($resultado)) {
+            $promociones[] = $fila;
+        }
+    }
+
+    Desconectar($conexion);
+
+    return $promociones;
 }
 ?>
 
@@ -144,6 +165,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['id_promocion'])) {
         ul li {
             margin-bottom: 20px;
         }
+
+        .promo-select {
+            margin-bottom: 20px;
+        }
+
+        .promo-select select {
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #D1C8C1;
+        }
     </style>
 
 <body>
@@ -152,6 +183,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['id_promocion'])) {
         <a href="promociones.php">Volver</a>
     </header>
     <div class="container">
+        <div class="promo-select">
+            <label for="select_promocion">Selecciona la Promoción:</label>
+            <select id="select_promocion">
+                <?php foreach ($promociones as $promo) : ?>
+                    <option value="<?php echo $promo['id_promocion']; ?>" <?php echo ($promo['id_promocion'] == $promocion['id_promocion']) ? 'selected' : ''; ?>><?php echo $promo['nombre_promocion']; ?></option>
+                <?php endforeach; ?>
+            </select>
+        </div>
         <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
             <input type="hidden" name="id_promocion" value="<?php echo $promocion['id_promocion']; ?>">
             <label for="nombre_promocion">Nombre de la Promoción:</label>
@@ -172,6 +211,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['id_promocion'])) {
             <input type="submit" value="Guardar Cambios">
         </form>
     </div>
+
+    <script>
+        document.getElementById('select_promocion').addEventListener('change', function() {
+            var idPromocion = this.value;
+            window.location.href = 'promociones.php?id=' + idPromocion;
+        });
+    </script>
 </body>
 
 </html>

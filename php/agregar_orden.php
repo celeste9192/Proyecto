@@ -139,7 +139,6 @@ include '../DAL/conexion.php';
 $conexion = Conecta();
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $id_evento = $_POST['id_evento'];
     $titulo = $_POST['titulo'];
     $descripcion = $_POST['descripcion'];
     $fecha_inicio = $_POST['fecha_inicio'];
@@ -149,9 +148,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $resultado = mysqli_query($conexion, "SHOW TABLES LIKE 'Orden_del_dia'");
     if ($resultado && mysqli_num_rows($resultado) > 0) {
         
-        $consulta = "INSERT INTO Orden_del_dia (id_evento, titulo, descripcion, fecha_inicio, fecha_fin, id_empleado) VALUES (?, ?, ?, ?, ?, ?)";
+        $consulta = "INSERT INTO Orden_del_dia (titulo, descripcion, fecha_inicio, fecha_fin, id_empleado) VALUES (?, ?, ?, ?, ?)";
         $statement = mysqli_prepare($conexion, $consulta);
-        mysqli_stmt_bind_param($statement, "iisd", $id_evento, $titulo, $descripcion, $fecha_inicio, $fecha_fin, $id_empleado);
+        mysqli_stmt_bind_param($statement, "ssssi", $titulo, $descripcion, $fecha_inicio, $fecha_fin, $id_empleado);
         if (mysqli_stmt_execute($statement)) {
             $mensaje = "Orden se agregó correctamente.";
         } else {
@@ -175,11 +174,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <?php endif; ?>
 
 <form method="post">
-    <label for="id_evento">ID Evento:</label>
-    <input type="number" id="id_evento" name="id_evento" required><br><br>
-
     <label for="titulo">Titulo:</label>
-    <input type="text" id="id_empleado" name="id_empleado"><br><br>
+    <input type="text" id="titulo" name="titulo" required><br><br>
 
     <label for="descripcion">Descripcion:</label>
     <input type="text" id="descripcion" name="descripcion"><br><br>
@@ -197,7 +193,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 </form>
 
 <?php
-
 Desconectar($conexion);
 ?>
 

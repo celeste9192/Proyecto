@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="css/style.css">
     <title>Reabastecimiento de Stock</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <style>
           body {
             font-family: 'Poppins', sans-serif;
@@ -89,7 +90,7 @@
         td a:hover {
             text-decoration: underline;
         }
-    </style>
+        </style>
 </head>
 
 <body>
@@ -103,42 +104,57 @@
             <a href="editar_reabastecimiento.php" class="btn">Editar Reabastecimiento</a>
         </div>
 
-        <?php
-        include '../DAL/conexion.php';
+        <div id="reabastecimientos-container">
+        <div id="reabastecimientos-container">
+    <?php
+    include '../DAL/conexion.php';
 
-        function mostrarReabastecimientos()
-        {
-            $conexion = Conecta();
-            $sql = "SELECT r.id_reabastecimiento, p.nombre_producto, r.cantidad, r.fecha, r.estado FROM ReabastecimientoStock r JOIN Productos p ON r.id_producto = p.id_producto";
-            $resultado = mysqli_query($conexion, $sql);
+    function mostrarReabastecimientos()
+    {
+        $conexion = Conecta();
+        $sql = "SELECT r.id_reabastecimiento, p.nombre_producto, r.cantidad, r.fecha, r.estado FROM ReabastecimientoStock r JOIN Productos p ON r.id_producto = p.id_producto";
+        $resultado = mysqli_query($conexion, $sql);
 
-            if ($resultado && mysqli_num_rows($resultado) > 0) {
-                echo "<h2>Listado de Reabastecimientos</h2>";
-                echo "<table>";
-                echo "<tr><th>ID</th><th>Producto</th><th>Cantidad</th><th>Fecha</th><th>Estado</th></tr>";
+        if ($resultado && mysqli_num_rows($resultado) > 0) {
+            echo "<h2>Listado de Reabastecimientos</h2>";
+            echo "<table>";
+            echo "<tr><th>ID</th><th>Producto</th><th>Cantidad</th><th>Fecha</th><th>Estado</th><th>Acciones</th></tr>";
 
-                while ($fila = mysqli_fetch_assoc($resultado)) {
-                    echo "<tr>";
-                    echo "<td>" . $fila['id_reabastecimiento'] . "</td>";
-                    echo "<td>" . $fila['nombre_producto'] . "</td>";
-                    echo "<td>" . $fila['cantidad'] . "</td>";
-                    echo "<td>" . $fila['fecha'] . "</td>";
-                    echo "<td>" . $fila['estado'] . "</td>";
-                    echo "</tr>";
-                }
-                echo "</table>";
-            } else {
-                echo "No se encontraron reabastecimientos.";
+            while ($fila = mysqli_fetch_assoc($resultado)) {
+                echo "<tr data-id='{$fila['id_reabastecimiento']}' data-producto='{$fila['nombre_producto']}' data-cantidad='{$fila['cantidad']}' data-fecha='{$fila['fecha']}' data-estado='{$fila['estado']}'>";
+                echo "<td>" . $fila['id_reabastecimiento'] . "</td>";
+                echo "<td>" . $fila['nombre_producto'] . "</td>";
+                echo "<td>" . $fila['cantidad'] . "</td>";
+                echo "<td>" . $fila['fecha'] . "</td>";
+                echo "<td>" . $fila['estado'] . "</td>";
+                echo "<td><button class='eliminar-btn'>Eliminar</button><button class='editar-btn'>Editar</button></td>";
+                echo "</tr>";
             }
-
-            Desconectar($conexion);
+            echo "</table>";
+            echo "</div>"; 
+            echo "<div class='modal' id='eliminar-modal' style='display:none;'>
+                <div class='modal-content'>
+                    <h2>Eliminar Reabastecimiento</h2>
+                    <p>¿Estás seguro de que deseas eliminar el reabastecimiento de <span id='producto-nombre'></span>?</p>
+                    <input type='hidden' id='id_reabastecimiento' name='id_reabastecimiento'>
+                    <button id='eliminar-reabastecimiento-btn'>Eliminar</button>
+                    <button class='btn' id='cancelar-eliminar'>Cancelar</button>
+                </div>
+            </div>";
+        } else {
+            echo "No se encontraron reabastecimientos.";
         }
 
-        mostrarReabastecimientos();
-        ?>
+        Desconectar($conexion);
+    }
 
-        <a href="index.php" class="btn">Menú Principal</a>
+    mostrarReabastecimientos();
+    ?>
+
+    <a href="index.php" class="btn">Menú Principal</a>
+</div>
     </div>
+    <script src="reabastecimiento.js"></script>
 </body>
 
 </html>

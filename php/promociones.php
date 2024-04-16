@@ -31,6 +31,9 @@ $promociones = obtenerPromociones();
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Promociones</title>
     <link rel="stylesheet" href="css/style.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>
     <style>
         body {
             font-family: 'Poppins', sans-serif;
@@ -49,15 +52,42 @@ $promociones = obtenerPromociones();
         header {
             background-color: #F6F4F3;
             padding: 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
             border-bottom: 1px solid #31241E;
+            text-align: center;
         }
 
         h1 {
             font-size: 36px;
+            margin-bottom: 20px;
             text-transform: uppercase;
+        }
+
+        .btn-container {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        .btn-container a {
+            margin: 0 10px;
+            text-decoration: none;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            background-color: #D1C8C1;
+            color: #FFF;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: bold;
+            font-size: 18px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn:hover {
+            background-color: #31241E;
         }
 
         .promo-container {
@@ -85,6 +115,7 @@ $promociones = obtenerPromociones();
 
         .promo-card button {
             padding: 8px 16px;
+            margin-right: 10px;
             border: none;
             border-radius: 5px;
             background-color: #D1C8C1;
@@ -97,6 +128,11 @@ $promociones = obtenerPromociones();
         .promo-card button:hover {
             background-color: #31241E;
         }
+
+        .no-promo {
+            text-align: center;
+            margin-top: 20px;
+        }
     </style>
 </head>
 
@@ -105,22 +141,75 @@ $promociones = obtenerPromociones();
         <h1>Promociones</h1>
     </header>
     <div class="container">
-        <div class="promo-container">
+        <div class="btn-container">
+            <a href="agregar_promocion.php" class="btn">Agregar Promoción</a>
+            <button class="btn" id="editar-promo-btn">Editar Promoción</button>
+            <a href="index.php" class="btn">Ir a Index</a> 
+        </div>
+
+        <div class="promo-container" id="promociones-container">
             <?php if (!empty($promociones)) : ?>
                 <?php foreach ($promociones as $promocion) : ?>
-                    <div class="promo-card">
+                    <div class="promo-card" data-id="<?php echo $promocion['id_promocion']; ?>">
                         <h2><?php echo $promocion['nombre_promocion']; ?></h2>
                         <p><?php echo $promocion['descripcion_promocion']; ?></p>
                         <p>Fecha de Inicio: <?php echo $promocion['fecha_inicio']; ?></p>
                         <p>Fecha de Fin: <?php echo $promocion['fecha_fin']; ?></p>
                         <p>Descuento: <?php echo $promocion['descuento']; ?>%</p>
+                        <button class="eliminar-promocion-btn" data-id="<?php echo $promocion['id_promocion']; ?>">Eliminar</button>
                     </div>
                 <?php endforeach; ?>
             <?php else : ?>
-                <p>No hay promociones disponibles.</p>
+                <p class="no-promo">No hay promociones disponibles.</p>
             <?php endif; ?>
         </div>
     </div>
+
+    <div class="modal" id="eliminar-modal">
+        <div class="modal-content">
+            <h2>Eliminar Promoción</h2>
+            <p>¿Estás seguro de que deseas eliminar esta promoción?</p>
+            <input type="hidden" id="id_promocion" name="id_promocion">
+            <button id="eliminar-promocion-btn">Eliminar</button>
+            <button class="btn" id="cancelar-eliminar">Cancelar</button>
+        </div>
+    </div>
+
+    <script>
+        $(document).ready(function() {
+            $('.eliminar-promocion-btn').click(function() {
+                var idPromocion = $(this).data('id');
+                $('#id_promocion').val(idPromocion);
+                $('#eliminar-modal').modal();
+            });
+
+            $('#eliminar-promocion-btn').click(function() {
+                var idPromocion = $('#id_promocion').val();
+
+                $.ajax({
+                    url: 'eliminar_promocion.php',
+                    type: 'POST',
+                    data: { id_promocion: idPromocion },
+                    success: function(response) {
+                        alert(response);
+                        location.reload();
+                    },
+                    error: function(error) {
+                        alert("Error al eliminar la promoción: " + error);
+                    }
+                });
+            });
+
+            $('#cancelar-eliminar').click(function() {
+                $.modal.close();
+            });
+
+            $('#editar-promo-btn').click(function() {
+                var idPromocion = $('.promo-card:first-child').data('id');
+                window.location.href = 'editar_promocion.php?id=' + idPromocion;
+            });
+        });
+    </script>
 </body>
 
 </html>

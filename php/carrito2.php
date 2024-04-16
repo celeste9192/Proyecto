@@ -69,6 +69,108 @@ Desconectar($conexion);
     <link rel="stylesheet" href="../css/styles.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="../js/carrito.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            color: #31241E;
+            background-color: #F6F4F3;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            background-color: #F6F4F3;
+            padding: 20px;
+            border-bottom: 1px solid #31241E;
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 36px;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+        }
+
+        .btn-container {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        .btn-container a {
+            margin: 0 10px;
+            text-decoration: none;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            background-color: #D1C8C1;
+            color: #FFF;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: bold;
+            font-size: 18px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn:hover {
+            background-color: #31241E;
+        }
+
+        #tabla {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+
+        #tabla th,
+        #tabla td {
+            border: 1px solid #31241E;
+            padding: 10px;
+            text-align: left;
+        }
+
+        #tabla th {
+            background-color: #31241E;
+            color: #FFF;
+            text-transform: uppercase;
+        }
+
+        #tabla td button {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 5px;
+            background-color: #D1C8C1;
+            color: #FFF;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        #tabla td button:hover {
+            background-color: #31241E;
+        }
+
+        #tabla tfoot {
+            background-color: #D1C8C1;
+            color: #FFF;
+        }
+
+        #tabla tfoot button {
+            background-color: #31241E;
+        }
+
+    </style>
 </head>
 
 <body>
@@ -76,7 +178,11 @@ Desconectar($conexion);
         <h1>Carrito de Compras</h1>
     </header>
 
-    <div id="container">
+    <div class="container">
+        <div class="btn-container">
+            <a href="index.php" class="btn">Ir a Index</a>
+        </div>
+
         <table id="tabla">
             <thead>
                 <tr>
@@ -107,16 +213,93 @@ Desconectar($conexion);
                     <td colspan="4" style="text-align: right;">Total:</td>
                     <td><?php echo number_format($totalCarrito, 2); ?></td>
                     <td>
-                        <button id="vaciar-carrito">Vaciar Carrito</button>
+                        <button id="vaciar-carrito" class="btn">Vaciar Carrito</button>
                     </td>
                 </tr>
             </tfoot>
         </table>
 
         <input type="hidden" id="totalCarrito" value="<?php echo $totalCarrito; ?>">
-        <button id="finalizar-compra">Finalizar Compra</button>
+        <button id="finalizar-compra" class="btn">Finalizar Compra</button>
     </div>
 
+    <div class="modal" id="eliminar-modal">
+        <div class="modal-content">
+            <h2>Eliminar Producto</h2>
+            <p>¿Estás seguro de que deseas eliminar este producto del carrito?</p>
+            <input type="hidden" id="id_producto" name="id_producto">
+            <button id="eliminar-producto-btn" class="btn">Eliminar</button>
+            <button class="btn" id="cancelar-eliminar">Cancelar</button>
+        </div>
+    </div>
+
+    <script>
+        $(document).ready(function() {
+            $('.eliminar-producto').click(function() {
+                var idProducto = $(this).data('id');
+                $('#id_producto').val(idProducto);
+                $('#eliminar-modal').modal();
+            });
+
+            $('#eliminar-producto-btn').click(function() {
+                var idProducto = $('#id_producto').val();
+
+                $.ajax({
+                    url: 'carrito.php',
+                    type: 'POST',
+                    data: { eliminarProducto: idProducto },
+                    dataType: 'json',
+                    success: function(response) {
+                        if (response.status === 'success') {
+                            location.reload();
+                        }
+                    },
+                    error: function(error) {
+                        alert("Error al eliminar el producto: " + error);
+                    }
+                });
+            });
+
+            $('#vaciar-carrito').click(function() {
+                $.ajax({
+                    url: 'carrito.php',
+                    type: 'POST',
+                    data: { vaciarCarrito: true },
+                    dataType: 'json',
+                    success: function(response) {
+                        if (response.status === 'success') {
+                            location.reload();
+                        }
+                    },
+                    error: function(error) {
+                        alert("Error al vaciar el carrito: " + error);
+                    }
+                });
+            });
+
+            $('#finalizar-compra').click(function() {
+                var total = $('#totalCarrito').val();
+
+                $.ajax({
+                    url: 'carrito.php',
+                    type: 'POST',
+                    data: { finalizarCompra: true, total: total },
+                    dataType: 'json',
+                    success: function(response) {
+                        if (response.status === 'confirm') {
+                            var confirmar = confirm("El total de la compra es: $" + response.total + ". ¿Desea continuar con la compra?");
+                            if (confirmar) {
+                                alert("Compra finalizada con éxito");
+                            }
+                        }
+                    },
+                    error: function(error) {
+                        alert("Error al finalizar la compra: " + error);
+                    }
+                });
+            });
+        });
+    </script>
 </body>
 
 </html>

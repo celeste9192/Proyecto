@@ -28,9 +28,10 @@ $orden_del_dia = obtenerOrden_del_Dia();
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ventas</title>
+    <title>Ordenes del Dia</title>
     <link rel="stylesheet" href="css/style.css">
-   
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="orden.js"></script>
     <style>
         body {
             font-family: 'Poppins', sans-serif;
@@ -103,11 +104,11 @@ $orden_del_dia = obtenerOrden_del_Dia();
             text-align: center;
             margin-top: 20px;
         }
-    </style>
+        </style>
 </head>
 <body>
     <header>
-        <h1>Orden del Dia</h1>
+        <h1>Ordenes del Dia</h1>
     </header>
     <div class="container">
         <div class="btn-container">
@@ -116,24 +117,66 @@ $orden_del_dia = obtenerOrden_del_Dia();
             <a href="editar_orden.php" class="btn">Editar Orden</a>
         </div>
 
-        <?php if (!empty($orden_del_dia)) : ?>
-            <?php foreach ($orden_del_dia as $orden_del_dia) : ?>
-                <div class="orden">
-                    <ul>
-                        <li>ID Evento: <?php echo $venta['id_evento']; ?></li>
-                        <li>Titulo: <?php echo $venta['titulo']; ?></li>
-                        <li>Descripcion: <?php echo $venta['descripcion']; ?></li>
-                        <li>Fecha Inicio: <?php echo $venta['fecha_inicio']; ?></li>
-                        <li>Fecha Fin: <?php echo $venta['fecha_fin']; ?></li>
-                        <li>ID Empleado: <?php echo $venta['id_empleado']; ?></li>
-                    </ul>
-                </div>
-            <?php endforeach; ?>
-        <?php else : ?>
-            <p class="no-orden">No se encontro nada.</p>
-        <?php endif; ?>
+        <div id="ordenes-container">
+            <?php if (!empty($orden_del_dia)) : ?>
+                <?php foreach ($orden_del_dia as $orden) : ?>
+                    <div class="orden">
+                        <ul>
+                            <li>ID Evento: <?php echo $orden['id_evento']; ?></li>
+                            <li>Titulo: <?php echo $orden['titulo']; ?></li>
+                            <li>Descripcion: <?php echo $orden['descripcion']; ?></li>
+                            <li>Fecha Inicio: <?php echo $orden['fecha_inicio']; ?></li>
+                            <li>Fecha Fin: <?php echo $orden['fecha_fin']; ?></li>
+                            <li>ID Empleado: <?php echo $orden['id_empleado']; ?></li>
+                        </ul>
+                    </div>
+                <?php endforeach; ?>
+            <?php else : ?>
+                <p class="no-orden">No se encontro nada.</p>
+            <?php endif; ?>
+        </div>
+
     </div>
     
     <a href="index.php" class="btn">Menu Principal</a>
+
+    <script>
+        $(document).ready(function() {
+            $('#agregar-orden-btn').click(function(e) {
+                e.preventDefault();
+                
+                $.ajax({
+                    url: 'agregar_orden.php',
+                    type: 'GET',
+                    dataType: 'json',
+                    success: function(data) {
+                        if (data.length > 0) {
+                            let html = '';
+                            data.forEach(orden => {
+                                html += `
+                                    <div class="orden">
+                                        <ul>
+                                            <li>ID Evento: ${orden.id_evento}</li>
+                                            <li>Titulo: ${orden.titulo}</li>
+                                            <li>Descripcion: ${orden.descripcion}</li>
+                                            <li>Fecha Inicio: ${orden.fecha_inicio}</li>
+                                            <li>Fecha Fin: ${orden.fecha_fin}</li>
+                                            <li>ID Empleado: ${orden.id_empleado}</li>
+                                        </ul>
+                                    </div>
+                                `;
+                            });
+                            $('#ordenes-container').html(html);
+                        } else {
+                            $('#ordenes-container').html('<p class="no-orden">No se encontro nada.</p>');
+                        }
+                    },
+                    error: function(error) {
+                        console.log('Error:', error);
+                    }
+                });
+            });
+        });
+    </script>
 </body>
 </html>
