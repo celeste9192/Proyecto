@@ -1,9 +1,11 @@
 <?php
 include '../DAL/conexion.php';
 
+session_start();
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $id_producto = $_POST['id_producto'];
-    $id_cliente = $_POST['id_cliente'];
+    $id_cliente = $_SESSION['id_cliente'];
     $calificacion = $_POST['calificacion'];
     $comentario = $_POST['comentario'];
     $fecha = $_POST['fecha']; 
@@ -41,14 +43,28 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <body>
 <h1>Agregar Reseña de Producto</h1>
     <form method="post">
-        <label for="id_producto">ID Producto:</label>
-        <input type="number" id="id_producto" name="id_producto" required><br><br>
+        <label for="id_producto">Producto:</label>
+        <select id="id_producto" name="id_producto" required>
+            <?php
+                $conexion = Conecta();
+                $consulta_productos = "SELECT id_producto, nombre_producto FROM Productos";
+                $resultado_productos = mysqli_query($conexion, $consulta_productos);
+
+                if ($resultado_productos && mysqli_num_rows($resultado_productos) > 0) {
+                    while ($fila = mysqli_fetch_assoc($resultado_productos)) {
+                        echo "<option value='" . $fila['id_producto'] . "'>" . $fila['id_producto'] . " - " . $fila['nombre_producto'] . "</option>";
+                    }
+                }
+
+                Desconectar($conexion);
+            ?>
+        </select><br><br>
 
         <label for="id_cliente">ID Cliente:</label>
-        <input type="number" id="id_cliente" name="id_cliente" required><br><br>
+        <input type="text" id="id_cliente" name="id_cliente" value="<?php echo $_SESSION['id_cliente']; ?>" readonly><br><br>
 
-        <label for="calificacion">Calificación:</label>
-        <input type="number" id="calificacion" name="calificacion" required><br><br>
+        <label for="calificacion">Calificación (del 1 al 10):</label>
+        <input type="number" id="calificacion" name="calificacion" min="1" max="10" value="10" required><br><br>
 
         <label for="comentario">Comentario:</label>
         <textarea id="comentario" name="comentario" required></textarea><br><br>
