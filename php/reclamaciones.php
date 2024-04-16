@@ -3,27 +3,45 @@ include '../DAL/conexion.php';
 
 function obtenerReclamaciones()
 {
+    session_start(); 
     $conexion = Conecta();
-    $sql = "SELECT * FROM Reclamaciones";
-    $resultado = mysqli_query($conexion, $sql);
-
-    if ($resultado && mysqli_num_rows($resultado) > 0) {
-        echo "<h2 id='subtitulo'>Listado de Reclamos</h2>";
-        echo "<div id='container'>";
-        echo "<table id='tabla'>";
-        echo "<tr><th>Número de Reclamo</th><th>Cliente</th><th>Motivo</th><th>Estado</th><th>Fecha</th></tr>";
-
-        while ($fila = mysqli_fetch_assoc($resultado)) {
-            echo "<tr>";
-            echo "<td>" . $fila['id_reclamacion'] . "</td>";
-            echo "<td>" . $fila['id_cliente'] . "</td>";
-            echo "<td>" . $fila['motivo'] . "</td>";
-            echo "<td>" . $fila['estado'] . "</td>";
-            echo "<td>" . $fila['fecha'] . "</td>";
-            echo "</tr>";
+    
+    if (isset($_SESSION['rol'])) {
+        if ($_SESSION['rol'] === 'cliente') {
+            $idClienteSesion = $_SESSION['id_cliente']; 
+            $sql = "SELECT * FROM Reclamaciones WHERE id_cliente = $idClienteSesion";
+        } else {
+            $sql = "SELECT * FROM Reclamaciones";
         }
-        echo "</table>";
-        echo "</div>";
+
+        $resultado = mysqli_query($conexion, $sql);
+
+        if ($resultado && mysqli_num_rows($resultado) > 0) {
+            echo "<h2 id='subtitulo'>Listado de Reclamos</h2>";
+            echo "<div id='container'>";
+            echo "<table id='tabla'>";
+            echo "<tr><th>Número de Reclamo</th><th>Cliente</th><th>Motivo</th><th>Estado</th><th>Fecha</th><th>Acciones</th></tr>";
+
+            while ($fila = mysqli_fetch_assoc($resultado)) {
+                echo "<tr>";
+                echo "<td>" . $fila['id_reclamacion'] . "</td>";
+                echo "<td>" . $fila['id_cliente'] . "</td>";
+                echo "<td>" . $fila['motivo'] . "</td>";
+                echo "<td>" . $fila['estado'] . "</td>";
+                echo "<td>" . $fila['fecha'] . "</td>";
+                echo "<td>";
+                if ($_SESSION['rol'] !== 'administrador') {
+                    echo "<a href='eliminar_reclamacion.php?id=" . $fila['id_reclamacion'] . "' class='btn'>Eliminar</a><br>";
+                    echo "<a href='editar_reclamacion.php?id=" . $fila['id_reclamacion'] . "' class='btn'>Editar</a><br>";
+                }
+                echo "</td>";
+                echo "</tr>";
+            }
+            echo "</table>";
+            echo "</div>";
+        } else {
+            echo "<p id='no-products-msg'>No se encontraron reclamaciones.</p>";
+        }
     } else {
         echo "<p id='no-products-msg'>No se encontraron reclamaciones.</p>";
     }
@@ -49,9 +67,9 @@ function obtenerReclamaciones()
     </header>
     <div id="container">
         <div id="btn-container">
-            <a href="agregar_reclamacion.php" class="btn">Agregar Reclamo</a>
-            <a href="eliminar_reclamacion.php" class="btn">Eliminar Reclamo</a>
-            <a href="editar_reclamacion.php" class="btn">Editar Reclamo</a>
+            <?php if (isset($_SESSION['rol']) && $_SESSION['rol'] !== 'administrador'): ?>
+                <a href="agregar_reclamacion.php" class="btn">Agregar Reclamo</a>
+            <?php endif; ?>
         </div>
 
         <?php obtenerReclamaciones(); ?>
