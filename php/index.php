@@ -94,13 +94,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['agregar_carrito']) && 
                 <li><a href="empleados.php">Empleados</a></li>
                 <li><a href="proveedores.php">Proveedores</a></li>
                 <li><a href="reabastecimiento.php">Reabastecimiento</a></li>
-                
                 <li><a href="promociones.php">Promociones</a></li>
                 <li><a href="resenas_productos.php">Reseñas de Productos</a></li>
                 <li><a href="reclamaciones.php">Reclamaciones</a></li> 
                 <li><a href="agregar_producto.php" id="agregar-producto">Agregar Producto</a></li>
-        
-        
             <?php elseif ($rol == 'cliente') : ?>
                 <li><a href="index.php">Catálogo</a></li>
                 <li><a href="promociones.php">Promociones</a></li>
@@ -111,37 +108,43 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['agregar_carrito']) && 
         </nav>
     </header>
     <div id="container">
-    <?php foreach ($productos as $producto) : ?>
-        <div class="product-item">
-            <img src="<?php echo $producto['imagen']; ?>" alt="<?php echo $producto['nombre_producto']; ?>">
-           
-            <p id="nombre-producto"><strong><?php echo $producto['nombre_producto']; ?></strong></p>
-        <p><strong>Categoria:</strong><?php echo $producto['nombre_categoria']; ?></p>
-        <p><strong>Descripción:</strong> <?php echo $producto['descripcion_producto']; ?></p>
-        <p><strong>Precio:</strong> $<?php echo $producto['precio']; ?></p>
-        <?php if ($rol == 'administrador') : ?>
-            <form action="eliminar_producto.php" method="post" class="botones-form">
-                <input type="hidden" name="producto_id" value="<?php echo $producto['id_producto']; ?>">
-                <button type="submit" id="eliminar-producto">Eliminar</button>
-            </form>
-            <form action="editar_producto.php" method="get" class="botones-form">
-                <input type="hidden" name="producto_id" value="<?php echo $producto['id_producto']; ?>">
-                <button type="submit" id="editar-producto">Editar</button>
-            </form>
-            <?php elseif (isset($_SESSION['rol'])) : ?>
-                <?php if (isset($_SESSION['id_cliente'])) : ?>
-                    <form action="" method="post">
+        <?php foreach ($productos as $producto) : ?>
+            <div class="product-item">
+                <img src="<?php echo $producto['imagen']; ?>" alt="<?php echo $producto['nombre_producto']; ?>">
+                <p id="nombre-producto"><strong><?php echo $producto['nombre_producto']; ?></strong></p>
+                <p><strong>Categoria:</strong><?php echo $producto['nombre_categoria']; ?></p>
+                <p><strong>Descripción:</strong> <?php echo $producto['descripcion_producto']; ?></p>
+                <p><strong>Precio:</strong> $<?php echo $producto['precio']; ?></p>
+                <?php if ($rol == 'administrador') : ?>
+                    <form action="eliminar_producto.php" method="post" class="botones-form">
                         <input type="hidden" name="producto_id" value="<?php echo $producto['id_producto']; ?>">
-                        <button type="submit" name="agregar_carrito">Agregar al carrito</button>
+                        <button type="submit" id="eliminar-producto">Eliminar</button>
                     </form>
+                    <form action="editar_producto.php" method="get" class="botones-form">
+                        <input type="hidden" name="producto_id" value="<?php echo $producto['id_producto']; ?>">
+                        <button type="submit" id="editar-producto">Editar</button>
+                    </form>
+                <?php elseif (isset($_SESSION['rol'])) : ?>
+                    <?php if (isset($_SESSION['id_cliente'])) : ?>
+                        <form action="" method="post">
+                            <input type="hidden" name="producto_id" value="<?php echo $producto['id_producto']; ?>">
+                            <button type="submit" name="agregar_carrito">Agregar al carrito</button>
+                        </form>
                     <?php else : ?>
+                        <p id="mensaje-iniciar-sesion">Por favor, inicia sesión para agregar productos al carrito.</p>
+                    <?php endif; ?>
+                <?php else : ?>
                     <p id="mensaje-iniciar-sesion">Por favor, inicia sesión para agregar productos al carrito.</p>
                 <?php endif; ?>
-            <?php else : ?>
-                <p id="mensaje-iniciar-sesion">Por favor, inicia sesión para agregar productos al carrito.</p>
-            <?php endif; ?>
-        </div>
-    <?php endforeach; ?>
+            </div>
+        <?php endforeach; ?>
     </div>
+    <!-- Botón para agregar producto -->
+    <?php if ($rol == 'administrador') : ?>
+        <form action="agregar_producto.php" method="get" id="agregar-producto-form">
+            <button type="submit" id="agregar-producto">Agregar Producto</button>
+        </form>
+    <?php endif; ?>
 </body>
 </html>
+

@@ -1,46 +1,48 @@
 <?php
 include '../DAL/conexion.php';
 
-$mensaje = ""; 
 
-if (isset($_GET['producto_id'])) {
+if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET['producto_id'])) {
     $producto_id = $_GET['producto_id'];
 
-    function obtenerProducto($conexion, $producto_id)
-    {
-        $consulta = "SELECT * FROM Productos WHERE id_producto = $producto_id";
-        $resultado = mysqli_query($conexion, $consulta);
-        return mysqli_fetch_assoc($resultado);
+    $conexion = Conecta();
+    $consulta = "SELECT * FROM Productos WHERE id_producto = ?";
+    $stmt = $conexion->prepare($consulta);
+    $stmt->bind_param("i", $producto_id);
+    $stmt->execute();
+    $resultado = $stmt->get_result();
+
+    if ($resultado && $resultado->num_rows > 0) {
+        $producto = $resultado->fetch_assoc();
+    } else {
+        $mensaje = "No se encontró el producto.";
     }
+
+    $stmt->close();
+    Desconectar($conexion);
+}
+
+
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['editar_producto'])) {
+    $producto_id = $_POST['producto_id'];
+    $nombre = $_POST['nombre'];
+    $descripcion = $_POST['descripcion'];
+    $precio = $_POST['precio'];
+    $imagen_url = $_POST['imagen_url'];
 
     $conexion = Conecta();
-    $producto = obtenerProducto($conexion, $producto_id);
+    $consulta = "UPDATE Productos SET nombre_producto=?, descripcion_producto=?, precio=?, imagen=? WHERE id_producto=?";
+    $stmt = $conexion->prepare($consulta);
+    $stmt->bind_param("ssdsi", $nombre, $descripcion, $precio, $imagen_url, $producto_id);
+    
+    if ($stmt->execute()) {
+        echo "¡Producto editado correctamente!";
+    } else {
+        echo "Error al editar el producto: " . $conexion->error;
+    }
+
+    $stmt->close();
     Desconectar($conexion);
-
-    if (!$producto) {
-        echo "Producto no encontrado.";
-        exit();
-    }
-
-    if (isset($_POST['editar_producto'])) {
-        $nombre = $_POST['nombre'];
-        $descripcion = $_POST['descripcion'];
-        $precio = $_POST['precio'];
-        $imagen_url = $_POST['imagen_url'];
-        $conexion = Conecta();
-        $consulta = "UPDATE Productos SET nombre_producto='$nombre', descripcion_producto='$descripcion', precio=$precio, imagen='$imagen_url' WHERE id_producto=$producto_id";
-        $resultado = mysqli_query($conexion, $consulta);
-        Desconectar($conexion);
-
-        if ($resultado) {
-            $mensaje = "¡Producto editado correctamente!";
-            $producto['nombre_producto'] = $nombre;
-        } else {
-            $mensaje = "Error al editar el producto.";
-        }
-    }
-} else {
-    $mensaje = "ID de producto no proporcionado.";
 }
 ?>
 
@@ -176,9 +178,26 @@ if (isset($_GET['producto_id'])) {
         <label for="imagen_url">URL de la Imagen:</label>
         <input type="text" name="imagen_url" value="<?php echo $producto['imagen']; ?>"><br>
 
-        <input type="submit" name="editar_producto" value="Guardar Cambios" onclick="mostrarMensaje()">
+        <input type="submit" name="editar_producto" value="Guardar Cambios">
     </form>
     <a href="index.php"><button>Menu principal</button></a>
+    
+    
+    <script>
+        function cargarProductos() {
+            $.ajax({
+                url: "../php/productos.php",
+                method: "GET",
+                dataType: "json",
+                success: function(response) {
+                    mostrarProductos(response);
+                },
+                error: function(xhr, status, error) {
+                    console.error("Error al cargar los productos:", error);
+                }
+            });
+        }
+    </script>
 </body>
 
 </html>
