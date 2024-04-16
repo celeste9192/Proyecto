@@ -1,56 +1,34 @@
 <?php
 include '../DAL/conexion.php';
 
-$promociones = obtenerPromociones();
 
-if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['id_promocion'])) {
-    $idPromocion = $_POST['id_promocion'];
-    $nombrePromocion = $_POST['nombre_promocion'];
-    $descripcionPromocion = $_POST['descripcion_promocion'];
-    $fechaInicio = $_POST['fecha_inicio'];
-    $fechaFin = $_POST['fecha_fin'];
-    $descuento = $_POST['descuento'];
+session_start();
+$rol = $_SESSION['rol']; 
 
-    $conexion = Conecta();
-
-    $actualizarPromocion = "UPDATE Promociones SET nombre_promocion='$nombrePromocion', descripcion_promocion='$descripcionPromocion', fecha_inicio='$fechaInicio', fecha_fin='$fechaFin', descuento='$descuento' WHERE id_promocion=$idPromocion";
-
-    if (mysqli_query($conexion, $actualizarPromocion)) {
-        echo '<script>alert("Promoción actualizada exitosamente.");</script>';
-    } else {
-        echo '<script>alert("Error al actualizar la promoción: ' . mysqli_error($conexion) . '");</script>';
-    }
-
-    Desconectar($conexion);
-} elseif (isset($_GET['id'])) {
-    $idPromocion = $_GET['id'];
-    $conexion = Conecta();
-    $consultaPromocion = "SELECT * FROM Promociones WHERE id_promocion=$idPromocion";
-    $resultado = mysqli_query($conexion, $consultaPromocion);
-    $promocion = mysqli_fetch_assoc($resultado);
-    Desconectar($conexion);
-} else {
-    header("Location: promociones.php");
-    exit();
-}
-
-function obtenerPromociones()
+function obtenerPromocionPorId($idPromocion)
 {
     $conexion = Conecta();
-    $consulta = "SELECT * FROM Promociones";
+    $consulta = "SELECT * FROM Promociones WHERE id_promocion = $idPromocion";
     $resultado = mysqli_query($conexion, $consulta);
 
-    $promociones = array();
-
-    if ($resultado && mysqli_num_rows($resultado) > 0) {
-        while ($fila = mysqli_fetch_assoc($resultado)) {
-            $promociones[] = $fila;
-        }
-    }
+    $promocion = mysqli_fetch_assoc($resultado);
 
     Desconectar($conexion);
 
-    return $promociones;
+    return $promocion;
+}
+
+
+if (isset($_GET['id']) && isset($_GET['nombre'])) {
+    $idPromocion = $_GET['id'];
+    $nombrePromocion = $_GET['nombre'];
+
+   
+    $promocion = obtenerPromocionPorId($idPromocion);
+} else {
+   
+    header("Location: promociones.php");
+    exit();
 }
 ?>
 
@@ -63,77 +41,49 @@ function obtenerPromociones()
     <title>Editar Promoción</title>
     <link rel="stylesheet" href="css/style.css">
     <style>
-       body,h1,h2,h3,h4,h5,h6,p,ul,li,button,input,form,label {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
         body {
             font-family: 'Poppins', sans-serif;
             color: #31241E;
             background-color: #F6F4F3;
-        }
-        h1,h2,h3,h4,h5,h6 {
-            font-family: 'Montserrat', sans-serif;
-            font-weight: bold;
-        }
-
-        header {
-            background-color: #F6F4F3;
-            padding: 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-bottom: 1px solid #31241E;
-        }
-
-        h1 {
-            font-size: 36px;
-            text-transform: uppercase;
-        }
-
-        nav ul {
-            list-style-type: none;
+            margin: 0;
             padding: 0;
         }
 
-        nav ul li {
-            display: inline-block;
-            margin-right: 20px;
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #FFF;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
 
-        nav ul li a {
-            text-decoration: none;
-            font-family: 'Montserrat', sans-serif;
-            font-weight: bold;
-            font-size: 16px;
-            color: #31241E;
-        }
-
-        form {
-            margin-top: 20px;
+        h1 {
+            font-size: 32px;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            text-align: center;
         }
 
         label {
             display: block;
+            margin-bottom: 10px;
             font-weight: bold;
-            margin-bottom: 5px;
         }
 
         input[type="text"],
-        input[type="number"],
-        input[type="date"] {
-            width: 100%;
+        input[type="date"],
+        input[type="number"] {
+            width: calc(100% - 20px);
             padding: 10px;
-            margin-bottom: 10px;
-            border-radius: 5px;
+            margin-bottom: 20px;
             border: 1px solid #D1C8C1;
+            border-radius: 5px;
         }
 
-        input[type="submit"],
-        button {
-            padding: 10px 20px;
+        input[type="submit"] {
+            width: 100%;
+            padding: 10px;
             border: none;
             border-radius: 5px;
             background-color: #D1C8C1;
@@ -142,61 +92,25 @@ function obtenerPromociones()
             font-weight: bold;
             font-size: 18px;
             cursor: pointer;
+            transition: background-color 0.3s ease;
         }
 
-        button {
-            background-color: transparent;
-            color: #31241E;
-        }
-
-        h1 {
-            text-align: center;
-            margin-top: 20px;
-            margin-bottom: 20px;
-        }
-
-        ul {
-            margin-top: 20px;
-            padding-left: 20px;
-        }
-
-        ul li {
-            margin-bottom: 20px;
-        }
-
-        .promo-select {
-            margin-bottom: 20px;
-        }
-
-        .promo-select select {
-            padding: 10px;
-            border-radius: 5px;
-            border: 1px solid #D1C8C1;
+        input[type="submit"]:hover {
+            background-color: #31241E;
         }
     </style>
 </head>
 
 <body>
-    <header>
-        <h1>Editar Promoción</h1>
-        <a href="promociones.php">Volver</a>
-    </header>
     <div class="container">
-        <div class="promo-select">
-            <label for="select_promocion">Selecciona la Promoción:</label>
-            <select id="select_promocion">
-                <?php foreach ($promociones as $promo) : ?>
-                    <option value="<?php echo $promo['id_promocion']; ?>" <?php echo ($promo['id_promocion'] == $promocion['id_promocion']) ? 'selected' : ''; ?>><?php echo $promo['nombre_promocion']; ?></option>
-                <?php endforeach; ?>
-            </select>
-        </div>
-        <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
-            <input type="hidden" name="id_promocion" value="<?php echo $promocion['id_promocion']; ?>">
-            <label for="nombre_promocion">Nombre de la Promoción:</label>
-            <input type="text" id="nombre_promocion" name="nombre_promocion" value="<?php echo $promocion['nombre_promocion']; ?>" required>
+        <h1>Editar Promoción: <?php echo $nombrePromocion; ?></h1>
+        <form action="actualizar_promocion.php" method="POST">
+            <input type="hidden" name="id_promocion" value="<?php echo $idPromocion; ?>">
+            <label for="nombre">Nombre de la Promoción:</label>
+            <input type="text" id="nombre" name="nombre" value="<?php echo $promocion['nombre_promocion']; ?>" required>
 
-            <label for="descripcion_promocion">Descripción:</label>
-            <input type="text" id="descripcion_promocion" name="descripcion_promocion" value="<?php echo $promocion['descripcion_promocion']; ?>" required>
+            <label for="descripcion">Descripción:</label>
+            <input type="text" id="descripcion" name="descripcion" value="<?php echo $promocion['descripcion_promocion']; ?>" required>
 
             <label for="fecha_inicio">Fecha de Inicio:</label>
             <input type="date" id="fecha_inicio" name="fecha_inicio" value="<?php echo $promocion['fecha_inicio']; ?>" required>
@@ -207,7 +121,9 @@ function obtenerPromociones()
             <label for="descuento">Descuento (%):</label>
             <input type="number" id="descuento" name="descuento" value="<?php echo $promocion['descuento']; ?>" required>
 
-            <button type="submit">Guardar Cambios</button>
+            <input type="submit" value="Guardar Cambios">
         </form>
     </div>
+</body>
+
 </html>

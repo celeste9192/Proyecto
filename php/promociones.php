@@ -1,9 +1,9 @@
 <?php
 include '../DAL/conexion.php';
 
-
+// Suponiendo que tienes una función para verificar el rol del usuario
 session_start();
-$rol = $_SESSION['rol']; 
+$rol = $_SESSION['rol']; // Obtén el rol del usuario desde la sesión
 
 function obtenerPromociones()
 {
@@ -106,6 +106,7 @@ $promociones = obtenerPromociones();
             border: 1px solid #D1C8C1;
             border-radius: 5px;
             padding: 20px;
+            position: relative;
         }
 
         .promo-card h2 {
@@ -137,6 +138,12 @@ $promociones = obtenerPromociones();
             text-align: center;
             margin-top: 20px;
         }
+
+        .edit-promo-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+        }
     </style>
 </head>
 
@@ -148,7 +155,6 @@ $promociones = obtenerPromociones();
         <div class="btn-container">
             <?php if ($rol == 'administrador') : ?>
                 <a href="agregar_promocion.php" class="btn">Agregar Promoción</a>
-                <button class="btn" id="editar-promo-btn">Editar Promoción</button>
             <?php endif; ?>
             <a href="index.php" class="btn">Ir a Index</a>
         </div>
@@ -164,6 +170,7 @@ $promociones = obtenerPromociones();
                         <p>Descuento: <?php echo $promocion['descuento']; ?>%</p>
                         <?php if ($rol == 'administrador') : ?>
                             <button class="eliminar-promocion-btn" data-id="<?php echo $promocion['id_promocion']; ?>">Eliminar</button>
+                            <button class="edit-promo-btn">Editar</button>
                         <?php endif; ?>
                     </div>
                 <?php endforeach; ?>
@@ -193,17 +200,18 @@ $promociones = obtenerPromociones();
 
             $('#eliminar-promocion-btn').click(function() {
                 var idPromocion = $('#id_promocion').val();
-
                 $.ajax({
                     url: 'eliminar_promocion.php',
-                    type: 'POST',
-                    data: { id_promocion: idPromocion },
-                    success: function(response) {
-                        alert(response);
-                        location.reload();
+                    method: 'POST',
+                    data: {
+                        id_promocion: idPromocion
                     },
-                    error: function(error) {
-                        alert("Error al eliminar la promoción: " + error);
+                    success: function(response) {
+                        if (response.trim() === 'ok') {
+                            window.location.reload();
+                        } else {
+                            alert('Error al eliminar la promoción.');
+                        }
                     }
                 });
             });
@@ -212,9 +220,10 @@ $promociones = obtenerPromociones();
                 $.modal.close();
             });
 
-            $('#editar-promo-btn').click(function() {
-                var idPromocion = $('.promo-card:first-child').data('id');
-                window.location.href = 'editar_promocion.php?id=' + idPromocion;
+            $('.edit-promo-btn').click(function() {
+                var idPromocion = $(this).closest('.promo-card').data('id');
+                var nombrePromocion = $(this).closest('.promo-card').find('h2').text();
+                window.location.href = 'editar_promocion.php?id=' + idPromocion + '&nombre=' + nombrePromocion;
             });
         });
     </script>
