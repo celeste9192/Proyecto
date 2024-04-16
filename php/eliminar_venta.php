@@ -6,7 +6,7 @@ if (isset($_POST['id_venta']) && !isset($_POST['confirmar_eliminar'])) {
     $id_venta = $_POST['id_venta'];
 
     $conexion = Conecta();
-    $sql = "SELECT * FROM Ventas WHERE id_venta = '$id_venta'";
+    $sql = "SELECT * FROM Venta WHERE id_venta = '$id_venta'";
     $resultado = mysqli_query($conexion, $sql);
 
     if (mysqli_num_rows($resultado) > 0) {

@@ -6,10 +6,15 @@
     <title>Agregar Proveedor</title>
     <link rel="stylesheet" href="../css/styles.css">
     <link rel="stylesheet" href="../css/styles.css">
+    </head>
 
+    <header id="formularios-header">
+        <h1 id="titulo-formularios">Agregar Proveedor</h1>
+        <a id="volver" href="proveedores.php">Volver</a>
+    </header>
 <body>
-    <div class="container">
-        <h1>Agregar Proveedor</h1>
+    
+        
 
         <?php
         include '../DAL/conexion.php';
@@ -33,7 +38,7 @@
             Desconectar($conexion);
         }
         ?>
-
+ <div class="container-formularios">
         <form method="post">
             <label for="nombre_proveedor">Nombre del Proveedor:</label>
             <input type="text" id="nombre_proveedor" name="nombre_proveedor" required><br><br>
@@ -53,7 +58,7 @@
             <input type="submit" value="Agregar">
         </form>
 
-        <a href="proveedores.php"><button>Volver a proveedores</button></a>
+        </div>
     </div>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>

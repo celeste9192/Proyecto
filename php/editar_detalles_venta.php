@@ -7,9 +7,12 @@
     <link rel="stylesheet" href="../css/styles.css">
     <title>Editar Detalles</title>
 </head>
-
+<header id="formularios-header">
+        <h1 id="titulo-formularios">Editar Detalle Venta</h1>
+        <a id="volver" href="detalles_venta.php">Volver</a>
+    </header>
 <body>
-    <h1>Editar Detalles</h1>
+   
 
     <?php
 

@@ -118,10 +118,12 @@
         }
     </script>
 </head>
-
+<header id="formularios-header">
+        <h1 id="titulo-formularios">Editar Reabastecimiento</h1>
+        <a id="volver" href="reabastecimiento.php">Volver</a>
+    </header>
 <body>
 
-    <h1>Editar Reabastecimiento</h1>
 
     <form method="get">
         <label for="id_reabastecimiento">ID del Reabastecimiento a Editar:</label>
@@ -186,7 +188,7 @@
     }
     ?>
 
-    <a href="reabastecimiento.php"><button>Volver a Reabastecimiento</button></a>
+   
 </body>
 
 </html>

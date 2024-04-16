@@ -41,10 +41,11 @@ if (isset($mensaje)) {
 </head>
 
 <body>
-    <header>
+    <header id="formularios-header">
         <h1>Agregar Categoría</h1>
+        <a id="volver" href="categorias.php">Volver</a>
     </header>
-    <div class="container">
+    <div class="container-formularios>
         <form id="agregarCategoriaForm" method="post" action="agregar_categoria.php">
             <label for="nombre_categoria">Nombre de la Categoría:</label><br>
             <input type="text" id="nombre_categoria" name="nombre_categoria"><br><br>
@@ -62,7 +63,7 @@ if (isset($mensaje)) {
         </div>
     </div>
 
-    <a href="categorias.php"><button>Volver a Categorias</button></a>
+    
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="../js/categorias.js"></script>

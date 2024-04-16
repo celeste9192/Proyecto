@@ -4,132 +4,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="css/style.css">
+    
     <title>Agregar Orden</title>
-    <style>
-        body,
-        h1,
-        h2,
-        h3,
-        h4,
-        h5,
-        h6,
-        p,
-        ul,
-        li,
-        button,
-        input,
-        form,
-        label {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Poppins', sans-serif;
-            color: #31241E;
-            background-color: #F6F4F3;
-        }
-
-        h1,
-        h2,
-        h3,
-        h4,
-        h5,
-        h6 {
-            font-family: 'Montserrat', sans-serif;
-            font-weight: bold;
-        }
-
-        header {
-            background-color: #F6F4F3;
-            padding: 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-bottom: 1px solid #31241E;
-        }
-
-        h1 {
-            font-size: 36px;
-            text-transform: uppercase;
-        }
-
-        nav ul {
-            list-style-type: none;
-            padding: 0;
-        }
-
-        nav ul li {
-            display: inline-block;
-            margin-right: 20px;
-        }
-
-        nav ul li a {
-            text-decoration: none;
-            font-family: 'Montserrat', sans-serif;
-            font-weight: bold;
-            font-size: 16px;
-            color: #31241E;
-        }
-
-        form {
-            margin-top: 20px;
-        }
-
-        label {
-            display: block;
-            font-weight: bold;
-            margin-bottom: 5px;
-        }
-
-        input[type="text"],
-        input[type="number"],
-        input[type="email"],
-        input[type="url"],
-        textarea {
-            width: 100%;
-            padding: 10px;
-            margin-bottom: 10px;
-            border-radius: 5px;
-            border: 1px solid #D1C8C1;
-        }
-
-        input[type="submit"],
-        button {
-            padding: 10px 20px;
-            border: none;
-            border-radius: 5px;
-            background-color: #D1C8C1;
-            color: #FFF;
-            font-family: 'Montserrat', sans-serif;
-            font-weight: bold;
-            font-size: 18px;
-            cursor: pointer;
-        }
-
-        button {
-            background-color: transparent;
-            color: #31241E;
-        }
-
-        h1 {
-            text-align: center;
-            margin-top: 20px;
-            margin-bottom: 20px;
-        }
-
-        ul {
-            margin-top: 20px;
-            padding-left: 20px;
-        }
-
-        ul li {
-            margin-bottom: 20px;
-        }
-    </style>
+    <link rel="stylesheet" href="../css/styles.css">
 </head>
+
+    <header id="formularios-header">
+        <h1 id="titulo-formularios">Agregar Orden</h1>
+        <a id="volver" href="orden_del_dia.php">Volver</a>
+    </header>
 
 <body>
 
@@ -163,7 +46,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 }
 ?>
 
-<h1>Agregar Orden</h1>
+
 
 <?php if (isset($mensaje)) : ?>
     <p><?php echo $mensaje; ?></p>
@@ -172,7 +55,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <?php if (isset($error)) : ?>
     <p><?php echo $error; ?></p>
 <?php endif; ?>
-
+<div class="container-formularios">
 <form method="post">
     <label for="titulo">Titulo:</label>
     <input type="text" id="titulo" name="titulo" required><br><br>
@@ -191,12 +74,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     <input type="submit" value="Agregar Orden">
 </form>
-
+</div>
 <?php
 Desconectar($conexion);
 ?>
 
-<a href="orden_del_dia.php"><button>Volver a Orden del Dia</button></a>
 </body>
 
 </html>

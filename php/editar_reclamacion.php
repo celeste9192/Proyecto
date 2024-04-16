@@ -9,14 +9,16 @@
 </head>
 
 <body>
-    <h1>Editar Reclamo</h1>
+    <header id="formularios-header">
+        <h1 id="titulo-formularios">Editar Reclamo</h1>
+        <a id="volver" href="reclamaciones.php">Volver</a>
+    </header>
 
     <?php
-
     include '../DAL/conexion.php';
 
-    if (isset($_GET['id_reclamacion'])) {
-        $id_reclamacion = $_GET['id_reclamacion'];
+    if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['id_reclamacion'])) {
+        $id_reclamacion = $_POST['id_reclamacion'];
 
         $conexion = Conecta();
         $sql = "SELECT * FROM Reclamaciones WHERE id_reclamacion = $id_reclamacion";
@@ -24,38 +26,21 @@
 
         if ($resultado && mysqli_num_rows($resultado) > 0) {
             $reclamacion = mysqli_fetch_assoc($resultado);
-
-            echo '<form id="editForm" method="POST">';
-            echo '<input type="hidden" name="id_reclamacion" value="' . $id_reclamacion . '">';
-            echo '<label for="id_cliente">Cliente:</label>';
-            echo '<input type="number" id="id_cliente" name="id_cliente" value="' . $id_cliente['id_cliente'] . '"><br>';
-            echo '<label for="motivo">Motivo:</label>';
-            echo '<input type="text" id="motivo" name="motivo" value="' . $motivo['motivo'] . '"><br>';
-
         } else {
             echo "No se encontró el reclamo.";
+            exit;
         }
 
         Desconectar($conexion);
-
-    } else {
-
-        echo '<form id="searchForm" action="" method="GET">';
-        echo '<label for="id_reclamacion">Numero de Reclamo:</label>';
-        echo '<input type="number" id="id_reclamacion" name="id_reclamacion">';
-        echo '<button type="submit">Buscar</button>';
-        echo '</form>';
-
     }
 
     if (isset($_POST['guardar'])) {
-
-        $id_venta = $_POST['id_reclamacion'];
+        $id_reclamacion = $_POST['id_reclamacion'];
         $id_cliente = $_POST['id_cliente'];
         $motivo = $_POST['motivo'];
 
         $conexion = Conecta();
-        $sql = "UPDATE Reclamacion SET id_cliente='$id_cliente', motivo='$motivo' WHERE id_reclamacion = $id_reclamacion";
+        $sql = "UPDATE Reclamaciones SET id_cliente='$id_cliente', motivo='$motivo' WHERE id_reclamacion = $id_reclamacion";
         $resultado = mysqli_query($conexion, $sql);
 
         if ($resultado) {
@@ -74,8 +59,19 @@
         <input type="submit" value="Buscar">
     </form>
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="../js/reclamacion.js"></script>
+    <?php if (isset($reclamacion)): ?>
+        <form id="editForm" method="POST">
+            <input type="hidden" name="id_reclamacion" value="<?php echo $id_reclamacion; ?>">
+            
+            <label for="id_cliente">ID Cliente:</label>
+            <input type="number" id="id_cliente" name="id_cliente" value="<?php echo $reclamacion['id_cliente']; ?>" required><br><br>
+
+            <label for="motivo">Motivo:</label>
+            <input type="text" id="motivo" name="motivo" value="<?php echo $reclamacion['motivo']; ?>" required><br><br>
+
+            <input type="submit" name="guardar" value="Guardar Cambios">
+        </form>
+    <?php endif; ?>
 
 </body>
 

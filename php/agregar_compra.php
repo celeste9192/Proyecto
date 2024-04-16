@@ -10,25 +10,28 @@
 
 <body>
 
-    <h1>Agregar Compra</h1>
+    <header id="formularios-header">
+        <h1 id="titulo-formularios">Agregar Compra</h1>
+        <a id="volver" href="compras.php">Volver</a>
+    </header>
 
-    <form id="form-agregar-compra" method="post">
-        <label for="id_proveedor">ID Proveedor:</label>
-        <input type="number" id="id_proveedor" name="id_proveedor" required><br><br>
+    <div class="container-formularios">
+        <form id="form-agregar-compra" method="post">
+            <label for="id_proveedor">ID Proveedor:</label>
+            <input type="number" id="id_proveedor" name="id_proveedor" required><br><br>
 
-        <label for="detalles">Detalles:</label>
-        <input type="text" id="detalles" name="detalles"><br><br>
+            <label for="detalles">Detalles:</label>
+            <input type="text" id="detalles" name="detalles"><br><br>
 
-        <label for="fecha">Fecha:</label>
-        <input type="date" id="fecha" name="fecha"><br><br>
+            <label for="fecha">Fecha:</label>
+            <input type="date" id="fecha" name="fecha"><br><br>
 
-        <label for="total">Total:</label>
-        <input type="number" id="total" name="total"><br><br>
+            <label for="total">Total:</label>
+            <input type="number" id="total" name="total"><br><br>
 
-        <input type="submit" value="Agregar Compra">
-    </form>
-
-    <a href="compras.php"><button>Volver a Compras</button></a>
+            <input type="submit" value="Agregar Compra">
+        </form>
+    </div>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="../js/compras.js"></script>

@@ -98,7 +98,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['agregar_carrito']) && 
                 <li><a href="orden_del_dia.php">Orden del Dia</a></li>
                 <li><a href="resenas_productos.php">Reseñas de Productos</a></li>
                 <li><a href="reclamaciones.php">Reclamaciones</a></li> 
-                <li><a href="agregar_producto.php" id="agregar-producto">Agregar Producto</a></li>
+                
             <?php elseif ($rol == 'cliente') : ?>
                 <li><a href="index.php">Catálogo</a></li>
                 <li><a href="promociones.php">Promociones</a></li>
@@ -142,7 +142,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['agregar_carrito']) && 
     </div>
     <?php if ($rol == 'administrador') : ?>
         <form action="agregar_producto.php" method="get" id="agregar-producto-form">
-            <button type="submit" id="agregar-producto">Agregar Producto</button>
+        <button type="submit" id="agregar-producto">Agregar Producto</button>
         </form>
     <?php endif; ?>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
