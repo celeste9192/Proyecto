@@ -1,31 +1,10 @@
 <?php
 include '../DAL/conexion.php';
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $id_resena_producto = $_POST['id_resena_producto'];
-    $id_producto = $_POST['id_producto'];
-    $id_cliente = $_POST['id_cliente'];
-    $calificacion = $_POST['calificacion'];
-    $comentario = $_POST['comentario'];
-    $fecha = $_POST['fecha'];
-
-    $conexion = Conecta();
-    $consulta = "UPDATE ReseñasProducto SET id_producto='$id_producto', id_cliente='$id_cliente', calificacion='$calificacion', comentario='$comentario', fecha='$fecha' WHERE id_resena_producto='$id_resena_producto'";
-
-    if (mysqli_query($conexion, $consulta)) {
-        header("Location: resenas_productos.php");
-        exit();
-    } else {
-        echo "Error: " . $consulta . "<br>" . mysqli_error($conexion);
-    }
-
-    Desconectar($conexion);
-}
-
 if (isset($_GET['id'])) {
     $id_resena_producto = $_GET['id'];
     $conexion = Conecta();
-    $consulta = "SELECT * FROM ResenasProducto WHERE id_resena_producto='$id_resena_producto'";
+    $consulta = "SELECT * FROM ReseñasProducto WHERE id_resena_producto='$id_resena_producto'";
     $resultado = mysqli_query($conexion, $consulta);
 
     if ($resultado && mysqli_num_rows($resultado) > 0) {
@@ -36,6 +15,9 @@ if (isset($_GET['id'])) {
     }
 
     Desconectar($conexion);
+} else {
+    echo "ID de reseña no proporcionado.";
+    exit;
 }
 ?>
 
