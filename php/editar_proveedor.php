@@ -10,11 +10,35 @@
 </head>
 
 <body>
-    <h1>Editar Proveedor</h1>
+    <header id="formularios-header">
+        <h1 id="titulo-formularios">Editar Proveedor</h1>
+        <a id="volver" href="proveedores.php">Volver</a>
+    </header>
 
     <?php
     include '../DAL/conexion.php';
 
+    if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['actualizar'])) {
+        $proveedor_id = $_POST['proveedor_id'];
+        $nombre = $_POST['nombre'];
+        $contacto = $_POST['contacto'];
+        $email = $_POST['email'];
+        $telefono = $_POST['telefono'];
+        $direccion = $_POST['direccion'];
+
+        $conexion = Conecta();
+        $sql = "UPDATE Proveedores SET nombre_proveedor='$nombre', contacto_proveedor='$contacto', email_proveedor='$email', telefono_proveedor='$telefono', direccion_proveedor='$direccion' WHERE id_proveedor = $proveedor_id";
+
+        if (mysqli_query($conexion, $sql)) {
+            echo "Proveedor actualizado correctamente.";
+        } else {
+            echo "Error al actualizar el proveedor: " . mysqli_error($conexion);
+        }
+
+        Desconectar($conexion);
+    }
+
+   
     if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['proveedor_id'])) {
         $proveedor_id = $_POST['proveedor_id'];
 
@@ -26,23 +50,7 @@
             $proveedor = mysqli_fetch_assoc($resultado);
         } else {
             echo "No se encontró ningún proveedor con el ID proporcionado.";
-            exit; 
-        }
-
-        if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['actualizar'])) {
-            $nombre = $_POST['nombre'];
-            $contacto = $_POST['contacto'];
-            $email = $_POST['email'];
-            $telefono = $_POST['telefono'];
-            $direccion = $_POST['direccion'];
-
-            $sql = "UPDATE Proveedores SET nombre_proveedor='$nombre', contacto_proveedor='$contacto', email_proveedor='$email', telefono_proveedor='$telefono', direccion_proveedor='$direccion' WHERE id_proveedor = $proveedor_id";
-
-            if (mysqli_query($conexion, $sql)) {
-                echo "Proveedor actualizado correctamente.";
-            } else {
-                echo "Error al actualizar el proveedor: " . mysqli_error($conexion);
-            }
+            exit;
         }
 
         Desconectar($conexion);
@@ -78,8 +86,6 @@
             <input type="submit" name="actualizar" value="Actualizar">
         </form>
     <?php endif; ?>
-
-    <a href="proveedores.php"><button>Volver a proveedores</button></a>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="../js/proveedores.js"></script>

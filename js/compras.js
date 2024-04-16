@@ -46,3 +46,21 @@ if(confirm("¿Estás seguro que quiere eliminar la compra?")) {
 document.getElementById("editForm").addEventListener("submit", function() {
 window.location.href = "compras.php";
 });
+
+$(document).ready(function() {
+    $('#editForm').submit(function(e) {
+        e.preventDefault(); 
+        $.ajax({
+            type: 'POST',
+            url: 'editar_compra_procesar.php', 
+            data: $(this).serialize(), 
+            success: function(response) {
+                alert('Cambios guardados exitosamente.');
+                
+            },
+            error: function(xhr, status, error) {
+                alert('Error al guardar los cambios: ' + error);
+            }
+        });
+    });
+});

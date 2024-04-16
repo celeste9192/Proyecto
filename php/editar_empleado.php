@@ -9,10 +9,12 @@
     
     <link rel="stylesheet" href="../css/styles.css">
 </head>
-
+<header id="formularios-header">
+        <h1 id="titulo-formularios">Editar Empleado</h1>
+        <a id="volver" href="empleados.php">Volver</a>
+    </header>
 <body>
-    <div class="container">
-        <h1>Editar Empleado</h1>
+   
 
         <?php
         include '../DAL/conexion.php';
@@ -84,7 +86,7 @@
             </form>
         <?php endif; ?>
 
-        <a href="empleados.php"><button>Volver a Empleados</button></a>
+        
     </div>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>

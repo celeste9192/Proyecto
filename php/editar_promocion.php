@@ -40,68 +40,17 @@ if (isset($_GET['id']) && isset($_GET['nombre'])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Editar Promoción</title>
     <link rel="stylesheet" href="css/style.css">
-    <style>
-        body {
-            font-family: 'Poppins', sans-serif;
-            color: #31241E;
-            background-color: #F6F4F3;
-            margin: 0;
-            padding: 0;
-        }
+    </head>
 
-        .container {
-            max-width: 600px;
-            margin: 0 auto;
-            padding: 20px;
-            background-color: #FFF;
-            border-radius: 5px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-
-        h1 {
-            font-size: 32px;
-            margin-bottom: 20px;
-            text-transform: uppercase;
-            text-align: center;
-        }
-
-        label {
-            display: block;
-            margin-bottom: 10px;
-            font-weight: bold;
-        }
-
-        input[type="text"],
-        input[type="date"],
-        input[type="number"] {
-            width: calc(100% - 20px);
-            padding: 10px;
-            margin-bottom: 20px;
-            border: 1px solid #D1C8C1;
-            border-radius: 5px;
-        }
-
-        input[type="submit"] {
-            width: 100%;
-            padding: 10px;
-            border: none;
-            border-radius: 5px;
-            background-color: #D1C8C1;
-            color: #FFF;
-            font-family: 'Montserrat', sans-serif;
-            font-weight: bold;
-            font-size: 18px;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-        }
-
-        input[type="submit"]:hover {
-            background-color: #31241E;
-        }
-    </style>
-</head>
-
+    
 <body>
+<header id="formularios-header">
+        <h1 id="titulo-formularios">Editar Promoción</h1>
+        <a id="volver" href="promociones.php">Volver</a>
+    </header>
+    
+        
+       
     <div class="container">
         <h1>Editar Promoción: <?php echo $nombrePromocion; ?></h1>
         <form action="actualizar_promocion.php" method="POST">

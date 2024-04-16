@@ -55,7 +55,7 @@ function obtenerVentas()
         </div>
 
         <?php obtenerVentas(); ?>
-
+        <a href="agregar_detalle_venta.php" class="btn">Agregar Detalles</a>
         <a href="index.php" id="btn-menu-principal" class="btn">Menú Principal</a>
     </div>
 </body>

@@ -60,8 +60,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['actualizar']) && $_POS
     <link rel="stylesheet" href="../css/styles.css">
     <title>Editar Categoría</title>
 </head>
+
+<header id="formularios-header">
+        <h1 id="titulo-formularios">Editar Categoria</h1>
+        <a id="volver" href="categorias.php">Volver</a>
+    </header>
 <body>
-    <h1>Editar Categoría</h1>
+   
     <div class="container">
         <form id="buscarCategoriaForm" action="" method="POST">
             <label for="categoria_id">Seleccione una categoría:</label><br>
@@ -88,7 +93,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['actualizar']) && $_POS
         </div>
     </div>
 
-    <a href="categorias.php"><button>Volver a Categorías</button></a>
+    
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="../js/categorias.js"></script>
 </body>

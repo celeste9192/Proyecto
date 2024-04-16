@@ -8,9 +8,14 @@
     
     
 </head>
+
+<header id="formularios-header">
+        <h1 id="titulo-formularios">Editar Cliente</h1>
+        <a id="volver" href="clientes.php">Volver</a>
+    </header>
 <body>
-<div class="container">
-    <h1>Editar Cliente</h1>
+
+   
 
     <?php
     
@@ -42,7 +47,7 @@
             echo '<label for="direccion">Dirección:</label>';
             echo '<input type="text" id="direccion" name="direccion" value="' . $cliente['direccion'] . '"><br>';
             echo '<button type="submit" name="guardar">Guardar</button>';
-            echo '<a href="clientes.php"><button type="button">Volver a Clientes</button></a>';
+            
             echo '</form>';
         } else {
             echo "Cliente no encontrado.";

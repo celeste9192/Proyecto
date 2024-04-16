@@ -8,8 +8,13 @@
     
     <link rel="stylesheet" href="../css/styles.css">
 </head>
+
+<header id="formularios-header">
+        <h1 id="titulo-formularios">Agregar Empleado</h1>
+        <a id="volver" href="empleados.php">Volver</a>
+    </header>
 <body>
-    <h1>Agregar Empleado</h1>
+    
 
     <?php
     include '../DAL/conexion.php';
@@ -34,7 +39,7 @@
         Desconectar($conexion);
     }
     ?>
-
+<div class="container-formularios">
     <form id="form-agregar-empleado" method="post">
         <label for="nombre">Nombre:</label>
         <input type="text" id="nombre" name="nombre" required><br><br>
@@ -56,8 +61,9 @@
 
         <input type="submit" value="Guardar">
     </form>
+    </div>
 
-    <a href="empleados.php"><button>Volver a Empleados</button></a>
+    
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="../js/empleados.js"></script>

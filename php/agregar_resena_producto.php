@@ -40,8 +40,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <title>Agregar Reseña de Producto</title>
     <link rel="stylesheet" href="../css/styles.css">
 </head>
+
+<header id="formularios-header">
+        <h1 id="titulo-formularios">Agregar Reseña</h1>
+        <a id="volver" href="resenas_productos.php">Volver</a>
+    </header>
 <body>
-<h1>Agregar Reseña de Producto</h1>
+<div class="container-formularios">
     <form method="post">
         <label for="id_producto">Producto:</label>
         <select id="id_producto" name="id_producto" required>
@@ -73,6 +78,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         
         <input type="submit" value="Agregar Reseña">
     </form>
-    <a href="resenas_productos.php">Volver a la lista de reseñas</a>
+    </div>
+   
 </body>
 </html>
