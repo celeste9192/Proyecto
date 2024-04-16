@@ -75,19 +75,20 @@ function obtenerReclamaciones()
         <?php obtenerReclamaciones(); ?>
 
         <a href="index.php" id="btn-menu-principal" class="btn">Menú Principal</a>
+        <a href="agregar_reclamacion.php" id="btn-menu-principal" class="btn">Agregar Reclamo</a>
     </div>
 
     <script>
-        // Esta función elimina el parámetro 'id' de la URL cuando se hace clic en el botón de editar
+        
         function limpiarParametroId() {
             if (window.history.replaceState) {
-                // Reemplazar la URL actual sin el parámetro 'id'
+                
                 var nuevaURL = window.location.href.split('?')[0];
                 window.history.replaceState(null, null, nuevaURL);
             }
         }
         
-        // Llamar a la función cuando se hace clic en el botón de editar
+        
         document.querySelectorAll('.edit-btn').forEach(btn => {
             btn.addEventListener('click', limpiarParametroId);
         });
