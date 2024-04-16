@@ -117,9 +117,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['agregar_carrito']) && 
                 <p><strong>Descripción:</strong> <?php echo $producto['descripcion_producto']; ?></p>
                 <p><strong>Precio:</strong> $<?php echo $producto['precio']; ?></p>
                 <?php if ($rol == 'administrador') : ?>
-                    <form action="eliminar_producto.php" method="post" class="botones-form">
+                    <form id="eliminarForm" method="post">
                         <input type="hidden" name="producto_id" value="<?php echo $producto['id_producto']; ?>">
-                        <button type="submit" id="eliminar-producto">Eliminar</button>
+                        <button class="eliminar-btn" data-id="<?php echo $producto['id_producto']; ?>">Eliminar</button>
                     </form>
                     <form action="editar_producto.php" method="get" class="botones-form">
                         <input type="hidden" name="producto_id" value="<?php echo $producto['id_producto']; ?>">
@@ -145,6 +145,33 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['agregar_carrito']) && 
             <button type="submit" id="agregar-producto">Agregar Producto</button>
         </form>
     <?php endif; ?>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $(".eliminar-btn").click(function(event) {
+                event.preventDefault(); 
+
+                var producto_id = $(this).parent().find('input[name="producto_id"]').val();
+
+                if (confirm("¿Estás seguro de que deseas eliminar este producto?")) {
+                    $.ajax({
+                        type: "POST",
+                        url: "eliminar_producto.php",
+                        data: {
+                            eliminar_producto: true,
+                            producto_id: producto_id
+                        },
+                        success: function(response) {
+                            alert(response); 
+                            window.location.reload();
+                        },
+                        error: function(xhr, status, error) {
+                            console.error("Error al eliminar el producto:", error);
+                        }
+                    });
+                }
+            });
+        });
+    </script>
 </body>
 </html>
-

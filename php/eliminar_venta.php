@@ -56,7 +56,7 @@ if (isset($_POST['id_venta']) && !isset($_POST['confirmar_eliminar'])) {
     <a href="ventas.php"><button>Volver a Ventas</button></a>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="../js/clientes.js"></script>
+    <script src="../js/ventas.js"></script>
 
 </body>
 
