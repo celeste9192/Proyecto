@@ -9,8 +9,9 @@ function obtenerReclamaciones()
 
     if ($resultado && mysqli_num_rows($resultado) > 0) {
         echo "<h2 id='subtitulo'>Listado de Reclamos</h2>";
+        echo "<div id='container'>";
         echo "<table id='tabla'>";
-        echo "<tr><th>Numero de Reclamo</th><th>Cliente</th><th>Motivo</th><th>Estado</th><th>Fecha</th></tr>";
+        echo "<tr><th>Número de Reclamo</th><th>Cliente</th><th>Motivo</th><th>Estado</th><th>Fecha</th></tr>";
 
         while ($fila = mysqli_fetch_assoc($resultado)) {
             echo "<tr>";
@@ -22,12 +23,12 @@ function obtenerReclamaciones()
             echo "</tr>";
         }
         echo "</table>";
+        echo "</div>";
     } else {
-        echo "No se encontraron clientes.";
+        echo "<p id='no-products-msg'>No se encontraron reclamaciones.</p>";
     }
 
     Desconectar($conexion);
-
 }
 
 ?>
@@ -43,18 +44,20 @@ function obtenerReclamaciones()
 </head>
 
 <body>
-    <header>
+    <header id="titulo">
         <h1>Reclamos</h1>
     </header>
-    <div class="btn-container">
-        <a href="agregar_reclamacion.php" class="btn">Agregar Reclamo</a>
-        <a href="eliminar_reclamacion.php" class="btn">Eliminar Reclamo</a>
-        <a href="editar_reclamacion.php" class="btn">Editar Reclamo</a>
+    <div id="container">
+        <div id="btn-container">
+            <a href="agregar_reclamacion.php" class="btn">Agregar Reclamo</a>
+            <a href="eliminar_reclamacion.php" class="btn">Eliminar Reclamo</a>
+            <a href="editar_reclamacion.php" class="btn">Editar Reclamo</a>
+        </div>
+
+        <?php obtenerReclamaciones(); ?>
+
+        <a href="index.php" id="btn-menu-principal" class="btn">Menú Principal</a>
     </div>
-
-    <?php obtenerReclamaciones(); ?>
-    <a href="index.php" class="btn">Volver al Menú Principal</a>
-
 </body>
 
 </html>

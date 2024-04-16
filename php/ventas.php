@@ -4,13 +4,14 @@ include '../DAL/conexion.php';
 function obtenerVentas()
 {
     $conexion = Conecta();
-    $sql = "SELECT * FROM Ventas";
+    $sql = "SELECT * FROM Venta";
     $resultado = mysqli_query($conexion, $sql);
 
     if ($resultado && mysqli_num_rows($resultado) > 0) {
         echo "<h2 id='subtitulo'>Listado de Ventas</h2>";
+        echo "<div id='container'>";
         echo "<table id='tabla'>";
-        echo "<tr><th>Numero de Venta</th><th>Cliente</th><th>Empleado</th><th>Fecha</th><th>Total</th></tr>";
+        echo "<tr><th>Número de Venta</th><th>Cliente</th><th>Empleado</th><th>Fecha</th><th>Total</th></tr>";
 
         while ($fila = mysqli_fetch_assoc($resultado)) {
             echo "<tr>";
@@ -22,12 +23,12 @@ function obtenerVentas()
             echo "</tr>";
         }
         echo "</table>";
+        echo "</div>";
     } else {
-        echo "No se encontraron clientes.";
+        echo "<p id='no-products-msg'>No se encontraron ventas.</p>";
     }
 
     Desconectar($conexion);
-
 }
 
 ?>
@@ -43,18 +44,20 @@ function obtenerVentas()
 </head>
 
 <body>
-    <header>
+    <header id="titulo">
         <h1>Ventas</h1>
     </header>
-    <div class="container">
-        <div class="btn-container">
+    <div id="container">
+        <div id="btn-container">
             <a href="agregar_venta.php" class="btn">Agregar Venta</a>
             <a href="eliminar_venta.php" class="btn">Eliminar Venta</a>
             <a href="editar_venta.php" class="btn">Editar Venta</a>
         </div>
 
         <?php obtenerVentas(); ?>
-        <a href="index.php" class="btn">Menu Principal</a>
+
+        <a href="index.php" id="btn-menu-principal" class="btn">Menú Principal</a>
+    </div>
 </body>
 
 </html>
