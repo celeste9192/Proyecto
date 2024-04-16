@@ -72,6 +72,9 @@ $resenas = obtenerResenasProductos();
             </tbody>
         </table>
     </div>
+    <?php if ($rol == 'administrador') : ?>
+        <a href="index.php" class="btn">Menu Principal</a>
+    <?php endif; ?>
     <?php if ($rol == 'cliente') : ?>
         <a href="agregar_resena_producto.php" class="btn">Agregar Reseña</a>
         <a href="index.php" class="btn">Menu Principal</a>
