@@ -4,199 +4,84 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="../css/styles.css">
     <title>Editar Compra</title>
-    <style>
-        body,
-        h1,
-        h2,
-        h3,
-        h4,
-        h5,
-        h6,
-        p,
-        ul,
-        li,
-        button,
-        input,
-        form,
-        label {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Poppins', sans-serif;
-            color: #31241E;
-            background-color: #F6F4F3;
-        }
-
-        h1,
-        h2,
-        h3,
-        h4,
-        h5,
-        h6 {
-            font-family: 'Montserrat', sans-serif;
-            font-weight: bold;
-        }
-
-        header {
-            background-color: #F6F4F3;
-            padding: 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-bottom: 1px solid #31241E;
-        }
-
-        h1 {
-            font-size: 36px;
-            text-transform: uppercase;
-        }
-
-        nav ul {
-            list-style-type: none;
-            padding: 0;
-        }
-
-        nav ul li {
-            display: inline-block;
-            margin-right: 20px;
-        }
-
-        nav ul li a {
-            text-decoration: none;
-            font-family: 'Montserrat', sans-serif;
-            font-weight: bold;
-            font-size: 16px;
-            color: #31241E;
-        }
-
-        form {
-            margin-top: 20px;
-        }
-
-        label {
-            display: block;
-            font-weight: bold;
-            margin-bottom: 5px;
-        }
-
-        input[type="text"],
-        input[type="number"],
-        input[type="email"],
-        input[type="url"],
-        textarea {
-            width: 100%;
-            padding: 10px;
-            margin-bottom: 10px;
-            border-radius: 5px;
-            border: 1px solid #D1C8C1;
-        }
-
-        input[type="submit"],
-        button {
-            padding: 10px 20px;
-            border: none;
-            border-radius: 5px;
-            background-color: #D1C8C1;
-            color: #FFF;
-            font-family: 'Montserrat', sans-serif;
-            font-weight: bold;
-            font-size: 18px;
-            cursor: pointer;
-        }
-
-        button {
-            background-color: transparent;
-            color: #31241E;
-        }
-
-        h1 {
-            text-align: center;
-            margin-top: 20px;
-            margin-bottom: 20px;
-        }
-
-        ul {
-            margin-top: 20px;
-            padding-left: 20px;
-        }
-
-        ul li {
-            margin-bottom: 20px;
-        }
-    </style>
 </head>
 
 <body>
-<h1>Editar Compra</h1>
+    <h1>Editar Compra</h1>
 
-<?php
-include '../DAL/conexion.php';
+    <?php
 
-if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['id_compra'])) {
-    $id_compra = $_POST['id_compra'];
+    include '../DAL/conexion.php';
 
-    $conexion = Conecta();
-    $sql = "SELECT * FROM Compras WHERE id_compra = $id_compra";
-    $resultado = mysqli_query($conexion, $sql);
+    if (isset($_GET['id_compra'])) {
+        $id_compra = $_GET['id_compra'];
 
-    if ($resultado && mysqli_num_rows($resultado) > 0) {
-        $compra = mysqli_fetch_assoc($resultado);
+        $conexion = Conecta();
+        $sql = "SELECT * FROM Compras WHERE id_compra = $id_compra";
+        $resultado = mysqli_query($conexion, $sql);
+
+        if ($resultado && mysqli_num_rows($resultado) > 0) {
+            $compra = mysqli_fetch_assoc($resultado);
+
+            echo '<form id="editForm" method="POST">';
+            echo '<input type="hidden" name="id_compra" value="' . $id_venta . '">';
+            echo '<label for="id_proveedor">Proveedor:</label>';
+            echo '<input type="number" id="id_proveedor" name="id_proveedor" value="' . $id_proveedor['id_proveedor'] . '"><br>';
+            echo '<label for="detalles">Detalles:</label>';
+            echo '<input type="text" id="detalles" name="detalles" value="' . $detalles['detalles'] . '"><br>';
+            echo '<label for="fecha">Fecha:</label>';
+            echo '<input type="date" id="fecha" name="fecha" value="' . $fecha['fecha'] . '"><br>';
+            echo '<label for="total">Total:</label>';
+            echo '<input type="number" id="total" name="total" value="' . $total['total'] . '"><br>';
+
+        } else {
+            echo "No se encontró la compra.";
+        }
+
+        Desconectar($conexion);
+
     } else {
-        echo "No se encontró la compra.";
-        exit;
+
+        echo '<form id="searchForm" action="" method="GET">';
+        echo '<label for="id_compra">Numero de Compra:</label>';
+        echo '<input type="number" id="id_compra" name="id_compra">';
+        echo '<button type="submit">Buscar</button>';
+        echo '</form>';
+
     }
 
-    if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['editar'])) {
+    if (isset($_POST['guardar'])) {
+
+        $id_compra = $_POST['id_compra'];
         $id_proveedor = $_POST['id_proveedor'];
         $detalles = $_POST['detalles'];
         $fecha = $_POST['fecha'];
         $total = $_POST['total'];
 
-        $sql = "UPDATE Compras SET id_proveedor='$id_proveedor', detalles='$detalles', fecha='$fecha', total='$total' WHERE id_compra = $id_compra";
+        $conexion = Conecta();
+        $sql = "UPDATE Compras SET id_proveedor='$id_proveedor', detalles='$detalles', fecha='$fecha', total='$total' WHERE id_venta = $id_venta";
+        $resultado = mysqli_query($conexion, $sql);
 
-        if (mysqli_query($conexion, $sql)) {
-            echo "Compra editada correctamente.";
+        if ($resultado) {
+            echo "<p>Los datos se editaron.</p>";
         } else {
-            echo "Error al editar compra: " . mysqli_error($conexion);
+            echo "<p>Error al actualizar los datos: " . mysqli_error($conexion) . "</p>";
         }
+
+        Desconectar($conexion);
     }
+    ?>
 
-    Desconectar($conexion);
-}
-?>
-
-<form method="post">
-    <label for="id_compra">Numero de Compra a Editar:</label>
-    <input type="number" id="id_compra" name="id_compra" required><br><br>
-    <input type="submit" value="Buscar">
-</form>
-
-<?php if (isset($compra)): ?>
     <form method="post">
-        <input type="hidden" name="id_compra" value="<?php echo $compra['id_compra']; ?>">
-
-        <label for="id_proveedor">ID Proveedor:</label>
-        <input type="number" id="id_proveedor" name="id_proveedor" value="<?php echo $compra['id_proveedor']; ?>" required><br><br>
-
-        <label for="detalles">Detalles:</label>
-        <input type="text" id="detalles" name="detalles" value="<?php echo $compra['detalles']; ?>" required><br><br>
-
-        <label for="fecha">Fecha:</label>
-        <input type="date" id="fecha" name="fecha" value="<?php echo $compra['fecha']; ?>" required><br><br>
-
-        <label for="total">Total:</label>
-        <input type="number" id="total" name="total" value="<?php echo $compra['total']; ?>" required><br><br>
-
-        <input type="submit" name="editar" value="Editar">
+        <label for="id_compra">Numero de Compra a Editar:</label>
+        <input type="number" id="id_compra" name="id_compra" required><br><br>
+        <input type="submit" value="Buscar">
     </form>
-<?php endif; ?>
 
-<a href="compras.php"><button>Volver a Compras</button></a>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="../js/ventas.js"></script>
 </body>
 
 </html>
