@@ -2,31 +2,25 @@
 include '../DAL/conexion.php';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Verificar si se recibió el nombre de la categoría
     if (isset($_POST['nombre_categoria']) && !empty($_POST['nombre_categoria'])) {
         $nombre_categoria = $_POST['nombre_categoria'];
 
-        // Conexión a la base de datos
         $conexion = Conecta();
 
-        // Preparar la consulta SQL para insertar la categoría
         $consulta = "INSERT INTO Categorias (nombre_categoria) VALUES ('$nombre_categoria')";
 
-        // Ejecutar la consulta
         if (mysqli_query($conexion, $consulta)) {
             $mensaje = "La categoría se agregó correctamente.";
         } else {
             $error = "Error al agregar la categoría: " . mysqli_error($conexion);
         }
 
-        // Cerrar la conexión a la base de datos
         Desconectar($conexion);
     } else {
         $error = "Por favor, ingrese el nombre de la categoría.";
     }
 }
 
-// Mostrar mensajes de éxito o error
 if (isset($mensaje)) {
     echo $mensaje;
 } elseif (isset($error)) {
@@ -44,9 +38,6 @@ if (isset($mensaje)) {
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="../css/styles.css">
     <title>Agregar Categoría</title>
-    <style>
-        /* Aquí puedes agregar tus estilos personalizados si es necesario */
-    </style>
 </head>
 
 <body>

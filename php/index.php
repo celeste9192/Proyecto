@@ -103,7 +103,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['agregar_carrito']) && 
                 <li><a href="promociones.php">Promociones</a></li>
                 <li><a href="resenas_productos.php">Reseñas de Productos</a></li>
                 <li><a href="reclamaciones.php">Reclamaciones</a></li>
-                <li><a href="carrito.php">Carrito</a></li>
+                <li><a href="carrito2.php">Carrito</a></li>
             <?php endif; ?>
         </nav>
     </header>
@@ -139,7 +139,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['agregar_carrito']) && 
             </div>
         <?php endforeach; ?>
     </div>
-    <!-- Botón para agregar producto -->
     <?php if ($rol == 'administrador') : ?>
         <form action="agregar_producto.php" method="get" id="agregar-producto-form">
             <button type="submit" id="agregar-producto">Agregar Producto</button>
