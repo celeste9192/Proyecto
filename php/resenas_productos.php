@@ -1,6 +1,10 @@
 <?php
 include '../DAL/conexion.php';
 
+
+session_start();
+$rol = $_SESSION['rol']; 
+
 function obtenerResenasProductos()
 {
     $conexion = Conecta();
@@ -25,13 +29,14 @@ $resenas = obtenerResenasProductos();
 
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Reseñas de Productos</title>
     <link rel="stylesheet" href="../css/styles.css">
-    
 </head>
+
 <body>
     <h1>Reseñas de Productos</h1>
     <div>
@@ -57,16 +62,23 @@ $resenas = obtenerResenasProductos();
                         <td><?php echo $resena['comentario']; ?></td>
                         <td><?php echo $resena['fecha']; ?></td>
                         <td>
-                            <a href="editar_resena_producto.php?id=<?php echo $resena['id_resena_producto']; ?>">Editar</a>
-                            <a href="eliminar_resena_producto.php?id=<?php echo $resena['id_resena_producto']; ?>" onclick="return confirm('¿Está seguro de que desea eliminar esta reseña?')">Eliminar</a>
+                            <?php if ($rol == 'administrador') : ?>
+                                <a href="editar_resena_producto.php?id=<?php echo $resena['id_resena_producto']; ?>">Editar</a>
+                                <a href="eliminar_resena_producto.php?id=<?php echo $resena['id_resena_producto']; ?>" onclick="return confirm('¿Está seguro de que desea eliminar esta reseña?')">Eliminar</a>
+                            <?php endif; ?>
                         </td>
                     </tr>
                 <?php endforeach; ?>
             </tbody>
         </table>
     </div>
-    <a href="agregar_resena_producto.php" class="btn">Agregar Reseña</a>
-    <a href="index.php" class="btn">Menu Principal</a>
-    
+    <?php if ($rol == 'administrador') : ?>
+        <a href="index.php" class="btn">Menu Principal</a>
+    <?php endif; ?>
+    <?php if ($rol == 'cliente') : ?>
+        <a href="agregar_resena_producto.php" class="btn">Agregar Reseña</a>
+        <a href="index.php" class="btn">Menu Principal</a>
+    <?php endif; ?>
 </body>
+
 </html>
