@@ -9,8 +9,9 @@ function obtenerCompras()
 
     if ($resultado && mysqli_num_rows($resultado) > 0) {
         echo "<h2 id='subtitulo'>Listado de Compras:</h2>";
+        echo "<div id='container'>";
         echo "<table id='tabla'>";
-        echo "<tr><th>Numero de Venta</th><th>Proveedor</th><th>Detalles</th><th>Fecha</th><th>Total</th></tr>";
+        echo "<tr><th>Número de Compra</th><th>Proveedor</th><th>Detalles</th><th>Fecha</th><th>Total</th></tr>";
 
         while ($fila = mysqli_fetch_assoc($resultado)) {
             echo "<tr>";
@@ -22,9 +23,9 @@ function obtenerCompras()
             echo "</tr>";
         }
         echo "</table>";
-    } 
-    else {
-        echo "No se encontro la compra.";
+        echo "</div>";
+    } else {
+        echo "<p id='no-products-msg'>No se encontró la compra.</p>";
     }
     
     Desconectar($conexion);
@@ -43,18 +44,20 @@ function obtenerCompras()
 </head>
 
 <body>
-    <header>
+    <header id="titulo">
         <h1>Compras</h1>
     </header>
-    <div class="container">
-        <div class="btn-container">
+    <div id="container">
+        <div id="btn-container">
             <a href="agregar_compra.php" class="btn">Agregar Compra</a>
             <a href="eliminar_compra.php" class="btn">Eliminar Compra</a>
             <a href="editar_compra.php" class="btn">Editar Compra</a>
         </div>
 
         <?php obtenerCompras(); ?>
-        <a href="index.php" class="btn">Menu Principal</a>
+
+        <a href="index.php" id="btn-menu-principal" class="btn">Menú Principal</a>
+    </div>
 </body>
 
 </html>
