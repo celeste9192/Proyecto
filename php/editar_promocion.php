@@ -123,9 +123,7 @@ function obtenerPromociones()
 
         input[type="text"],
         input[type="number"],
-        input[type="email"],
-        input[type="url"],
-        textarea {
+        input[type="date"] {
             width: 100%;
             padding: 10px;
             margin-bottom: 10px;
@@ -176,6 +174,7 @@ function obtenerPromociones()
             border: 1px solid #D1C8C1;
         }
     </style>
+</head>
 
 <body>
     <header>
@@ -206,18 +205,9 @@ function obtenerPromociones()
             <input type="date" id="fecha_fin" name="fecha_fin" value="<?php echo $promocion['fecha_fin']; ?>" required>
 
             <label for="descuento">Descuento (%):</label>
-            <input type="number" id="descuento" name="descuento" min="0" max="100" value="<?php echo $promocion['descuento']; ?>" required>
+            <input type="number" id="descuento" name="descuento" value="<?php echo $promocion['descuento']; ?>" required>
 
-            <input type="submit" value="Guardar Cambios">
+            <button type="submit">Guardar Cambios</button>
         </form>
     </div>
-
-    <script>
-        document.getElementById('select_promocion').addEventListener('change', function() {
-            var idPromocion = this.value;
-            window.location.href = 'promociones.php?id=' + idPromocion;
-        });
-    </script>
-</body>
-
 </html>

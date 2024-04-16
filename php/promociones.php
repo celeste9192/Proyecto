@@ -1,6 +1,10 @@
 <?php
 include '../DAL/conexion.php';
 
+
+session_start();
+$rol = $_SESSION['rol']; 
+
 function obtenerPromociones()
 {
     $conexion = Conecta();
@@ -142,9 +146,11 @@ $promociones = obtenerPromociones();
     </header>
     <div class="container">
         <div class="btn-container">
-            <a href="agregar_promocion.php" class="btn">Agregar Promoción</a>
-            <button class="btn" id="editar-promo-btn">Editar Promoción</button>
-            <a href="index.php" class="btn">Ir a Index</a> 
+            <?php if ($rol == 'administrador') : ?>
+                <a href="agregar_promocion.php" class="btn">Agregar Promoción</a>
+                <button class="btn" id="editar-promo-btn">Editar Promoción</button>
+            <?php endif; ?>
+            <a href="index.php" class="btn">Ir a Index</a>
         </div>
 
         <div class="promo-container" id="promociones-container">
@@ -156,7 +162,9 @@ $promociones = obtenerPromociones();
                         <p>Fecha de Inicio: <?php echo $promocion['fecha_inicio']; ?></p>
                         <p>Fecha de Fin: <?php echo $promocion['fecha_fin']; ?></p>
                         <p>Descuento: <?php echo $promocion['descuento']; ?>%</p>
-                        <button class="eliminar-promocion-btn" data-id="<?php echo $promocion['id_promocion']; ?>">Eliminar</button>
+                        <?php if ($rol == 'administrador') : ?>
+                            <button class="eliminar-promocion-btn" data-id="<?php echo $promocion['id_promocion']; ?>">Eliminar</button>
+                        <?php endif; ?>
                     </div>
                 <?php endforeach; ?>
             <?php else : ?>
