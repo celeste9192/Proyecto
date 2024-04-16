@@ -47,8 +47,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <label for="motivo">Motivo:</label>
             <textarea id="motivo" name="motivo" rows="4" required></textarea><br><br>
             <input type="hidden" id="id_cliente" name="id_cliente" value="<?php echo $_SESSION['id_cliente']; ?>">
-
-            <input type="submit" value="Agregar Reclamo">
+            <input type="hidden" name="estado" value="Pendiente">
         </form>
     </div>
 
