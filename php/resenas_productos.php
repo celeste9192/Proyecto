@@ -38,8 +38,13 @@ $resenas = obtenerResenasProductos();
 </head>
 
 <body>
-    <div id="container">
+    <header>
         <h1>Reseñas de Productos</h1>
+        <a id="volver" href="index.php">Volver</a>
+    </header>
+    <div id="container">
+        
+        
         <div>
             <table>
                 <thead>
@@ -90,7 +95,7 @@ $resenas = obtenerResenasProductos();
             <?php endif; ?>
             <?php if ($rol == 'cliente') : ?>
                 <a href="agregar_resena_producto.php" class="btn">Agregar Reseña</a>
-                <a href="index.php" class="btn">Menu Principal</a>
+                
             <?php endif; ?>
         </div>
     </div>

@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="..css/style.css">
     <title>Reabastecimiento de Stock</title>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <style>
@@ -96,6 +96,7 @@
 <body>
     <header>
         <h1>Reabastecimiento de Stock</h1>
+        <a id="volver" href="index.php">Volver</a>
     </header>
     <div class="container">
         <div class="btn-container">
@@ -151,7 +152,7 @@
     mostrarReabastecimientos();
     ?>
 
-    <a href="index.php" class="btn">Menú Principal</a>
+    
 </div>
     </div>
     <script src="reabastecimiento.js"></script>

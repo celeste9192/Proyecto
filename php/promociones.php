@@ -150,13 +150,14 @@ $promociones = obtenerPromociones();
 <body>
     <header>
         <h1>Promociones</h1>
+        <a id="volver" href="index.php">Volver</a>
     </header>
     <div class="container">
         <div class="btn-container">
             <?php if ($rol == 'administrador') : ?>
                 <a href="agregar_promocion.php" class="btn">Agregar Promoción</a>
             <?php endif; ?>
-            <a href="index.php" class="btn">Ir a Index</a>
+            
         </div>
 
         <div class="promo-container" id="promociones-container">

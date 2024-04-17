@@ -14,12 +14,11 @@
 <body>
     <header id="header">
         <h1>Empleados</h1>
+        <a id="volver" href="index.php">Volver</a>
     </header>
 
     <div id="container">
-        <div class="btn-container">
-            <a href="agregar_empleado.php" id="btn-agregar" class="btn">Agregar Empleado</a>
-        </div>
+        
 
         <?php
         include '../DAL/conexion.php';
@@ -58,7 +57,9 @@
         leerEmpleados();
         ?>
 
-        <a href="index.php" id="btn-menu-principal" class="btn">Menu Principal</a>
+        <div class="btn-container">
+            <a href="agregar_empleado.php" id="btn-agregar" class="btn">Agregar Empleado</a>
+        </div>
     </div>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>

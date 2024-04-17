@@ -76,7 +76,7 @@ function mostrarCategorias()
             <?php mostrarCategorias(); ?>
         </div>
     </div>
-    <a href="index.php" class="btn" id="btn-menu-principal">Menú Principal</a>
+    
 </body>
 
 </html>

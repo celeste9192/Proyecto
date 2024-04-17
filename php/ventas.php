@@ -46,6 +46,7 @@ function obtenerVentas()
 <body>
     <header id="titulo">
         <h1>Ventas</h1>
+        <a id="volver" href="index.php">Volver</a>
     </header>
     <div id="container">
         <div id="btn-container">
@@ -55,7 +56,7 @@ function obtenerVentas()
 
         <?php obtenerVentas(); ?>
         <a href="agregar_detalle_venta.php" class="btn">Agregar Detalles</a>
-        <a href="index.php" id="btn-menu-principal" class="btn">Menú Principal</a>
+        
     </div>
 </body>
 

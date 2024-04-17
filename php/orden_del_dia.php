@@ -109,6 +109,7 @@ $orden_del_dia = obtenerOrden_del_Dia();
 <body>
     <header>
         <h1>Ordenes del Dia</h1>
+        <a id="volver" href="index.php">Volver</a>
     </header>
     <div class="container">
         <div class="btn-container">
@@ -138,7 +139,7 @@ $orden_del_dia = obtenerOrden_del_Dia();
 
     </div>
     
-    <a href="index.php" class="btn">Menu Principal</a>
+   
 
     <script>
         $(document).ready(function() {
