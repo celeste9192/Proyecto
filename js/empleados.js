@@ -1,5 +1,5 @@
 $(document).ready(function() {
-    // Evento para el formulario de agregar empleado
+    
     $("#form-agregar-empleado").submit(function(event) {
         event.preventDefault();
         $.ajax({
@@ -18,7 +18,7 @@ $(document).ready(function() {
         });
     });
 
-    // Evento para el botón de eliminar empleado
+    
     $(document).on("click", ".btn-eliminar", function() {
         var idEmpleado = $(this).data("id");
         if(confirm("¿Estás seguro de eliminar este empleado?")) {
@@ -26,7 +26,7 @@ $(document).ready(function() {
         }
     });
 
-    // Función para eliminar empleado
+    
     function eliminarEmpleado(id) {
         var xhr = new XMLHttpRequest();
         xhr.open("POST", "eliminar_empleado.php", true);
@@ -37,9 +37,9 @@ $(document).ready(function() {
                     var response = JSON.parse(xhr.responseText);
                     if(response.success) {
                         alert(response.message);
-                        // Recargar la lista de empleados después de eliminar uno
+                        
                         $("#lista-empleados").load(" #lista-empleados", function() {
-                            // Recargar la página después de un breve retraso
+                            
                             setTimeout(function() {
                                 window.location.reload();
                             }, 1000);
@@ -55,13 +55,13 @@ $(document).ready(function() {
         xhr.send("id_empleado=" + id + "&confirmar_eliminar=1");
     }
 
-    // Redirección al editar empleado
+    
     $(document).on("click", ".btn-editar", function() {
         var empleadoId = $(this).data('id');
         window.location.href = "editar_empleado.php?empleadoId=" + empleadoId;
     });
 
-    // Función para manejar la edición de empleado
+    
     $(document).on("submit", "#editForm", function(event) {
         event.preventDefault();
         var form = $(this);
@@ -75,7 +75,7 @@ $(document).ready(function() {
                 } else {
                     alert(response);
                 }
-                // Redireccionar a la página de empleados después de la edición
+                
                 window.location.href = "empleados.php";
             },
             error: function() {
