@@ -100,7 +100,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['agregar_carrito']) && 
                 <li><a href="reclamaciones.php">Reclamaciones</a></li> 
                 
             <?php elseif ($rol == 'cliente') : ?>
-                <li><a href="index.php">Catálogo</a></li>
+                
                 <li><a href="promociones.php">Promociones</a></li>
                 <li><a href="resenas_productos.php">Reseñas de Productos</a></li>
                 <li><a href="reclamaciones.php">Reclamaciones</a></li>

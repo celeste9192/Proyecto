@@ -4,29 +4,19 @@ include '../DAL/conexion.php';
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $id_resena_producto = $_POST['id_resena_producto'];
     $id_producto = $_POST['id_producto'];
-    $id_cliente = $_POST['id_cliente'];
-    $calificacion = $_POST['calificacion'];
-    $comentario = $_POST['comentario'];
-    $fecha = $_POST['fecha'];
-
-    $conexion = Conecta();
-    $consulta = "UPDATE ReseñasProducto SET id_producto='$id_producto', id_cliente='$id_cliente', calificacion='$calificacion', comentario='$comentario', fecha='$fecha' WHERE id_resena_producto='$id_resena_producto'";
-
-    if (mysqli_query($conexion, $consulta)) {
-        header("Location: resenas_productos.php");
-        exit();
-    } else {
-        echo "Error: " . $consulta . "<br>" . mysqli_error($conexion);
-    }
-
-    Desconectar($conexion);
 }
 
+if (isset($_GET['id'])) {
+    mysqli_stmt_bind_param($statement, "i", $id_resena_producto);
+    mysqli_stmt_execute($statement);
+    $resultado = mysqli_stmt_get_result($statement);
+=======
 if (isset($_GET['id'])) {
     $id_resena_producto = $_GET['id'];
     $conexion = Conecta();
     $consulta = "SELECT * FROM ReseñasProducto WHERE id_resena_producto='$id_resena_producto'";
     $resultado = mysqli_query($conexion, $consulta);
+>>>>>>> 5b58e072d949463c9eff726459ca38c10dc2520a
 
     if ($resultado && mysqli_num_rows($resultado) > 0) {
         $resena = mysqli_fetch_assoc($resultado);
