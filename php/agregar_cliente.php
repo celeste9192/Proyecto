@@ -8,6 +8,10 @@
     <link rel="stylesheet" href="../css/agregar_cliente_styles.css">
 </head>
 <body>
+    <header id="formularios-header">
+        <h1>Agregar cliente</h1>
+        <a id="volver" href="categorias.php">Volver</a>
+    </header>
     <div id="container">
         <h1>Agregar Cliente</h1>
         <form id="form-agregar-cliente" method="post">
