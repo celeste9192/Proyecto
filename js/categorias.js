@@ -7,8 +7,10 @@ $(document).ready(function() {
             data: $(this).serialize(), 
             success: function(response) {
                 if (response.indexOf('<!DOCTYPE html>') !== -1) {
-                    alert("Categoría guardada correctamente.");
+               
+                    alert("Categoria guardada correctamente.");
                 } else {
+                  
                     alert(response);
                 }
                 $("#agregarCategoriaForm")[0].reset(); 
@@ -41,8 +43,6 @@ function eliminarCategoria(id) {
         xhr.send("id_categoria=" + id + "&confirmar_eliminar=1");
     }
 }
-
-
 
 document.getElementById("editForm").addEventListener("submit", function() {
     window.location.href = "categorias.php";

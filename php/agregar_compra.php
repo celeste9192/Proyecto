@@ -1,3 +1,36 @@
+<?php
+include '../DAL/conexion.php';
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    if (
+        isset($_POST['id_proveedor']) && !empty($_POST['id_proveedor']) &&
+        isset($_POST['detalles']) && !empty($_POST['detalles']) &&
+        isset($_POST['fecha']) && !empty($_POST['fecha']) &&
+        isset($_POST['total']) && !empty($_POST['total'])
+    ) {
+        $id_proveedor = $_POST['id_proveedor'];
+        $detalles = $_POST['detalles'];
+        $fecha = $_POST['fecha'];
+        $total = $_POST['total'];
+
+        $conexion = Conecta();
+
+        $consulta = "INSERT INTO Compras (id_proveedor, detalles, fecha_compra, total_compra) VALUES ('$id_proveedor', '$detalles', '$fecha', '$total')";
+
+        if (mysqli_query($conexion, $consulta)) {
+            echo "La compra se agregó correctamente.";
+        } else {
+            echo "Error al agregar la compra: " . mysqli_error($conexion);
+        }
+
+        Desconectar($conexion);
+    } else {
+        echo "Por favor, complete todos los campos.";
+    }
+}
+?>
+
+
 <!DOCTYPE html>
 <html lang="es">
 

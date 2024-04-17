@@ -18,8 +18,8 @@ function obtenerCompras()
             echo "<td>" . $fila['id_compra'] . "</td>";
             echo "<td>" . $fila['id_proveedor'] . "</td>";
             echo "<td>" . $fila['detalles'] . "</td>";
-            echo "<td>" . $fila['fecha'] . "</td>";
-            echo "<td>" . $fila['total'] . "</td>";
+            echo "<td>" . $fila['fecha_compra'] . "</td>"; 
+            echo "<td>" . $fila['total_compra'] . "</td>"; 
             echo "</tr>";
         }
         echo "</table>";

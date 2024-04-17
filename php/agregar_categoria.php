@@ -36,7 +36,9 @@ if (isset($mensaje)) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="../css/styles.css">
+    <link rel="stylesheet" href="../css/styles.css"> 
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="../js/categorias.js"></script>
     <title>Agregar Categoría</title>
 </head>
 
@@ -45,28 +47,23 @@ if (isset($mensaje)) {
         <h1>Agregar Categoría</h1>
         <a id="volver" href="categorias.php">Volver</a>
     </header>
-    <div class="container-formularios>
-        <form id="agregarCategoriaForm" method="post" action="agregar_categoria.php">
-            <label for="nombre_categoria">Nombre de la Categoría:</label><br>
-            <input type="text" id="nombre_categoria" name="nombre_categoria"><br><br>
-            <input type="submit" value="Agregar Categoría">
-        </form>
+    <div class="container-formularios">
+    <form id="agregarCategoriaForm" method="post" action="agregar_categoria.php">
+        <label for="nombre_categoria">Nombre de la Categoría:</label><br>
+        <input type="text" id="nombre_categoria" name="nombre_categoria"><br><br>
+        <input type="submit" value="Agregar Categoría">
+    </form>
 
-        <div id="mensaje">
-            <?php if (isset($mensaje)) : ?>
-                <p><?php echo $mensaje; ?></p>
-            <?php endif; ?>
+    <div id="mensaje">
+        <?php if (isset($mensaje)) : ?>
+            <p><?php echo $mensaje; ?></p>
+        <?php endif; ?>
 
-            <?php if (isset($error)) : ?>
-                <p><?php echo $error; ?></p>
-            <?php endif; ?>
-        </div>
+        <?php if (isset($error)) : ?>
+            <p><?php echo $error; ?></p>
+        <?php endif; ?>
     </div>
-
-    
-
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="../js/categorias.js"></script>
+</div>
 </body>
 
 </html>

@@ -30,7 +30,7 @@
             <input type="submit" value="Agregar Detalles">
         </form>
 
-        <a href="detalles_venta.php" class="btn">Volver a Detalles</a>
+        <a href="ventas.php" class="btn">Volver a Ventas</a>
 
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
         <script src="../js/detalles_venta.js"></script>

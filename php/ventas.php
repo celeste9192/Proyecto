@@ -49,7 +49,6 @@ function obtenerVentas()
     </header>
     <div id="container">
         <div id="btn-container">
-            <a href="agregar_venta.php" class="btn">Agregar Venta</a>
             <a href="eliminar_venta.php" class="btn">Eliminar Venta</a>
             <a href="editar_venta.php" class="btn">Editar Venta</a>
         </div>
