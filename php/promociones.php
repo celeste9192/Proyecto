@@ -1,9 +1,9 @@
 <?php
 include '../DAL/conexion.php';
 
-// Suponiendo que tienes una función para verificar el rol del usuario
+
 session_start();
-$rol = $_SESSION['rol']; // Obtén el rol del usuario desde la sesión
+$rol = $_SESSION['rol']; 
 
 function obtenerPromociones()
 {
@@ -34,10 +34,10 @@ $promociones = obtenerPromociones();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Promociones</title>
-    <link rel="stylesheet" href="css/style.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.css" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>
+    <link rel="stylesheet" href="../css/styles.css">
     <style>
         body {
             font-family: 'Poppins', sans-serif;

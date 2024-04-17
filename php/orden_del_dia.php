@@ -29,82 +29,10 @@ $orden_del_dia = obtenerOrden_del_Dia();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ordenes del Dia</title>
-    <link rel="stylesheet" href="css/style.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="orden.js"></script>
-    <style>
-        body {
-            font-family: 'Poppins', sans-serif;
-            color: #31241E;
-            background-color: #F6F4F3;
-            margin: 0;
-            padding: 0;
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-
-        header {
-            background-color: #F6F4F3;
-            padding: 20px;
-            border-bottom: 1px solid #31241E;
-            text-align: center;
-        }
-
-        h1 {
-            font-size: 36px;
-            margin-bottom: 20px;
-            text-transform: uppercase;
-        }
-
-        .btn-container {
-            display: flex;
-            justify-content: center;
-            margin-bottom: 20px;
-        }
-
-        .btn-container a {
-            margin: 0 10px;
-            text-decoration: none;
-        }
-
-        .btn {
-            padding: 10px 20px;
-            border: none;
-            border-radius: 5px;
-            background-color: #D1C8C1;
-            color: #FFF;
-            font-family: 'Montserrat', sans-serif;
-            font-weight: bold;
-            font-size: 18px;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-        }
-
-        .btn:hover {
-            background-color: #31241E;
-        }
-
-        .venta {
-            background-color: #FFF;
-            border: 1px solid #D1C8C1;
-            border-radius: 5px;
-            padding: 10px;
-            margin-bottom: 20px;
-        }
-
-        .venta li {
-            margin-bottom: 10px;
-        }
-
-        .no-ventas {
-            text-align: center;
-            margin-top: 20px;
-        }
-        </style>
+    <link rel="stylesheet" href="../css/styles.css">
+    
 </head>
 <body>
     <header>
