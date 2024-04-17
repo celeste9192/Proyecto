@@ -9,9 +9,11 @@
 </head>
 
 <body>
-    <div class="container">
-    <h1 id="titulo">Proveedores</h1>
+    
 
+    <header id="titulo">
+        <h1>Proveedores</h1>
+        <a id="volver" href="index.php">Volver</a>
     </header>
     
     <div id="btn-container">
@@ -60,7 +62,7 @@
 
         
     
-    <a href="index.php" id="btn-menu-principal" class="btn">Menu Principal</a>
+    
 </body>
 
 </html>

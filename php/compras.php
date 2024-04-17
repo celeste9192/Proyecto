@@ -46,6 +46,7 @@ function obtenerCompras()
 <body>
     <header id="titulo">
         <h1>Compras</h1>
+        <a id="volver" href="index.php">Volver</a>
     </header>
     <div id="container">
         <div id="btn-container">
@@ -56,7 +57,7 @@ function obtenerCompras()
 
         <?php obtenerCompras(); ?>
 
-        <a href="index.php" id="btn-menu-principal" class="btn">Menú Principal</a>
+        
     </div>
 </body>
 

@@ -13,6 +13,7 @@ Este archivo actualmente no se usa
 <body>
     <header>
         <h1>Agregar Detalles</h1>
+        <a id="volver" href="ventas.php">Volver</a>
     </header>
     <div class="container">
 

@@ -41,11 +41,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <link rel="stylesheet" href="../css/styles.css">
 </head>
 
-<header id="formularios-header">
+
+<body>
+
+    <header id="formularios-header">
         <h1 id="titulo-formularios">Agregar Reseña</h1>
         <a id="volver" href="resenas_productos.php">Volver</a>
     </header>
-<body>
 <div class="container-formularios">
     <form method="post">
         <label for="id_producto">Producto:</label>

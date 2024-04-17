@@ -3,12 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Clientes</title>
     <link rel="stylesheet" href="../css/styles.css">
 </head>
 <body>
-    <h1 id="titulo">Clientes</h1>
-
+<header id="titulo">
+        <h1>Clientes</h1>
+        <a id="volver" href="index.php">Volver</a>
+    </header>
     <?php
     include '../DAL/conexion.php';
 
@@ -63,10 +64,7 @@
 
     ?>
     
-    <div id="btn-container">
-        <a href="agregar_cliente.php" id="btn-agregar">Agregar Cliente</a>
-        <a href="index.php" id="btn-menu-principal" class="btn">Menú Principal</a>
-    </div>
+    
 
     <?php leerClientes(); ?>
 
@@ -103,5 +101,9 @@
             });
         }
     </script>
+    <div id="btn-container">
+        <a href="agregar_cliente.php" id="btn-agregar">Agregar Cliente</a>
+        
+    </div>
 </body>
 </html>

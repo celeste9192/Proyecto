@@ -25,16 +25,30 @@ function mostrarCategorias()
     $categorias = obtenerCategorias();
 
     if (!empty($categorias)) {
+        echo "<div id='categorias-container'>";
         echo "<h2>Listado de Categorías</h2>";
-        echo "<ul>";
+        echo "<table id='tabla'>";
+        echo "<thead>";
+        echo "<tr>";
+        echo "<th>ID</th>";
+        echo "<th>Nombre</th>";
+        echo "</tr>";
+        echo "</thead>";
+        echo "<tbody>";
         foreach ($categorias as $categoria) {
-            echo "<li>ID: " . $categoria['id_categoria'] . " - Nombre: " . $categoria['nombre_categoria'] . "</li>";
+            echo "<tr>";
+            echo "<td>" . $categoria['id_categoria'] . "</td>";
+            echo "<td>" . $categoria['nombre_categoria'] . "</td>";
+            echo "</tr>";
         }
-        echo "</ul>";
+        echo "</tbody>";
+        echo "</table>";
+        echo "</div>";
     } else {
         echo "<p class='no-categories'>No se encontraron categorías.</p>";
     }
 }
+
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -42,27 +56,15 @@ function mostrarCategorias()
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>  Categorías</title>
-    <link rel="stylesheet" href="css/style.css">
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <title>Categorías</title>
     <link rel="stylesheet" href="../css/styles.css">
-    
-    <script>
-        $(document).ready(function() {
-            $.ajax({
-                url: "obtener_categorias.php",
-                method: "GET",
-                success: function(data) {
-                    $("#categorias-container").html(data);
-                }
-            });
-        });
-    </script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 
 <body>
     <header id="titulo">
         <h1>Categorías</h1>
+        <a id="volver" href="index.php">Volver</a>
     </header>
     <div class="container" id="container">
         <div class="btn-container" id="btn-container">
@@ -74,8 +76,7 @@ function mostrarCategorias()
             <?php mostrarCategorias(); ?>
         </div>
     </div>
-    <a href="index.php" class="btn" id="btn-menu-principal">Menú Principal</a>
+    
 </body>
 
 </html>
-

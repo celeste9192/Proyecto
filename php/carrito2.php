@@ -216,6 +216,7 @@ Desconectar($conexion);
 <body>
     <header id="header">
         <h1>Carrito de Compras</h1>
+        <a id="volver" href="resenas_productos.php">Volver</a>
     </header>
 
     <div class="container">
