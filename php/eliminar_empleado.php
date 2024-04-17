@@ -34,7 +34,7 @@ if(isset($_POST['id_empleado']) && !isset($_POST['confirmar_eliminar'])) {
 
 </div>
 <a href="empleados.php"><button>Volver a Empleados</button></a>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <script src="../js/empleados.js"></script>
 
 </body>
