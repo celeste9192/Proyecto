@@ -18,20 +18,10 @@
     <?php
     include '../DAL/conexion.php';
 
-   
-    function limpiarDatos($dato)
-    {
-        return htmlspecialchars(stripslashes(trim($dato)));
-    }
-
-    
-    if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['id_compra'])) {
-        $id_compra = limpiarDatos($_POST['id_compra']);
-
+    if (isset($_GET['id_compra'])) {
+        $id_venta = $_GET['id_compra'];
        
         $conexion = Conecta();
-
-      
         $sql = "SELECT * FROM Compras WHERE id_compra = $id_compra";
         $resultado = mysqli_query($conexion, $sql);
 
@@ -55,8 +45,7 @@
         }
 
         Desconectar($conexion);
-    } elseif (isset($_POST['guardar'])) {
-        echo "<p>Faltan datos para procesar.</p>";
+
     } else {
         echo '<form method="post">';
         echo '<label for="id_compra">Número de Compra a Editar:</label>';
@@ -64,10 +53,34 @@
         echo '<input type="submit" value="Buscar">';
         echo '</form>';
     }
+
+    if (isset($_POST['guardar'])) {
+        $id_compra = $_POST['id_compra'];
+        $id_proveedor = $_POST['id_proveedor'];
+        $detalles = $_POST['detalles'];
+        $fecha = $_POST['fecha'];
+        $total = $_POST['total'];
+       
+        $conexion = Conecta();
+        $sql = "UPDATE Compras SET id_proveedor='$id_proveedor', detalles='$detalles', fecha='$fecha', total='$total' WHERE id_compra =$id_compra";
+        $resultado = mysqli_query($conexion, $sql);
+
+        
+        if ($resultado) {
+            echo "<p>La compra se actualizo correctamente.</p>";
+        } else {
+            echo "<p>Error al actualizar la compra: " . mysqli_error($conexion) . "</p>";
+        }
+
+        
+        Desconectar($conexion);
+    }
+
     ?>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="../js/compras.js"></script>
+    
 </body>
 
 </html>
