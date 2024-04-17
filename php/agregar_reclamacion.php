@@ -8,7 +8,7 @@ if (session_status() === PHP_SESSION_NONE) {
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $idCliente = $_SESSION['id_cliente'];
     $motivo = $_POST['motivo'];
-    $estado = $_POST['estado'];
+    $estado = "Pendiente"; // Estado predeterminado como "Pendiente"
 
     $conexion = Conecta();
 
@@ -47,7 +47,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <label for="motivo">Motivo:</label>
             <textarea id="motivo" name="motivo" rows="4" required></textarea><br><br>
             <input type="hidden" id="id_cliente" name="id_cliente" value="<?php echo $_SESSION['id_cliente']; ?>">
-            <input type="hidden" name="estado" value="Pendiente">
+
+            <input type="submit" value="Agregar Reclamo">
         </form>
     </div>
 

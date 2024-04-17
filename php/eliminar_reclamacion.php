@@ -11,7 +11,7 @@ if (isset($_POST['id_reclamacion']) && !isset($_POST['confirmar_eliminar'])) {
     if (mysqli_num_rows($resultado) > 0) {
         $reclamacion = mysqli_fetch_assoc($resultado);
     } else {
-        echo json_encode(array("success" => false, "message" => "No se encontro."));
+        echo json_encode(array("success" => false, "message" => "No se encontró el reclamo."));
     }
 
     Desconectar($conexion);
@@ -24,9 +24,9 @@ if (isset($_POST['id_reclamacion']) && !isset($_POST['confirmar_eliminar'])) {
     $resultado = mysqli_query($conexion, $sql);
 
     if ($resultado) {
-        echo json_encode(array("success" => true, "message" => "Se elimino correctamente."));
+        echo json_encode(array("success" => true, "message" => "Se eliminó correctamente."));
     } else {
-        echo json_encode(array("success" => false, "message" => "Error al eliminar."));
+        echo json_encode(array("success" => false, "message" => "Error al eliminar el reclamo."));
     }
 
     Desconectar($conexion);

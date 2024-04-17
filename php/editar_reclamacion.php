@@ -19,11 +19,10 @@ if ($_SERVER["REQUEST_METHOD"] == "GET" && isset($_GET['id_reclamacion'])) {
 
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['guardar'])) {
     $id_reclamacion = $_POST['id_reclamacion'];
-    $id_cliente = $_POST['id_cliente'];
-    $motivo = $_POST['motivo'];
+    $estado = $_POST['estado']; 
 
     $conexion = Conecta();
-    $sql = "UPDATE Reclamaciones SET motivo='$motivo' WHERE id_reclamacion = $id_reclamacion";
+    $sql = "UPDATE Reclamaciones SET estado='$estado' WHERE id_reclamacion = $id_reclamacion";
     $resultado = mysqli_query($conexion, $sql);
 
     if ($resultado) {
@@ -33,10 +32,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['guardar'])) {
     } else {
         echo "<p>Error al actualizar los datos: " . mysqli_error($conexion) . "</p>";
     }
-
-    Desconectar($conexion);
 }
 ?>
+
 <!DOCTYPE html>
 <html lang="es">
 
@@ -60,10 +58,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['guardar'])) {
         <label for="motivo">Motivo:</label>
         <textarea id="motivo" name="motivo" rows="4" required><?php echo isset($reclamacion) ? $reclamacion['motivo'] : ''; ?></textarea><br><br>
 
+        <label for="estado">Estado:</label>
+        <select name="estado" id="estado" disabled>
+            <option value="Pendiente" <?php echo isset($reclamacion) && $reclamacion['estado'] === 'Pendiente' ? 'selected' : ''; ?>>Pendiente</option>
+            <option value="En Proceso" <?php echo isset($reclamacion) && $reclamacion['estado'] === 'En Proceso' ? 'selected' : ''; ?>>En Proceso</option>
+            <option value="Finalizado" <?php echo isset($reclamacion) && $reclamacion['estado'] === 'Finalizado' ? 'selected' : ''; ?>>Finalizado</option>
+        </select><br><br>
+
         <input type="submit" name="guardar" value="Guardar Cambios">
     </form>
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script src="../js/reclamaciones.js"></script>
 </body>
 
