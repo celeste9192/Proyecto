@@ -39,7 +39,7 @@ if (isset($_GET['id']) && isset($_GET['nombre'])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Editar Promoción</title>
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="../css/styles.css">
     </head>
 
     
