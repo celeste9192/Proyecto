@@ -440,7 +440,7 @@ form input[type="submit"] {
 form input[type="submit"]:hover {
     background-color: #45a049;
 }
-/* Estilos para el contenedor */
+
 #login-register-container {
     width: 80%;
     max-width: 600px;
@@ -549,6 +549,7 @@ form input[type="submit"]:hover {
     margin-right: 10px;
 }
 
+
 .btn:hover {
     background-color: #555;
 }
@@ -644,7 +645,7 @@ table {
 th,
 td {
     border: 1px solid #ddd;
-    padding: 8px;
+    padding: 1px;
     text-align: left;
 }
 

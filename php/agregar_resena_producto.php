@@ -5,7 +5,7 @@ session_start();
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $id_producto = $_POST['id_producto'];
-    $id_cliente = $_SESSION['id_cliente'];
+    $id_cliente = $_SESSION['id_cliente']; 
     $calificacion = $_POST['calificacion'];
     $comentario = $_POST['comentario'];
     $fecha = $_POST['fecha']; 
@@ -65,8 +65,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             ?>
         </select><br><br>
 
-        <label for="id_cliente">ID Cliente:</label>
-        <input type="text" id="id_cliente" name="id_cliente" value="<?php echo $_SESSION['id_cliente']; ?>" readonly><br><br>
+       
+        <input type="hidden" id="id_cliente" name="id_cliente" value="<?php echo $_SESSION['id_cliente']; ?>">
 
         <label for="calificacion">Calificación (del 1 al 10):</label>
         <input type="number" id="calificacion" name="calificacion" min="1" max="10" value="10" required><br><br>

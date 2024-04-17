@@ -3,6 +3,7 @@ include '../DAL/conexion.php';
 
 session_start();
 $rol = $_SESSION['rol'];
+$id_cliente_actual = $_SESSION['id_cliente']; 
 
 function obtenerResenasProductos()
 {
@@ -17,7 +18,7 @@ function obtenerResenasProductos()
             $resenas[] = $fila;
         }
     }
-
+    
     Desconectar($conexion);
 
     return $resenas;
@@ -34,7 +35,6 @@ $resenas = obtenerResenasProductos();
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Reseñas de Productos</title>
     <link rel="stylesheet" href="../css/styles.css">
-    
 </head>
 
 <body>
@@ -63,12 +63,21 @@ $resenas = obtenerResenasProductos();
                             <td><?php echo $resena['comentario']; ?></td>
                             <td><?php echo $resena['fecha']; ?></td>
                             <td>
-                                <?php if ($rol == 'administrador') : ?>
-                                    <div class="btn-group">
-                                        <a href="editar_resena_producto.php?id=<?php echo $resena['id_resena_producto']; ?>" class="btn btn-editar">Editar</a>
-                                        <a href="eliminar_resena_producto.php?id=<?php echo $resena['id_resena_producto']; ?>" class="btn btn-eliminar" onclick="return confirm('¿Está seguro de que desea eliminar esta reseña?')">Eliminar</a>
-                                    </div>
-                                <?php endif; ?>
+                                <?php 
+                                
+                                if ($resena['id_cliente'] == $id_cliente_actual && $rol == 'cliente') {
+                                    
+                                    echo "<a href='editar_resena_producto.php?id=" . $resena['id_resena_producto'] . "' class='btn btn-editar'>Editar</a>";
+                                    
+                                    echo "<a href='eliminar_resena_producto.php?id=" . $resena['id_resena_producto'] . "' class='btn btn-eliminar' onclick='return confirm(\"¿Está seguro de que desea eliminar esta reseña?\")'>Eliminar</a>";
+                                } 
+                                
+                               
+                                if ($rol == 'administrador') {
+                                    echo "<a href='eliminar_resena_producto.php?id=" . $resena['id_resena_producto'] . "' class='btn btn-eliminar' onclick='return confirm(\"¿Está seguro de que desea eliminar esta reseña?\")'>Eliminar</a>";
+                                    echo "<a href='editar_resena_producto.php?id=" . $resena['id_resena_producto'] . "' class='btn btn-editar'>Editar</a>";
+                                }
+                                ?>
                             </td>
                         </tr>
                     <?php endforeach; ?>
