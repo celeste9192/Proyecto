@@ -528,3 +528,172 @@ form input[type="submit"]:hover {
 #agregar-producto:hover {
     background-color: #0056b3;
 }
+#container {
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 0 20px;
+}
+
+.btn-container {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.btn {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #333;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 5px;
+    margin-right: 10px;
+}
+
+.btn:hover {
+    background-color: #555;
+}
+
+#tabla {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+
+#tabla th,
+#tabla td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
+
+.imagen-empleado {
+    max-width: 100px;
+    height: auto;
+}
+
+#no-products-msg {
+    text-align: center;
+}
+
+#btn-menu-principal {
+    display: block;
+    margin: 0 auto;
+    padding: 10px 20px;
+    background-color: #333;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 5px;
+    width: 200px;
+    text-align: center;
+}
+
+#btn-menu-principal:hover {
+    background-color: #555;
+}
+
+#container {
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 0 20px;
+}
+
+h1 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+
+th,
+td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
+
+th {
+    background-color: #f2f2f2;
+}
+
+tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+
+#container {
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 0 20px;
+}
+
+h1 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+
+th,
+td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
+
+th {
+    background-color: #f2f2f2;
+}
+
+tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+
+.btn-container {
+    text-align: center;
+}
+
+.btn-group {
+    display: flex;
+}
+
+.btn-group .btn {
+    margin-right: 10px;
+    border-radius: 5px;
+    text-decoration: none;
+}
+
+.btn-editar {
+    background-color: #4CAF50; 
+    color: #fff;
+}
+
+.btn-eliminar {
+    background-color: #f44336;
+    color: #fff;
+}
+
+.btn-group .btn:hover {
+    background-color: #555;
+}
+
+.btn-primary {
+    background-color: #007bff; 
+}
+
+.btn-danger {
+    background-color: #dc3545; 
+}
+
+.btn-primary:hover,
+.btn-danger:hover {
+    background-color: #0056b3; /
+}

@@ -28,14 +28,14 @@ function obtenerReclamaciones()
                 echo "<td>" . $fila['id_cliente'] . "</td>";
                 echo "<td>" . $fila['motivo'] . "</td>";
                 echo "<td>";
-                if ($_SESSION['rol'] !== 'administrador') {
-                    echo $fila['estado'];
-                } else {
+                if ($_SESSION['rol'] === 'administrador') {
                     echo "<select class='estado-select' data-id='" . $fila['id_reclamacion'] . "'>";
                     echo "<option value='Pendiente' " . ($fila['estado'] === 'Pendiente' ? 'selected' : '') . ">Pendiente</option>";
                     echo "<option value='En Proceso' " . ($fila['estado'] === 'En Proceso' ? 'selected' : '') . ">En Proceso</option>";
                     echo "<option value='Finalizado' " . ($fila['estado'] === 'Finalizado' ? 'selected' : '') . ">Finalizado</option>";
                     echo "</select>";
+                } else {
+                    echo $fila['estado'];
                 }
                 echo "</td>";
                 echo "<td>" . $fila['fecha'] . "</td>";
@@ -43,8 +43,8 @@ function obtenerReclamaciones()
                 if ($_SESSION['rol'] === 'administrador') {
                     echo "<button class='guardar-btn' data-id='" . $fila['id_reclamacion'] . "'>Guardar Cambios</button>";
                 } else {
-                    echo "<a href='editar_reclamacion.php?id_reclamacion=" . $fila['id_reclamacion'] . "' class='btn-editar'>Editar</a>";
-                    echo "<button onclick='eliminarReclamacion(" . $fila['id_reclamacion'] . ")' class='btn-eliminar'>Eliminar</button>";
+                    echo "<a href='editar_reclamacion.php?id_reclamacion=" . $fila['id_reclamacion'] . "' class='btn btn-editar'>Editar</a>";
+                    echo "<button onclick='eliminarReclamacion(" . $fila['id_reclamacion'] . ")' class='btn btn-eliminar'>Eliminar</button>";
                 }
                 echo "</td>";
                 echo "</tr>";
@@ -61,8 +61,8 @@ function obtenerReclamaciones()
     Desconectar($conexion);
 }
 
-?>
 
+?>
 <!DOCTYPE html>
 <html lang="es">
 
@@ -71,26 +71,22 @@ function obtenerReclamaciones()
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Reclamos</title>
     <link rel="stylesheet" href="../css/styles.css">
-    <script src="../js/reclamaciones.js"></script>
+    <link rel="stylesheet" href="../css/reclamos.css">
 </head>
 
 <body>
     <header id="titulo">
         <h1>Reclamos</h1>
+        <a id="volver" href="index.php">Volver</a>
     </header>
-    <div id="container">
-        <div id="btn-container">
-            <?php if (isset($_SESSION['rol']) && ($_SESSION['rol']) !== 'administrador' && ($_SESSION['rol']) == 'cliente'): ?>
-                <a href="agregar_reclamacion.php" class="btn">Agregar Reclamo</a>
-            <?php endif; ?>
-        </div>
-        
-        <?php obtenerReclamaciones(); ?>
-
-        <a href="index.php" id="btn-menu-principal" class="btn">Menú Principal</a>
-        <a href="agregar_reclamacion.php" id="btn-menu-principal" class="btn">Agregar reclamo</a>
+   
+    <?php obtenerReclamaciones(); ?>
+    
+    <div id="btn-container">
+        <?php if (isset($_SESSION['rol']) && $_SESSION['rol'] === 'cliente'): ?>
+            <a href="agregar_reclamacion.php" class="btn btn-primary">Agregar Reclamo</a>
+        <?php endif; ?>
     </div>
-
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script>
         $(document).ready(function() {

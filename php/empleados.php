@@ -6,6 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lista de Empleados</title>
     <link rel="stylesheet" href="../css/styles.css">
+    <style>
+        <?php include '../css/empleados.css'; ?>
+    </style>
 </head>
 
 <body>
