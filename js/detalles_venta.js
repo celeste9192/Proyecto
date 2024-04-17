@@ -1,3 +1,5 @@
+
+/* Este archivo no es esta utilizando
 $("#form-agregar-detallesventa").submit(function(event) {
     event.preventDefault();
     $.ajax({
@@ -45,4 +47,4 @@ if(confirm("¿Estás seguro que quiere eliminar los dettales de la venta?")) {
 
 document.getElementById("editForm").addEventListener("submit", function() {
 window.location.href = "detalles_ventas.php";
-});
+}); */

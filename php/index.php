@@ -91,6 +91,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['agregar_carrito']) && 
                 <li><a href="categorias.php">Categorías</a></li>
                 <li><a href="compras.php">Compras</a></li>
                 <li><a href="ventas.php">Ventas</a></li>
+                <!-- Esta pagina todavia no se utiliza
+                    <li><a href="detalles_venta.php">Detalles de Ventas</a></li> 
+                -->
                 <li><a href="empleados.php">Empleados</a></li>
                 <li><a href="proveedores.php">Proveedores</a></li>
                 <li><a href="reabastecimiento.php">Reabastecimiento</a></li>

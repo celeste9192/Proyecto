@@ -37,6 +37,37 @@ if (isset($_POST['vaciarCarrito'])) {
 if (isset($_POST['finalizarCompra'])) {
     $total = $_POST['total'];
 
+    $id_empleado = 1;
+    $queryVenta = "INSERT INTO Venta (id_cliente, id_empleado, fecha, total) VALUES (?, ?, NOW(), ?)";
+    $stmtVenta = $conexion->prepare($queryVenta);
+    $stmtVenta->bind_param('iid', $id_cliente, $id_empleado, $total);
+    $stmtVenta->execute();
+
+    $id_venta = $stmtVenta->insert_id;
+
+    $query = "SELECT c.id_carrito, p.id_producto, p.nombre_producto, c.cantidad, c.precio_unitario, c.subtotal 
+              FROM Carrito c 
+              JOIN Productos p ON c.id_producto = p.id_producto 
+              WHERE c.id_cliente = ?";
+
+    $stmt = $conexion->prepare($query);
+    $stmt->bind_param('i', $id_cliente);
+    $stmt->execute();
+    $resultado = $stmt->get_result();
+    $carrito = $resultado->fetch_all(MYSQLI_ASSOC);
+
+    foreach ($carrito as $item) {
+        $queryDetalle = "INSERT INTO DetalleVenta (id_venta, id_producto, cantidad, precio_unitario, subtotal) VALUES (?, ?, ?, ?, ?)";
+        $stmtDetalle = $conexion->prepare($queryDetalle);
+        $stmtDetalle->bind_param('iiidd', $id_venta, $item['id_producto'], $item['cantidad'], $item['precio_unitario'], $item['subtotal']);
+        $stmtDetalle->execute();
+    }
+
+    $query = "DELETE FROM Carrito WHERE id_cliente = ?";
+    $stmt = $conexion->prepare($query);
+    $stmt->bind_param('i', $id_cliente);
+    $stmt->execute();
+
     echo json_encode(['status' => 'confirm', 'total' => $total]);
     exit;
 }
@@ -57,8 +88,17 @@ foreach ($carrito as $item) {
     $totalCarrito += $item['subtotal'];
 }
 
+if (empty($carrito)) {
+    echo json_encode(['status' => 'empty', 'totalCarrito' => 0]);
+} else {
+    echo json_encode(['status' => 'success', 'carrito' => $carrito, 'totalCarrito' => $totalCarrito]);
+}
+
 Desconectar($conexion);
 ?>
+
+
+
 
 <!DOCTYPE html>
 <html lang="es">

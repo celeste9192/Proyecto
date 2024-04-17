@@ -1,9 +1,8 @@
 <?php
 include '../DAL/conexion.php';
 
-// Suponiendo que tienes una función para verificar el rol del usuario
 session_start();
-$rol = $_SESSION['rol']; // Obtén el rol del usuario desde la sesión
+$rol = $_SESSION['rol'];
 
 function obtenerPromociones()
 {

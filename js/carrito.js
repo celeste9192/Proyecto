@@ -39,7 +39,7 @@ $(document).ready(function () {
                 dataType: 'json',
                 success: function (response) {
                     if (response.status === 'confirm') {
-                        window.location.href = `confirmar_compra.php?total=${response.total}`;
+                        window.location.href = `carrito2.php?total=${response.total}`;
                     }
                 }
             });

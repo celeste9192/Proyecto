@@ -1,3 +1,5 @@
+<!--
+Este archivo actualmente no se usa    
 <!DOCTYPE html>
 <html lang="es">
 
@@ -38,4 +40,4 @@
     </div>
 </body>
 
-</html>
+</html>-->

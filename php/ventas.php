@@ -20,6 +20,7 @@ function obtenerVentas()
             echo "<td>" . $fila['id_empleado'] . "</td>";
             echo "<td>" . $fila['fecha'] . "</td>";
             echo "<td>" . $fila['total'] . "</td>";
+            //echo "<td><a href='detalles_venta.php?id=" . $fila['id_venta'] . "' class='btn'>Mostrar Detalles</a></td>"
             echo "</tr>";
         }
         echo "</table>";
@@ -54,7 +55,7 @@ function obtenerVentas()
         </div>
 
         <?php obtenerVentas(); ?>
-        <a href="agregar_detalle_venta.php" class="btn">Agregar Detalles</a>
+        
         <a href="index.php" id="btn-menu-principal" class="btn">Menú Principal</a>
     </div>
 </body>
