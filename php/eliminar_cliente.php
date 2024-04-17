@@ -74,11 +74,7 @@ if(isset($_POST['id_cliente']) && !isset($_POST['confirmar_eliminar'])) {
 <body>
 <div class="container">
     <h1>Eliminar Cliente</h1>
-    <form method="post">
-        <label for="id_cliente">Ingrese el ID del cliente:</label>
-        <input type="text" id="id_cliente" name="id_cliente">
-        <input type="submit" value="Buscar">
-    </form>
+    
 </div>
 <a href="clientes.php"><button>Volver a Clientes</button></a>
 </body>

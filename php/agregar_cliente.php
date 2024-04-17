@@ -45,3 +45,31 @@
     <script src="../js/clientes.js"></script>
 </body>
 </html>
+
+<?php
+    if ($_SERVER["REQUEST_METHOD"] == "POST") {
+        include '../DAL/conexion.php';
+        
+        $nombre = $_POST['nombre'];
+        $apellido = $_POST['apellido'];
+        $email = $_POST['email'];
+        $telefono = $_POST['telefono'];
+        $direccion = $_POST['direccion'];
+        $rol = $_POST['rol'];
+        $pass = $_POST['pass'];
+        $imagen = $_POST['imagen'];
+        
+        $conexion = Conecta();
+        
+        $sql = "INSERT INTO Clientes (nombre_cliente, apellido_cliente, email, telefono, direccion, rol, pass, imagen) 
+                VALUES ('$nombre', '$apellido', '$email', '$telefono', '$direccion', '$rol', '$pass', '$imagen')";
+        
+        if (mysqli_query($conexion, $sql)) {
+            echo "<script>alert('Cliente guardado correctamente.');</script>";
+        } else {
+            echo "<script>alert('Error al guardar el cliente: " . mysqli_error($conexion) . "');</script>";
+        }
+        
+        Desconectar($conexion);
+    }
+?>

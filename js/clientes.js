@@ -6,12 +6,9 @@ $(document).ready(function() {
             url: "agregar_cliente.php",
             data: $(this).serialize(),
             success: function(response) {
-                
                 if (response.indexOf('<!DOCTYPE html>') !== -1) {
-                   
                     alert("Cliente guardado correctamente.");
                 } else {
-                  
                     alert(response);
                 }
                 $("#form-agregar-cliente")[0].reset();
@@ -19,35 +16,47 @@ $(document).ready(function() {
             }
         });
     });
-});
 
+    
+    $(document).on("click", ".eliminar-cliente", function() {
+        var clienteId = $(this).data('cliente-id');
+        var clienteNombre = $(this).data('cliente-nombre');
+        
+        
+        if (confirm("¿Estás seguro de eliminar al cliente " + clienteNombre + "?")) {
+            
+            eliminarCliente(clienteId);
+        }
+    });
 
-
-function eliminarCliente(id) {
-    if(confirm("¿Estás seguro de eliminar este cliente?")) {
-        var xhr = new XMLHttpRequest();
-        xhr.open("POST", "eliminar_cliente.php", true);
-        xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-        xhr.onreadystatechange = function() {
-            if(xhr.readyState === XMLHttpRequest.DONE) {
-                if(xhr.status === 200) {
-                    var response = JSON.parse(xhr.responseText);
-                    if(response.success) {
-                        alert(response.message);
-                        
-                    } else {
-                        alert(response.message);
-                    }
-                } else {
-                    alert("Error al comunicarse con el servidor.");
-                }
+    
+    function eliminarCliente(clienteId) {
+        $.ajax({
+            type: "POST",
+            url: "eliminar_cliente.php",
+            data: { id_cliente: clienteId, confirmar_eliminar: 1 },
+            success: function(response) {
+                
+                alert(response.message);
+                location.reload();
+            },
+            error: function() {
+                alert("Error al comunicarse con el servidor.");
             }
-        };
-        xhr.send("id_cliente=" + id + "&confirmar_eliminar=1");
+        });
     }
-}
 
-document.getElementById("editForm").addEventListener("submit", function() {
-    window.location.href = "clientes.php";
+    
+    $(document).on("click", ".eliminar-cliente", function() {
+        var clienteId = $(this).data('cliente-id');
+        var clienteNombre = $(this).data('cliente-nombre');
+        
+        
+        if (confirm("¿Estás seguro de eliminar al cliente " + clienteNombre + "?")) {
+            
+            eliminarCliente(clienteId);
+        }
+    });
+    
+
 });
-
